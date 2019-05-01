@@ -1,0 +1,19 @@
+{
+  "name": "webproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmc1998/WebProject.git"
+  },
+  "author": "Nguyen Manh Cuong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmc1998/WebProject/issues"
+  },
+  "homepage": "https://github.com/nmc1998/WebProject#readme"
+}
