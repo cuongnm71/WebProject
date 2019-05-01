@@ -23,11 +23,15 @@ app.use(bodyParser()); // lấy thông tin từ form HTML
 
 app.set('view engine', 'ejs'); // chỉ định view engine là ejs
 
-app.get('/', (req, res) => {
-  res.render('index.ejs');
-})
-app.get('/about', (req, res) => {
-  res.render('about.ejs')
+// app.get('/', (req, res) => {
+//   res.render('index.ejs');
+// })
+// app.get('/about', (req, res) => {
+//   res.render('about.ejs')
+// })
+
+app.get('/', (red, res) => {
+  res.render('login.ejs')
 })
 // app.use(session({ secret: 'xxxxxxxxxxxxx' }));
 // app.use(passport.initialize());
