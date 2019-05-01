@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/nmc1998/WebProject/issues"
   },
-  "homepage": "https://github.com/nmc1998/WebProject#readme"
+  "homepage": "https://github.com/nmc1998/WebProject#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "mongoose": "^5.5.5",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0"
+  }
 }
