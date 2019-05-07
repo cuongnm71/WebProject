@@ -1,0 +1,38 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+    table, td, th {
+     padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+    <table>
+        <tr style='background-color: gainsboro;'>
+            <th>Mã CB</th>
+            <th>Họ và tên</th>
+            <th>Tài khoản</th>
+            <th>VNU mail</th>
+            <th>Loại CB</th>
+        </tr>
+    <% for (let i = 0, len = array.length; i < len; i++) {%>
+    <tr>
+        <td><%= array[i].maCB %></td>
+        <td><%= array[i].name %></td>
+        <td><%= array[i].username %></td>
+        <td><%= array[i].vnumail %></td>
+        <td><%= array[i].usertype %></td>
+    </tr>
+    <% }; %>
+    </table>
+    <p align='center'>
+    <table width='20%'>
+    <tr>
+    <td><form><input type=submit value="click me" style="width:100%"></form></td>
+    </tr>
+    </table>
+    </p>
+</body>
+</html>

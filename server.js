@@ -11,17 +11,26 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var expressValidator = require('express-validator');
 const bcrypt = require('bcryptjs');
-app.use(expressValidator())
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(bodyParser.urlencoded({extended: false}));
-var configDB = require('./config/database.js');
 
-mongoose.connect(configDB.url); // connect tới database
-app.use(morgan('dev'));
-let User = require('./models/user.js')
+app.use(expressValidator());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(bodyParser());
+
 // Passport
 require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Set view engine to ejs
+app.set('view engine', 'ejs');
+
+// Connect to database
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
+app.use(morgan('dev'));
+let User = require('./models/user.js')
+
 // Login Form
 app.get('/login', (req, res) => {
   res.render('login.ejs');
@@ -30,14 +39,10 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/abc',
   failureRedirect: '/loginx'
 }));
-app.get('/', (req, res) => {
-  res.render('login.ejs');
-})
 
 // Register form
 app.get('/register', (req, res) => {
   res.render('register.ejs');
-})
 app.post('/register', function(req, res){
   // const name = req.body.name;
   // const email = req.body.email;
@@ -86,24 +91,31 @@ app.post('/register', function(req, res){
   }
 });
 
-// Cấu hình ứng dụng express
- // sử dụng để log mọi request ra console
-app.use(cookieParser()); // sử dụng để đọc thông tin từ cookie
-app.use(bodyParser()); // lấy thông tin từ form HTML
+})
 
-app.set('view engine', 'ejs'); // chỉ định view engine là ejs
-
-// app.get('/', (req, res) => {
-//   res.render('index.ejs');
-// })
-// app.get('/about', (req, res) => {
-//   res.render('about.ejs')
-// })
-
+// Testing
+app.get('/testing', function (req, res) {
+    var array = [
+    {
+        maCB: '1111',
+        name: 'Lê Đình Thanh',
+        username: 'thanhld',
+        vnumail: 'thanhld@gmail.com',
+        usertype: 'Giảng viên',
+    },
+    {
+        maCB: '2222',
+        name: 'Trần Thị Minh Châu',
+        username: 'chauttm',
+        vnumail: 'chauttm@gmail.com',
+        usertype: 'Giảng viên',
+    }
+  ]
+    res.render('load.ejs', {array: array});
+    //load is the ejs file (load.ejs) and array is the array of object.
+});
 
 // app.use(session({ secret: 'xxxxxxxxxxxxx' }));
-
-
 
 // require('./app/routes.js')(app, passport); // load các routes từ các nguồn
 
