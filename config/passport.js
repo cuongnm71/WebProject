@@ -1,38 +1,77 @@
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user');
-const config = require('../config/database');
-const bcrypt = require('bcryptjs');
+var LocalStrategy = require("passport-local").Strategy;
 
-module.exports = function(passport){
-  // Local Strategy
-  passport.use(new LocalStrategy(function(username, password, done){
-    // Match Username
-    let query = {username:username};
-    User.findOne(query, function(err, user){
-      if(err) throw err;
-      if(!user){
-        return done(null, false, {message: 'No user found'});
-      }
+var mysql = require('mysql');
+var bcrypt = require('bcryptjs');
+var dbconfig = require('./database');
+var connection = mysql.createConnection(dbconfig.connection);
 
-      // Match Password
-      bcrypt.compare(password, user.password, function(err, isMatch){
-        if(err) throw err;
-        if(isMatch){
-          return done(null, user);
-        } else {
-          return done(null, false, {message: 'Wrong password'});
-        }
-      });
+connection.query('USE ' + dbconfig.database);
+
+module.exports = function(passport) {
+    passport.serializeUser(function(user, done) {
+        done(null, user.id);
     });
-  }));
 
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
+    passport.deserializeUser(function(id, done) {
+        connection.query("SELECT * FROM user_account WHERE id = ? ", [id],
+            function(err, rows) {
+                done(err, rows[0]);
+            });
     });
-  });
-}
+
+    passport.use(
+        'local-signup',
+        new LocalStrategy({
+                usernameField: 'username',
+                passwordField: 'password',
+                passReqToCallback: true
+            },
+            function(req, username, password, done) {
+                connection.query("SELECT * FROM user_account WHERE username = ? ",
+                    [username],
+                    function(err, rows) {
+                        if (err)
+                            return done(err);
+                        if (rows.length) {
+                            return done(null, false, req.flash('signupMessage', 'That is already taken'));
+                        } else {
+                            var newUserMysql = {
+                                username: username,
+                                password: bcrypt.hashSync(password, null, null)
+                            };
+
+                            var insertQuery = "INSERT INTO user_account (username, password) values (?, ?)";
+
+                            connection.query(insertQuery, [newUserMysql.username, newUserMysql.password],
+                                function(err, rows) {
+                                    newUserMysql.id = rows.insertId;
+
+                                    return done(null, newUserMysql);
+                                });
+                        }
+                    });
+            })
+    );
+
+    passport.use(
+        'local-login',
+        new LocalStrategy({
+                usernameField: 'username',
+                passwordField: 'password',
+                passReqToCallback: true
+            },
+            function(req, username, password, done) {
+                connection.query("SELECT * FROM user_account WHERE username = ? ", [username],
+                    function(err, rows) {
+                        if (err)
+                            return done(err);
+                        if (!rows.length) {
+                            return done(null, false, req.flash('loginMessage', 'No User Found'));
+                        }
+                        if (!bcrypt.compareSync(password, rows[0].password))
+                            return done(null, false, req.flash('loginMessage', 'Wrong Password'));
+                        return done(null, rows[0]);
+                    });
+            })
+    );
+};
