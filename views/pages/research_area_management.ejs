@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+    
+    <main class="main-content">
+        <section>
+            <ul id="myUL">
+                <li><span class="caret">ACM Computing Classification System, 2012 Revision</span>
+                    <ul class="nested">
+                        <li>General and reference</li>
+                        <li>Hardward</li>
+                        <li>Computer system organization</li>
+                        <li><span class="caret">Network</span>
+                            <ul class="nested">
+                                <li>Network architectures</li>
+                                <li>Network protocols</li>
+                                <li>Network components</li>
+                                <li><span class="caret">Network algorithms</span>
+                                    <ul class="nested">
+                                        <li>Algo 1</li>
+                                        <li>Algo 2</li>
+                                        <li>Algo 3</li>
+                                        <li>Algo 4</li>
+                                    </ul>
+                                </li>
+                                <li>Network performance evaluation</li>
+                            </ul>
+                        </li>
+                        <li>Software and its engineering</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>
+<script>
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+    
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+        });
+    }
+</script>

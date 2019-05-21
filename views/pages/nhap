@@ -1,0 +1,46 @@
+$(document).ready(()=>{
+    $.ajax({
+        url: 'units',
+        type: 'GET',
+        dataType: 'json',
+        success: (data) =>{
+          var x = ' <thead> <tr class="title">\
+                <th>Thứ tự</th>\
+                <th>Tên đơn vị</th>\
+                <th>Loại đơn vị</th>\
+                <th>Địa chỉ</th>\
+                <th>Điện thoại</th>\
+                <th>Website </th>\
+                <th>Thao tác</th>\
+              </tr> </thead>';
+          console.log('ajax success!',data);
+          var count_tb = 0;
+          x += '<tbody><tr id="new_row">' + '<td id = "insert_row_o">'+ count_tb + '</td>';
+          x+= '<td id = "insert_row"><input type="text" id="new_unit" required=""></td>\
+            <td><input type="text" id="new_unitType" required=""></td>\
+            <td><input type="text" id="new_add" required=""></td>\
+            <td><input type="text" id="new_phone" required=""></td>\
+            <td><input type="text" id="new_webAdd" required=""></td>\
+            <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
+          </tr>';
+          for(i in data){
+            count_tb++;
+            x += '<tr>' + '<td>'+ count_tb + '</td>';
+            for(j in data[i])
+              x += '<td>'+ data[i][j] + '</td>';
+            x+='<td>\
+                  <button>Sửa</button>\
+                  <button>Xoá</button>\
+              </td>\
+            </tr>';
+          }
+          x += '</tbody>';
+          /*console.log(x);*/
+          document.getElementById("table-u").innerHTML = x;
+          /*var indexNumRow=parseInt($("table:first tr td:first-child").length)-1;
+          var indexNumRow2=document.getElementById("table-u").lastChild.childNodes.length;
+          console.log(indexNumRow2);*/
+        }
+
+      });
+  });

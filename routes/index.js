@@ -1,6 +1,6 @@
 module.exports = function(app, passport) {
     app.get('/', function(req, res) {
-        res.render('index.ejs');
+        res.render('pages/index');
     });
 
     app.get('/login', function(req, res) {
@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
             //     req.session.cookie.expires = false;
             // }
             if (req.user.isAdmin === 1) {
-              res.redirect('/admin');
+              res.redirect('pages/admin');
             }
             if (req.user.isAdmin === 0) {
               res.redirect('/profile');
@@ -29,36 +29,36 @@ module.exports = function(app, passport) {
         });
 
     app.get('/admin', function(req, res) {
-        res.render('index.ejs');
+        res.render('pages/index.ejs');
     });
 
-    app.get('/signup', function(req, res) {
-        res.render('signup.ejs', {
-            message: req.flash('signupMessage')
-        });
-    });
-
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/profile',
-        failureRedirect: '/signup',
-        failureFlash: true
-    }));
-
-    app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user: req.user
-        });
-    });
-
-    app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    })
+//     app.get('/signup', function(req, res) {
+//         res.render('signup.ejs', {
+//             message: req.flash('signupMessage')
+//         });
+//     });
+//
+//     app.post('/signup', passport.authenticate('local-signup', {
+//         successRedirect: '/profile',
+//         failureRedirect: '/signup',
+//         failureFlash: true
+//     }));
+//
+//     app.get('/profile', isLoggedIn, function(req, res) {
+//         res.render('profile.ejs', {
+//             user: req.user
+//         });
+//     });
+//
+//     app.get('/logout', function(req, res) {
+//         req.logout();
+//         res.redirect('/');
+//     })
 };
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}
+//
+// function isLoggedIn(req, res, next) {
+//     if (req.isAuthenticated())
+//         return next();
+//
+//     res.redirect('/');
+// }
