@@ -8,7 +8,9 @@
     <header>
         <% include ../partials/header %>
     </header>
-
+    <% if(message.length > 0) { %>
+        <div><%- message %></div>
+    <% } %>
     <main class="main-content">
         <section id="login-section">
             <% if(message.length > 0) { %>
@@ -17,9 +19,9 @@
             <div class = "login-div">
                 <form class="login" action="/login" method="post">
                     <label for="user">Username</label>
-                    <input type="text" name="username" id="user">
+                    <input type="text" name="username" placeholder="Enter Username" id="user">
                     <label for="passwrd">Password</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" placeholder="Enter Password" id="password">
                     <input type="submit" value="Login">
                 </form>
             </div>
