@@ -75,18 +75,19 @@ module.exports = function(app, passport) {
         }
     });*/
 
-    app.get('/units/:unitid',(req,res)=>{
-        var nameToLookup = req.params.unitid;
-        console.log(nameToLookup);
-        var value = fakeDatabase[nameToLookup];
-        console.log(nameToLookup,'->',value);
-        if(value){
-            res.send(value);
-        } else {
-            res.send({});
-        }
-        /*delete fakeDatabase.dv1;
-        console.log(fakeDatabase);*/
+    const bodyParser = require('body-parser');
+    app.use( bodyParser.urlencoded({extended: true}));
+    app.post('/units/:command',(req,res)=>{
+        var command = req.params.command;
+        console.log(command);
+        console.log(req.body);
+        console.log(req.body.id);
+        // lenh gi do cho database
+
+        // kiem tra neu thuc hien than cong thay doi dtb thi:
+            res.send({message:'success'});
+        // khong thi
+        // res.send({message:'error gi do'})
     });
 
     // app.get('/login', function(req, res) {

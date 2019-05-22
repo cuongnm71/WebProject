@@ -48,10 +48,9 @@
               +'<td id="phone'+id+'">'+ data[i]["phone_number"] + '</td>'
               + '<td id="unit'+id+'">'+ data[i]["website"] + '</td>'
             x+='<td>\
-                  <button>Sửa</button>\
-                  <button>Xoá</button>\
-              </td>\
-            </tr>';
+                  <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
+                +'</td></tr>';
           }
           x += '</tbody>';
           /*console.log(x);*/
@@ -83,48 +82,47 @@
     var add=document.getElementById("new_add").value;
     var webAdd=document.getElementById("new_webAdd").value;
     var phone=document.getElementById("new_phone").value;
-
-    var id=random_id();
-    var table=document.getElementById("table-u");
-    var table_len=(table.rows.length);
-    var row = table.insertRow(table_len).outerHTML=
-          '<tr id="row'+id+'">'
-            +'<td id="indexRow'+id+'">'+(nextIndexRow)+'</td>'
-            +'<td id="unit'+id+'">'+unit+'</td>'
-            +'<td id="unitType'+id+'">'+unitType+'</td>'
-            +'<td id="add'+id+'">'+add+'</td>'
-            +'<td id="phone'+id+'">'+phone+'</td>'
-            +'<td id="web'+id+'">'+webAdd+'</td>'
-            +'<td>\
-                <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
-                +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
-                +'</td></tr>';
-          //Reset to ""
-          document.getElementById("new_unit").value="";
-          document.getElementById("new_unitType").value="";
-          document.getElementById("new_add").value="";
-          document.getElementById("new_phone").value="";
-          document.getElementById("new_webAdd").value=""
-    /*$.ajax({
+    $.ajax({
       type:'POST',
-      url:'units/',
+      url:'units/insert',
       dataType: 'json',
       data:{
-        command:'insert_row',
-        unit_val:unit,
-        unitType_val:unitType,
-        add_value:add,
-        phone_value:phone,
-        webAdd_value: webAdd
-
+        id: nextIndexRow,
+        name:unit,
+        type:unitType,
+        address:add,
+        phone_number:phone,
+        website: webAdd
       },
-      success:(data) => {
-        if(typeof data.id !== 'undefined'){
-          //var id=data.id;
-          // ....
-        }
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            console.log("HEHEHE");
+            var id=nextIndexRow;
+            var table=document.getElementById("table-u");
+            var table_len=(table.rows.length);
+            var row = table.insertRow(table_len).outerHTML=
+            '<tr id="row'+id+'">'
+              +'<td id="indexRow'+id+'">'+(nextIndexRow)+'</td>'
+              +'<td id="unit'+id+'">'+unit+'</td>'
+              +'<td id="unitType'+id+'">'+unitType+'</td>'
+              +'<td id="add'+id+'">'+add+'</td>'
+              +'<td id="phone'+id+'">'+phone+'</td>'
+              +'<td id="web'+id+'">'+webAdd+'</td>'
+              +'<td>\
+                  <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                  +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
+                  +'</td></tr>';
+            //Reset to ""
+            document.getElementById("new_unit").value="";
+            document.getElementById("new_unitType").value="";
+            document.getElementById("new_add").value="";
+            document.getElementById("new_phone").value="";
+            document.getElementById("new_webAdd").value="";
+          }
       }
-      });*/
+    });
   }
 </script>
 <body>
