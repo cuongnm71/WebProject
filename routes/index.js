@@ -1,3 +1,8 @@
+var mysql = require('mysql');
+var dbconfig = require('../config/database');
+var connection = mysql.createConnection(dbconfig.connection);
+
+connection.query('USE ' + dbconfig.database);
 module.exports = function(app, passport) {
     // index page
     app.get('/', function(req, res) {
@@ -8,7 +13,28 @@ module.exports = function(app, passport) {
     app.get('/contact', function(req, res) {
         res.render('pages/contact');
     });
-
+    app.get('/login',function(req,res){
+        res.render('pages/login', {message: req.flash('loginMessage')});
+    });
+    app.post('/login', passport.authenticate('local-login', {
+            failureRedirect: '/login',
+            failureFlash: true
+        }),
+        function(req, res) {
+            console.log(req);
+            // if (req.body.remember) {
+            //     req.session.cookie.maxAge = 1000 * 10;
+            // } else {
+            //     req.session.cookie.expires = false;
+            // }
+            if (req.user.isAdmin === 1) {
+              res.redirect('pages/admin');
+            }
+            if (req.user.isAdmin === 0) {
+              res.redirect('/profile');
+            }
+        }
+    );
     app.get('/unit_a',function(req,res){
         res.render('pages/unit_management');
     });
@@ -25,22 +51,12 @@ module.exports = function(app, passport) {
         var id_str = Math.random().toString(36).substr(2);
         return id_num + id_str;
     }
-    var fakeDatabase = {
-        'dv1':{
-            name:'Bộ môn truyền thông mạng máy tính'
-            ,type:'Bộ môn'
-            ,add:'406-E3'
-            ,phone:''
-            ,site:''
-        },
-        'dv2':{
-            name:'Bộ môn khoa học máy tính'
-            ,type:'Bộ môn'
-            ,add:''
-            ,phone:''
-            ,site:''
-        }
-    };
+    var fakeDatabase;
+    var sql = "SELECT * FROM division ORDER BY division_id ASC";
+    connection.query(sql, function(err, results, fields) {
+        if (err) throw err;
+        fakeDatabase = results;
+    })
     app.get('/units',(req,res)=>{
         var allDV = Object.keys(fakeDatabase);
         console.log('running app.get /units get data: ', allDV);
@@ -79,24 +95,7 @@ module.exports = function(app, passport) {
     //     });
     // });
     //
-    // app.post('/login', passport.authenticate('local-login', {
-    //         failureRedirect: '/login',
-    //         failureFlash: true
-    //     }),
-    //     function(req, res) {
-    //         console.log(req.user.isAdmin);
-    //         // if (req.body.remember) {
-    //         //     req.session.cookie.maxAge = 1000 * 10;
-    //         // } else {
-    //         //     req.session.cookie.expires = false;
-    //         // }
-    //         if (req.user.isAdmin === 1) {
-    //           res.redirect('pages/admin');
-    //         }
-    //         if (req.user.isAdmin === 0) {
-    //           res.redirect('/profile');
-    //         }
-    //     });
+
     //
     // app.get('/admin', function(req, res) {
     //     res.render('pages/index.ejs');
