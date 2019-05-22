@@ -12,17 +12,17 @@ var flash = require('connect-flash');
 
 require('./config/passport')(passport);
 
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
 // Set public path
 app.use(express.static(path.resolve('./public')));
 
 //Set view path
 app.set('views', path.join(__dirname, '/views'));
+
+// app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // Set view ẻnginge to ejs
 app.set('view engine', 'ejs');

@@ -11,6 +11,25 @@ module.exports = function(app, passport) {
     app.get('/login',function(req,res){
         res.render('pages/login');
     });
+    app.post('/login', passport.authenticate('local-login', {
+            failureRedirect: '/login',
+            failureFlash: true
+        }),
+        function(req, res) {
+            console.log(req);
+            // if (req.body.remember) {
+            //     req.session.cookie.maxAge = 1000 * 10;
+            // } else {
+            //     req.session.cookie.expires = false;
+            // }
+            if (req.user.isAdmin === 1) {
+              res.redirect('pages/admin');
+            }
+            if (req.user.isAdmin === 0) {
+              res.redirect('/profile');
+            }
+        }
+    );
     app.get('/unit_a',function(req,res){
         res.render('pages/unit_management');
     });
@@ -81,24 +100,7 @@ module.exports = function(app, passport) {
     //     });
     // });
     //
-    // app.post('/login', passport.authenticate('local-login', {
-    //         failureRedirect: '/login',
-    //         failureFlash: true
-    //     }),
-    //     function(req, res) {
-    //         console.log(req.user.isAdmin);
-    //         // if (req.body.remember) {
-    //         //     req.session.cookie.maxAge = 1000 * 10;
-    //         // } else {
-    //         //     req.session.cookie.expires = false;
-    //         // }
-    //         if (req.user.isAdmin === 1) {
-    //           res.redirect('pages/admin');
-    //         }
-    //         if (req.user.isAdmin === 0) {
-    //           res.redirect('/profile');
-    //         }
-    //     });
+
     //
     // app.get('/admin', function(req, res) {
     //     res.render('pages/index.ejs');
