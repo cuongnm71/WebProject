@@ -14,23 +14,36 @@
         <div>
           <h1>Cán bộ</h1>
           <h1>
-            <button>Thêm mới </button>
             <button>Thêm từ excel </button>
           </h1>
         </div>
         <div style="overflow-x:auto;" class="unit-table-content">
           <table id='table-offA'>
-            <tr class="title">
-              <th>Thứ tự</th>
-              <th>Mã cán bộ</th>
-              <th>Họ và tên</th>
-              <th>Tài khoản</th>
-              <th>VNU email</th>
-              <th>Loại cán bộ</th>
-              <th>Học vị</th>
-              <th>Đơn vị công tác</th>
-              <th>Thao tác</th>
-            </tr>
+              <thead>
+                  <tr class="title">
+                      <th>Thứ tự</th>
+                      <th>Mã cán bộ</th>
+                      <th>Họ và tên</th>
+                      <th>Tài khoản</th>
+                      <th>VNU email</th>
+                      <th>Loại cán bộ</th>
+                      <th>Học vị</th>
+                      <th>Đơn vị công tác</th>
+                      <th>Thao tác</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr id="new_row"><td id = "insert_row_o">0</td>
+                    <td id = "insert_row"><input type="text" id="new_codeStaff" required=""></td>
+                    <td><input type="text" id="new_name" required=""></td>
+                    <td><input type="text" id="new_account" required=""></td>
+                    <td><input type="text" id="new_email" required=""></td>
+                    <td><input type="text" id="new_officerType" required=""></td>
+                    <td><input type="text" id="new_degree" required=""></td>
+                    <td><input type="text" id="new_workingPlace" required=""></td>
+                    <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>
+                  </tr>
+              </tbody>
             <div class = "table-data">
               <tr>
                 <td>temp</td>
