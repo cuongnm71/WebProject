@@ -131,7 +131,7 @@ nav .banner{
   padding:10px;
   margin: 10px 0;
 }
-.login input[type=submit]{
+.login input[type=submit],.login input[type=reset]{
   width:49%;
   padding:15px;
   margin-top: 30px;
