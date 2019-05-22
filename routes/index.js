@@ -9,7 +9,7 @@ module.exports = function(app, passport) {
         res.render('pages/contact');
     });
     app.get('/login',function(req,res){
-        res.render('pages/login');
+        res.render('pages/login', {message: req.flash('loginMessage')});
     });
     app.post('/login', passport.authenticate('local-login', {
             failureRedirect: '/login',

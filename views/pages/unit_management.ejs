@@ -96,9 +96,9 @@
             +'<td id="phone'+id+'">'+phone+'</td>'
             +'<td id="web'+id+'">'+webAdd+'</td>'
             +'<td>\
-                  <button class="edit-button" id="">Sửa</button>\
-                  <button class="delete-button">Xoá</button>\
-              </td></tr>';
+                <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
+                +'</td></tr>';
           //Reset to ""
           document.getElementById("new_unit").value="";
           document.getElementById("new_unitType").value="";
