@@ -32,10 +32,21 @@
             <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
           </tr>';
           for(i in data){
+            var id = i;
             nextIndexRow++;
-            x += '<tr>' + '<td>'+ nextIndexRow + '</td>';
-            for(j in data[i])
-              x += '<td>'+ data[i][j] + '</td>';
+            x += '<tr id="row'+id+'">' 
+              +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
+            /*for(j in data[i]){
+              if(j.equal("unit")){
+
+              }
+              x += '<td id="unit'+id+'">'+ data[i][j] + '</td>';
+            }*/
+            x +='<td id="unit'+id+'">'+ data[i]["name"] + '</td>'
+              +'<td id="unitType'+id+'">'+ data[i]["type"] + '</td>'
+              +'<td id="add'+id+'">'+ data[i]["add"] + '</td>'
+              +'<td id="phone'+id+'">'+ data[i]["phone"] + '</td>'
+              + '<td id="unit'+id+'">'+ data[i]["site"] + '</td>'
             x+='<td>\
                   <button>Sửa</button>\
                   <button>Xoá</button>\
@@ -85,8 +96,8 @@
             +'<td id="phone'+id+'">'+phone+'</td>'
             +'<td id="web'+id+'">'+webAdd+'</td>'
             +'<td>\
-                  <button>Sửa</button>\
-                  <button>Xoá</button>\
+                  <button class="edit-button" id="">Sửa</button>\
+                  <button class="delete-button">Xoá</button>\
               </td></tr>';
           //Reset to ""
           document.getElementById("new_unit").value="";
