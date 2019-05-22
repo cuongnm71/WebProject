@@ -42,7 +42,7 @@ nav ul{
   /* styling text anchor - link*/
   display: flex;
   align-items: center;
-  
+
   /* khi keo trang - wrap bi mat chu*/
   flex-wrap: wrap;
 }
@@ -60,8 +60,8 @@ nav ul li a{
 nav ul li {
   /* help anchor/link to taking up full space when shrink smaller*/
   flex: 1 0 auto;
-  
-  /*position: relative;*/ 
+
+  /*position: relative;*/
 }
 nav ul li a:hover, nav ul li a:focus{
   text-decoration: underline;
@@ -131,7 +131,7 @@ nav .banner{
   padding:10px;
   margin: 10px 0;
 }
-.login input[type=submit]{
+.login input[type=submit], .login input[type=reset]{
   width:49%;
   padding:15px;
   margin-top: 30px;
@@ -200,7 +200,7 @@ footer{
   color:#ddd;
   text-align: center;
 }
-  
+
 .main-content > section{
   display: block;
   width: 90%;
@@ -209,7 +209,7 @@ footer{
   margin-bottom: 0;
   box-shadow: 2px 0 4px 1px rgba(0, 0, 0, 0.03)
 }
- 
+
 /* styling cho phan main content trong body*/
 
 /* styling for table*/
@@ -233,7 +233,7 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-    
+
 th, td {
   border: 1px solid #ddd;
   text-align: left;
@@ -260,7 +260,7 @@ th{
 
 /* Style the caret/arrow */
 .main-content .caret {
-  cursor: pointer; 
+  cursor: pointer;
   user-select: none; /* Prevent text selection */
 }
 
@@ -274,7 +274,7 @@ th{
 
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .main-content .caret-down::before {
-  transform: rotate(90deg); 
+  transform: rotate(90deg);
 }
 
 /* Hide the nested list */

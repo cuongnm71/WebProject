@@ -8,20 +8,20 @@
     <header>
         <% include ../partials/header %>
     </header>
-    
+
     <main class="main-content">
         <section>
                 <div class="login">
-                        <form>
-                            <label for ="user">Username</label>
-                            <input type = "text" name="user" placeholder="Username">
-                            <labele for="passwrd">Password</labele>
-                            <input type="password" name="passwrd" placeholder="Password">
-                            <br>
-                            <input type="submit" value="Reset">
-                            <input type="submit" value="Login">
-                        </form>
-                    </div>
+                    <form action="/login" method="post">
+                        <label for="user">Username</label>
+                        <input type="text" name="username">
+                        <labele for="passwrd">Password</labele>
+                        <input type="password" name="password">
+                        <br>
+                        <input type="submit" value="Reset">
+                        <input type="submit" value="Login">
+                    </form>
+                </div>
         </section>
     </main>
 
