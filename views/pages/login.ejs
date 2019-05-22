@@ -11,6 +11,9 @@
 
     <main class="main-content">
         <section id="login-section">
+            <% if(message.length > 0) { %>
+             <div><%- message %></div>
+            <% } %>
             <div class = "login-div">
                 <form class="login" action="/login" method="post">
                     <label for="user">Username</label>
