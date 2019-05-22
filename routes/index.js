@@ -8,7 +8,9 @@ module.exports = function(app, passport) {
     app.get('/contact', function(req, res) {
         res.render('pages/contact');
     });
-
+    app.get('/login',function(req,res){
+        res.render('pages/login');
+    });
     app.get('/unit_a',function(req,res){
         res.render('pages/unit_management');
     });
