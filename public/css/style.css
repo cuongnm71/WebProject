@@ -1,0 +1,332 @@
+body, html{
+  font-size: 100%;
+  font-family: "Helvetica", sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+/* giu footer o cuoi page*/
+body {
+  display: flex;
+  flex-direction: column;
+}
+main{
+  /* kết hợp cái này kéo footer xuống cuối trang
+  nếu nội dung ít không đủ xuống hết trang*/
+  flex: 1 0 auto;
+  /* them 0 auto để nếu có dùng IE thì chữ không bị tràn
+  qua thanh footer nếu resize nhỏ lại*/
+  /*
+  =
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+  */
+}
+/* giu footer o cuoi page*/
+
+
+nav{
+  display: flex;/* flex box */
+  justify-content: space-between; /* chia giua cac khoi box noi dung boi space*/
+  /* fill white space between logo and link text with color black*/
+  background: #222;
+
+  position: relative;
+}
+nav ul{
+  list-style: none; /* bo style mac dinh cua list */
+  padding: 0;
+  margin: 0;
+
+  /* styling text anchor - link*/
+  display: flex;
+  align-items: center;
+  
+  /* khi keo trang - wrap bi mat chu*/
+  flex-wrap: wrap;
+}
+
+nav ul li a{
+  color: #ddd;
+  text-decoration: none;/* bo style mac dinh vd la gach duoi*/
+ /* padding: 12px 16px;*/
+  /*padding: 19.2px 16px;*/
+
+  padding: 22px 16px;
+
+}
+
+nav ul li {
+  /* help anchor/link to taking up full space when shrink smaller*/
+  flex: 1 0 auto;
+  
+  /*position: relative;*/ 
+}
+nav ul li a:hover, nav ul li a:focus{
+  text-decoration: underline;
+}
+
+
+.dropdown{
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content{
+  background: #222;
+  position: absolute;
+  display: none;
+  min-width: 115px;
+  z-index: 1;
+
+  margin-top: 20px;
+}
+.dropdown-content a {
+  color: #ddd;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+/*.dropdown-content a:hover {
+text-decoration: underline;
+}*/
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+/* styling logo*/
+nav .banner{
+  background: #222;
+}
+.banner h1{
+  margin: 0;
+  /*padding: 0;*/
+  /* bo not mot phan du/thua duoi anh */
+  line-height: 0;
+}
+.banner h1 img{
+  height: 60px;
+}
+
+/*Ẩn icon mở option khi ở màn hình máy tính*/
+.nav-main .icon {
+  display: none;
+}
+
+/*input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* styling cho tất cả các button trong login-form */
+#login-form button {
+  background-color: #222;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+#login-form button:hover {
+  opacity: 0.8;
+}
+
+#login-form .container {
+  padding: 16px;
+}
+
+#login-form span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* modal (background) */
+.modal {
+  display: none; /* mặc định ẩn khi chưa click mở popup login */
+  position: fixed; /* cố định vị trí */
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* mở/thêm scroll nếu cần thiết */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 35%; /* Could be more or less, depending on screen size */
+}
+
+/* nút (x) đóng form */
+.close {
+  float: right;
+  top: 0;
+  margin-right: 10px;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px){
+  nav {
+    flex-direction: column;
+  }
+  .nav-main a:not(.icon) {display: none;}
+  .nav-main a.icon{
+    display: block;
+    margin: auto;
+  }
+  .nav-main li{
+    /* cho cac "li" trong .nav-main (khi chua click vao nut mo rong) do rong la 100%
+    cua man hinh,de doi tuong "li" co chua icon mo rong set text-align cho icon ben trong
+    "li" nay vao giua (cu the la cho */
+    width: 100%;
+    text-align: center;
+  }
+  #icon-extend{
+    border: 1px dotted #ddd;
+  }
+  .nav-main.responsive {
+    width: 100%;
+    flex-direction: column;
+    list-style: none;
+    padding:0;
+    background: #222;
+  }
+  .nav-main.responsive li {
+    border: 1px dotted #ddd;
+    width: 100%;
+  }
+  .nav-main.responsive a {
+    text-align: center;
+    list-style: none;
+    display: block;
+  }
+  .banner {
+    text-align: center;
+  }
+  .banner h1 img{
+    height: 90px;
+  }
+  .modal-content{
+    width: 80%;
+  }
+  .dropdown-content {
+    margin: 0 25%;
+    width: 50%;
+  }
+}
+
+
+footer{
+  width: 100%;
+  background-color: #222;
+  color:#ddd;
+  text-align: center;
+}
+  
+.main-content > section{
+  display: block;
+  width: 90%;
+  padding: 0 16px 16px 16px;
+  margin: 0 auto;
+  margin-bottom: 0;
+  box-shadow: 2px 0 4px 1px rgba(0, 0, 0, 0.03)
+}
+ 
+/* styling cho phan main content trong body*/
+
+/* styling for table*/
+/*.main-content section{
+  display: flex;
+  flex-direction: column;
+}
+.main-content button {
+  float: right;
+}*/
+.main-content section div:first-child{
+  display: flex;
+  justify-content: space-between;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover {background-color: #ddd;}
+tr td, tr th{
+  text-align: center;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+    
+th, td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+  }
+th{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: slategray;
+  color: white;
+}
+
+/* styling cho tree view*/
+/* Remove default bullets */
+.main-content ul, #myUL {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.main-content .caret {
+  cursor: pointer; 
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.main-content .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.main-content .caret-down::before {
+  transform: rotate(90deg); 
+}
+
+/* Hide the nested list */
+.main-content .nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.main-content .active {
+  display: block;
+}
