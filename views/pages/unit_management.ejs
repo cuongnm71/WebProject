@@ -4,6 +4,7 @@
     <% include ../partials/head %>
 </head>
 <script type="text/javascript">
+  var isRelease = false;
 
   $(document).ready(()=>{
     $.ajax({
@@ -45,9 +46,11 @@
               +'<td id="unitType'+id+'">'+ data[i]["type"] + '</td>'
               +'<td id="add'+id+'">'+ data[i]["address"] + '</td>'
               +'<td id="phone'+id+'">'+ data[i]["phone_number"] + '</td>'
-              + '<td id="unit'+id+'">'+ data[i]["website"] + '</td>'
+              + '<td id="webAdd'+id+'">'+ data[i]["website"] + '</td>'
             x+='<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
                 +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
                 +'</td></tr>';
           }
@@ -64,12 +67,12 @@
 
   });*/
 
-  var random_id = function  ()
-	{
-		var id_num = Math.random().toString(9).substr(2,3);
-		var id_str = Math.random().toString(36).substr(2);
-		return id_num + id_str;
-  }
+  // var random_id = function  ()
+	// {
+	// 	var id_num = Math.random().toString(9).substr(2,3);
+	// 	var id_str = Math.random().toString(36).substr(2);
+	// 	return id_num + id_str;
+  // }
 
   function insert_row(){
     var nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
@@ -125,7 +128,119 @@
   }
 
   function edit_row(id){
+    var unit=document.getElementById("unit"+id).innerHTML
+    var unitType=document.getElementById("unitType"+id).innerHTML;
+    var add=document.getElementById("add"+id).innerHTML;
+    var phone=document.getElementById("phone"+id).innerHTML;
+    var webAdd=document.getElementById("webAdd"+id).innerHTML;
+    document.getElementById("unit"+id).innerHTML="<input type='text' id='unit_text"+id+"' value='"+unit+"'>";
+    document.getElementById("unitType"+id).innerHTML="<input type='text' id='unitType_text"+id+"' value='"+unitType+"'>";
+    document.getElementById("add"+id).innerHTML="<input type='text' id='add_text"+id+"' value='"+add+"'>";
+    document.getElementById("phone"+id).innerHTML="<input type='text' id='phone_text"+id+"' value='"+phone+"'>";
+    document.getElementById("webAdd"+id).innerHTML="<input type='text' id='webAdd_text"+id+"' value='"+webAdd+"'>";
+    
+    document.getElementById("edit_button"+id).style.display="none";
+    document.getElementById("delete_button"+id).style.display="none";
+    document.getElementById("save_button"+id).style.display="inline-block";
+    document.getElementById("cancel_button"+id).style.display="inline-block";
+    if(!isRelease){
+      console.log("data from edit_row(id): ",unit,unitType,add,webAdd,phone); 
+    }
+  }
 
+  function save_row(id){
+    var unit=document.getElementById("unit_text"+id).value;
+    var unitType=document.getElementById("unitType_text"+id).value;
+    var add=document.getElementById("add_text"+id).value;
+    var phone=document.getElementById("phone_text"+id).value;
+    var webAdd=document.getElementById("webAdd_text"+id).value;
+    if(!isRelease){
+      console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
+      /*console.log(document.getElementById("add"+id));*/
+    }
+
+    $.ajax({
+      type:'POST',
+      url:'units/edit',
+      dataType: 'json',
+      data:{
+        division_id: id,
+        name:unit,
+        type:unitType,
+        address:add,
+        phone_number:phone,
+        website: webAdd
+      },
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            document.getElementById("unit"+id).innerHTML=unit;
+            document.getElementById("unitType"+id).innerHTML=unitType;
+            document.getElementById("add"+id).innerHTML=add;
+            document.getElementById("phone"+id).innerHTML=phone;
+            document.getElementById("webAdd"+id).innerHTML=webAdd;
+          }
+      }
+    });
+
+    document.getElementById("edit_button"+id).style.display="inline-block";
+    document.getElementById("delete_button"+id).style.display="inline-block";
+    document.getElementById("save_button"+id).style.display="none";
+    document.getElementById("cancel_button"+id).style.display="none";
+  }
+
+  function cancel_row(id){
+    var unit=document.getElementById("unit_text"+id).getAttribute("value");
+    var unitType=document.getElementById("unitType_text"+id).getAttribute("value");
+    var add=document.getElementById("add_text"+id).getAttribute("value");
+    var phone=document.getElementById("phone_text"+id).getAttribute("value");
+    var webAdd=document.getElementById("webAdd_text"+id).getAttribute("value");
+    if(!isRelease){
+      console.log("data from cancel_row(id): ",unit,unitType,add,webAdd,phone); 
+    }
+
+    document.getElementById("unit"+id).innerHTML=unit;
+    document.getElementById("unitType"+id).innerHTML=unitType;
+    document.getElementById("add"+id).innerHTML=add;
+    document.getElementById("phone"+id).innerHTML=phone;
+    document.getElementById("webAdd"+id).innerHTML=webAdd;
+
+    document.getElementById("edit_button"+id).style.display="inline-block";
+    document.getElementById("delete_button"+id).style.display="inline-block";
+    document.getElementById("save_button"+id).style.display="none";
+    document.getElementById("cancel_button"+id).style.display="none";
+  }
+
+  function delete_row(id){
+    $.ajax({
+      type:'POST',
+      url:'units/delete',
+      dataType: 'json',
+      data:{
+        division_id: id
+      },
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            var row_toDelete = document.getElementById("row"+id);
+            //console.log(row_toDelete);
+            //console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);           
+            // update order index column
+            var table = document.getElementById("table-u");  
+            var indexRowNext = parseInt(table.rows[id+2].cells[0].innerHTML);
+            var lenthRow = table.rows.length;
+            for (var i = id+3, row; i <= lenthRow-1; i++) {
+              table.rows[i].cells[0].innerHTML = indexRowNext;
+              //console.log(table.rows[i].cells[0].innerHTML);
+              ++indexRowNext;  
+            }
+            row_toDelete.parentNode.removeChild(row_toDelete);
+          }
+          
+      }
+    });
   }
 </script>
 <body>
