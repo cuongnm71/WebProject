@@ -59,14 +59,14 @@ module.exports = function(app, passport) {
         fakeDatabase = results;
     })
     app.get('/units',(req,res)=>{
-        
+        var allDV = Object.keys(fakeDatabase);
         console.log('running app.get /units get data: ', allDV);
         //res.send(allDV);
         res.send(fakeDatabase);
     });
     app.get('/officers',(req,res)=>{
         //res.send(allDV);
-        let fakeDataOfficer = {
+        var fakeDataOfficer = {
             'dt': {
                 staff_id : '1',
                 staff_number: 'asdf',
@@ -100,7 +100,7 @@ module.exports = function(app, passport) {
         var command = req.params.command;
         console.log(command);
         console.log(req.body);
-        console.log(req.body.id);
+        console.log(req.body.division_id);
         // lenh gi do cho database
 
         // kiem tra neu thuc hien than cong thay doi dtb thi:
@@ -112,7 +112,7 @@ module.exports = function(app, passport) {
         var command = req.params.command;
         console.log(command);
         console.log(req.body);
-        console.log(req.body.id);
+        console.log(req.body.staff_id);
         // lenh gi do cho database
 
         // kiem tra neu thuc hien than cong thay doi dtb thi:
