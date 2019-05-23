@@ -38,7 +38,6 @@
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
             /*for(j in data[i]){
               if(j.equal("unit")){
-
               }
               x += '<td id="unit'+id+'">'+ data[i][j] + '</td>';
             }*/
@@ -87,7 +86,7 @@
       url:'units/insert',
       dataType: 'json',
       data:{
-        id: nextIndexRow,
+        division_id: nextIndexRow,
         name:unit,
         type:unitType,
         address:add,
@@ -98,7 +97,7 @@
         console.log(response);
         if(response.message=="success")
           {
-            console.log("HEHEHE");
+            //console.log("running in inserting block");
             var id=nextIndexRow;
             var table=document.getElementById("table-u");
             var table_len=(table.rows.length);
@@ -123,6 +122,10 @@
           }
       }
     });
+  }
+
+  function edit_row(id){
+
   }
 </script>
 <body>
