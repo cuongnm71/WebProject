@@ -35,6 +35,7 @@ module.exports = function(app, passport) {
             }
         }
     );
+    // for admin
     app.get('/unit_a',function(req,res){
         res.render('pages/unit_management');
     });
@@ -58,10 +59,28 @@ module.exports = function(app, passport) {
         fakeDatabase = results;
     })
     app.get('/units',(req,res)=>{
-        var allDV = Object.keys(fakeDatabase);
+        
         console.log('running app.get /units get data: ', allDV);
         //res.send(allDV);
         res.send(fakeDatabase);
+    });
+    app.get('/officers',(req,res)=>{
+        //res.send(allDV);
+        let fakeDataOfficer = {
+            'dt': {
+                staff_id : '1',
+                staff_number: 'asdf',
+                full_name: 'Lê Minh Tiến',
+                account_id: "adsfasdf",
+                vnu_email: 'tienle@vnu.edu.vn',
+                staff_type: 'Giảng viên',
+                degree_level: 'Tiến sĩ',
+                address: 'Bộ môn khoa học máy tính'
+            }
+        };
+        var allDV = Object.keys(fakeDataOfficer);
+        console.log('running app.get /officers get data: ', allDV);
+        res.send(fakeDataOfficer);
     });
     /*
     var counttt  = 9;
@@ -78,6 +97,18 @@ module.exports = function(app, passport) {
     const bodyParser = require('body-parser');
     app.use( bodyParser.urlencoded({extended: true}));
     app.post('/units/:command',(req,res)=>{
+        var command = req.params.command;
+        console.log(command);
+        console.log(req.body);
+        console.log(req.body.id);
+        // lenh gi do cho database
+
+        // kiem tra neu thuc hien than cong thay doi dtb thi:
+            res.send({message:'success'});
+        // khong thi
+        // res.send({message:'error gi do'})
+    });
+    app.post('/officers/:command',(req,res)=>{
         var command = req.params.command;
         console.log(command);
         console.log(req.body);

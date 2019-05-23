@@ -1,46 +1,97 @@
-$(document).ready(()=>{
-    $.ajax({
-        url: 'units',
-        type: 'GET',
-        dataType: 'json',
-        success: (data) =>{
-          var x = ' <thead> <tr class="title">\
-                <th>Thứ tự</th>\
-                <th>Tên đơn vị</th>\
-                <th>Loại đơn vị</th>\
-                <th>Địa chỉ</th>\
-                <th>Điện thoại</th>\
-                <th>Website </th>\
-                <th>Thao tác</th>\
-              </tr> </thead>';
-          console.log('ajax success!',data);
-          var count_tb = 0;
-          x += '<tbody><tr id="new_row">' + '<td id = "insert_row_o">'+ count_tb + '</td>';
-          x+= '<td id = "insert_row"><input type="text" id="new_unit" required=""></td>\
-            <td><input type="text" id="new_unitType" required=""></td>\
-            <td><input type="text" id="new_add" required=""></td>\
-            <td><input type="text" id="new_phone" required=""></td>\
-            <td><input type="text" id="new_webAdd" required=""></td>\
-            <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
-          </tr>';
-          for(i in data){
-            count_tb++;
-            x += '<tr>' + '<td>'+ count_tb + '</td>';
-            for(j in data[i])
-              x += '<td>'+ data[i][j] + '</td>';
-            x+='<td>\
-                  <button>Sửa</button>\
-                  <button>Xoá</button>\
-              </td>\
-            </tr>';
-          }
-          x += '</tbody>';
-          /*console.log(x);*/
-          document.getElementById("table-u").innerHTML = x;
-          /*var indexNumRow=parseInt($("table:first tr td:first-child").length)-1;
-          var indexNumRow2=document.getElementById("table-u").lastChild.childNodes.length;
-          console.log(indexNumRow2);*/
-        }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
 
-      });
-  });
+    <header>
+        <% include ../partials/header %>
+    </header>
+    
+    <main class="main-content">
+      <section>
+        <div>
+          <h1>Cán bộ</h1>
+          <h1>
+            <button>Thêm từ excel </button>
+          </h1>
+        </div>
+        <div style="overflow-x:auto;" class="unit-table-content">
+          <table id='table-offA'>
+              <thead>
+                  <tr class="title">
+                  /*
+                    offCode - staff_number
+                    fullName- full_name
+                    account- account_id
+                    vnuMail- vnu_email
+                    offType- staff_type
+                    degree - degree_level
+                    workingUnit - address
+                    */
+                    
+                      <th>Thứ tự</th>
+                      <th>Mã cán bộ</th>
+                      <th>Họ và tên</th>
+                      <th>Tài khoản</th>
+                      <th>VNU email</th>
+                      <th>Loại cán bộ</th>
+                      <th>Học vị</th>
+                      <th>Đơn vị công tác</th>
+                      <th>Thao tác</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr id="new_row"><td id = "insert_row_o">0</td>
+                    <td id = "insert_row"><input type="text" id="new_codeStaff" required=""></td>
+                    <td><input type="text" id="new_name" required=""></td>
+                    <td><input type="text" id="new_account" required=""></td>
+                    <td><input type="text" id="new_email" required=""></td>
+                    <td><input type="text" id="new_officerType" required=""></td>
+                    <td><input type="text" id="new_degree" required=""></td>
+                    <td><input type="text" id="new_workingPlace" required=""></td>
+                    <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>
+                  </tr>
+              </tbody>
+            <div class = "table-data">
+              <tr>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>
+                    <button>Sửa</button>
+                    <button>Xoá</button>
+                </td>
+              </tr>
+              <tr>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>temp</td>
+                <td>
+                    <button>Sửa</button>
+                    <button>Xoá</button>
+                </td>
+              </tr>
+            </div>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>

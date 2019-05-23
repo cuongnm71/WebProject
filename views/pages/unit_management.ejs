@@ -38,11 +38,11 @@
             <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
           </tr>';
           for(i in data){
-            var id = i;
+            var id = data[i]["division_id"];
+            console.log(id);
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
-
             x +='<td id="unit'+id+'">'+ data[i]["name"] + '</td>'
               +'<td id="unitType'+id+'">'+ data[i]["type"] + '</td>'
               +'<td id="add'+id+'">'+ data[i]["address"] + '</td>'
