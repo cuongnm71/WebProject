@@ -155,13 +155,14 @@
   }
 
   function edit_row(id){
-    var offCode=document.getElementById("offCode"+id).innerHTML
+    var offCode=document.getElementById("offCode"+id).innerHTML;
     var fullName=document.getElementById("fullName"+id).innerHTML;
     var account=document.getElementById("account"+id).innerHTML;
     var vnuMail=document.getElementById("vnuMail"+id).innerHTML;
     var offType=document.getElementById("offType"+id).innerHTML;
     var degree=document.getElementById("degree"+id).innerHTML;
     var workingUnit=document.getElementById("workingUnit"+id).innerHTML;
+    console.log(offCode,fullName,account,vnuMail,offType,degree,workingUnit);
 
     document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
     document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
