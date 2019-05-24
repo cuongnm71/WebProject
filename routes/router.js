@@ -1,7 +1,7 @@
 module.exports = function(app, passport, connection) {
     // index page
     app.get('/', function(req, res) {
-        res.render('pages/index');
+        res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 
     // contact page
@@ -9,7 +9,7 @@ module.exports = function(app, passport, connection) {
         res.render('pages/contact');
     });
     app.get('/login',function(req,res){
-        res.render('pages/login', {message: req.flash('loginMessage')});
+        res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
     });
     app.post('/login', passport.authenticate('local-login', {
             successRedirect: '/',
@@ -17,45 +17,57 @@ module.exports = function(app, passport, connection) {
             failureFlash: true
         }),
         function(req, res) {
-            console.log(req.user.isAdmin);
+            console.log(req);
             // if (req.body.remember) {
             //     req.session.cookie.maxAge = 1000 * 10;
             // } else {
             //     req.session.cookie.expires = false;
             // }
-            // if (req.user.isAdmin === 1) {
-            //   res.redirect('pages/admin');
-            // }
-            // if (req.user.isAdmin === 0) {
-            //   res.redirect('/profile');
-            // }
         }
     );
+    app.get('/logout', function(req, res){
+      req.logout();
+      res.redirect('/');
+    });
+
     // for admin
     app.get('/division_admin',function(req,res){
-        if (req.isAuthenticated()) {
-            //console.log(req.user.isAdmin)
-            res.render('pages/division_management');
+        if (req.isAuthenticated() == 1) {
+            req.flash('userMessage', 'User logged in');
+            if (req.user.isAdmin == 1) {
+                res.render('pages/division_management', {userMessage: req.flash('userMessage')});
+            } else {
+                res.redirect('/');
+            }
         } else {
-            //console.log(req.user.isAdmin)
-            // console.log(req);
-            req.flash('loginMessage', 'You have to login first.');
-            res.redirect('/login');
+            res.redirect('/');
         }
     });
     app.get('/staff_admin',function(req,res){
-        res.render('pages/staff_management');
+        if (req.isAuthenticated() == 1) {
+            req.flash('userMessage', 'User logged in');
+            if (req.user.isAdmin == 1) {
+                res.render('pages/staff_management', {userMessage: req.flash('userMessage')});
+            } else {
+                res.redirect('/');
+            }
+        } else {
+            res.redirect('/');
+        }
     });
     app.get('/reserch_field_admin',function(req,res){
-        res.render('pages/research_field_management');
+        if (req.isAuthenticated() == 1) {
+            req.flash('userMessage', 'User logged in');
+            if (req.user.isAdmin == 1) {
+                res.render('pages/research_field_management', {userMessage: req.flash('userMessage')});
+            } else {
+                res.redirect('/');
+            }
+        } else {
+            res.redirect('/');
+        }
     });
 
-    var random_id = function  ()
-    {
-        var id_num = Math.random().toString(9).substr(2,3);
-        var id_str = Math.random().toString(36).substr(2);
-        return id_num + id_str;
-    }
     var fakeDatabase;
     var sql = "SELECT * FROM division ORDER BY division_id ASC";
     connection.query(sql, function(err, results, fields) {
@@ -70,7 +82,7 @@ module.exports = function(app, passport, connection) {
     });
     app.get('/officers',(req,res)=>{
         //res.send(allDV);
-        var fakeDataOfficer = 
+        var fakeDataOfficer =
         [
             {
                 staff_id : '2492',
@@ -160,11 +172,11 @@ module.exports = function(app, passport, connection) {
 //         req.logout();
 //         res.redirect('/');
 //     })
+    var loggedIn = 0;
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            loggedIn = 0;
+        else loggedIn = 1;
+    }
 };
 //
-// function isLoggedIn(req, res, next) {
-//     if (req.isAuthenticated())
-//         return next();
-//
-//     res.redirect('/');
-// }
