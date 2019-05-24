@@ -1,15 +1,10 @@
 var LocalStrategy = require("passport-local").Strategy;
 
-var mysql = require('mysql');
 var bcrypt = require('bcryptjs');
-var dbconfig = require('./database');
-var connection = mysql.createConnection(dbconfig.connection);
 
-connection.query('USE ' + dbconfig.database);
-
-module.exports = function(passport) {
+module.exports = function(passport, connection) {
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user.id, user.isAdmin);
     });
 
     passport.deserializeUser(function(id, done) {

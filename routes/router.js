@@ -1,9 +1,4 @@
-var mysql = require('mysql');
-var dbconfig = require('../config/database');
-var connection = mysql.createConnection(dbconfig.connection);
-
-connection.query('USE ' + dbconfig.database);
-module.exports = function(app, passport) {
+module.exports = function(app, passport, connection) {
     // index page
     app.get('/', function(req, res) {
         res.render('pages/index');
@@ -17,27 +12,36 @@ module.exports = function(app, passport) {
         res.render('pages/login', {message: req.flash('loginMessage')});
     });
     app.post('/login', passport.authenticate('local-login', {
+            successRedirect: '/',
             failureRedirect: '/login',
             failureFlash: true
         }),
         function(req, res) {
-            console.log(req);
+            console.log(req.user.isAdmin);
             // if (req.body.remember) {
             //     req.session.cookie.maxAge = 1000 * 10;
             // } else {
             //     req.session.cookie.expires = false;
             // }
-            if (req.user.isAdmin === 1) {
-              res.redirect('pages/admin');
-            }
-            if (req.user.isAdmin === 0) {
-              res.redirect('/profile');
-            }
+            // if (req.user.isAdmin === 1) {
+            //   res.redirect('pages/admin');
+            // }
+            // if (req.user.isAdmin === 0) {
+            //   res.redirect('/profile');
+            // }
         }
     );
     // for admin
     app.get('/unit_a',function(req,res){
-        res.render('pages/division_management');
+        if (req.isAuthenticated()) {
+            //console.log(req.user.isAdmin)
+            res.render('pages/division_management');
+        } else {
+            //console.log(req.user.isAdmin)
+            // console.log(req);
+            req.flash('loginMessage', 'You have to login first.');
+            res.redirect('/login');
+        }
     });
     app.get('/off_a',function(req,res){
         res.render('pages/staff_management');
