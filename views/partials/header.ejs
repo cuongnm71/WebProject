@@ -21,7 +21,11 @@
                </ul>
             </div>
          </li>
+        <% if(userMessage.length > 0) { %>
+        <li><a href="/logout" style="width:auto;">Logout</a></li>
+        <% } else{ %>
         <li><a href="/login" style="width:auto;">Login</a></li>
+        <% } %>
     </ul>
 
 </nav>
