@@ -32,7 +32,7 @@ module.exports = function(app, passport, connection) {
         }
     );
     // for admin
-    app.get('/unit_a',function(req,res){
+    app.get('/division_admin',function(req,res){
         if (req.isAuthenticated()) {
             //console.log(req.user.isAdmin)
             res.render('pages/division_management');
@@ -43,10 +43,10 @@ module.exports = function(app, passport, connection) {
             res.redirect('/login');
         }
     });
-    app.get('/off_a',function(req,res){
+    app.get('/staff_admin',function(req,res){
         res.render('pages/staff_management');
     });
-    app.get('/res_a',function(req,res){
+    app.get('/reserch_field_admin',function(req,res){
         res.render('pages/research_field_management');
     });
 

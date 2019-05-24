@@ -20,7 +20,7 @@
                     <label for="passwrd">Password</label>
                     <input type="password" name="password" placeholder="Enter Password" id="password">
                     <% if(message.length > 0) { %>
-                     <div style='color:red'><%- message %></div>
+                     <div id="errorLogin" ><%- message %></div>
                     <% } %>
                     <input type="submit" value="Login">
                 </form>
