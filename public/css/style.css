@@ -316,3 +316,6 @@ table td input[type="button"]{
 #errorLogin{
   color: red;
 }
+#div-ntf{
+  text-align: center;
+}
