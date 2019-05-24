@@ -25,13 +25,17 @@ module.exports = function(app, passport, connection) {
             // }
         }
     );
-    app.get('/logout', function(req, res){
-      req.logout();
-      res.redirect('/');
-    });
+    app.get('/logout', (req, res) => {
+        console.log('logging out');
+        req.logout();
+        req.session.destroy(err => {
+            res.clearCookie();
+            res.redirect('/');
+        });
+    })
 
     // for admin
-    app.get('/division_admin',function(req,res){
+    app.get('/division_admin', function(req,res){
         if (req.isAuthenticated() == 1) {
             req.flash('userMessage', 'User logged in');
             if (req.user.isAdmin == 1) {
@@ -43,7 +47,7 @@ module.exports = function(app, passport, connection) {
             res.redirect('/');
         }
     });
-    app.get('/staff_admin',function(req,res){
+    app.get('/staff_admin', function(req,res){
         if (req.isAuthenticated() == 1) {
             req.flash('userMessage', 'User logged in');
             if (req.user.isAdmin == 1) {
@@ -55,7 +59,7 @@ module.exports = function(app, passport, connection) {
             res.redirect('/');
         }
     });
-    app.get('/reserch_field_admin',function(req,res){
+    app.get('/reserch_field_admin', function(req,res){
         if (req.isAuthenticated() == 1) {
             req.flash('userMessage', 'User logged in');
             if (req.user.isAdmin == 1) {
