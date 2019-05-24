@@ -12,27 +12,36 @@ module.exports = function(app, passport, connection) {
         res.render('pages/login', {message: req.flash('loginMessage')});
     });
     app.post('/login', passport.authenticate('local-login', {
+            successRedirect: '/',
             failureRedirect: '/login',
             failureFlash: true
         }),
         function(req, res) {
-            console.log(req);
+            console.log(req.user.isAdmin);
             // if (req.body.remember) {
             //     req.session.cookie.maxAge = 1000 * 10;
             // } else {
             //     req.session.cookie.expires = false;
             // }
-            if (req.user.isAdmin === 1) {
-              res.redirect('pages/admin');
-            }
-            if (req.user.isAdmin === 0) {
-              res.redirect('/profile');
-            }
+            // if (req.user.isAdmin === 1) {
+            //   res.redirect('pages/admin');
+            // }
+            // if (req.user.isAdmin === 0) {
+            //   res.redirect('/profile');
+            // }
         }
     );
     // for admin
     app.get('/unit_a',function(req,res){
-        res.render('pages/unit_management');
+        if (req.isAuthenticated()) {
+            //console.log(req.user.isAdmin)
+            res.render('pages/unit_management');
+        } else {
+            //console.log(req.user.isAdmin)
+            // console.log(req);
+            req.flash('loginMessage', 'You have to login first.');
+            res.redirect('/login');
+        }
     });
     app.get('/off_a',function(req,res){
         res.render('pages/officier_management');

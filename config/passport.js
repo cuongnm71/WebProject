@@ -4,7 +4,7 @@ var bcrypt = require('bcryptjs');
 
 module.exports = function(passport, connection) {
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user.id, user.isAdmin);
     });
 
     passport.deserializeUser(function(id, done) {
