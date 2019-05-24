@@ -37,13 +37,13 @@ module.exports = function(app, passport) {
     );
     // for admin
     app.get('/unit_a',function(req,res){
-        res.render('pages/unit_management');
+        res.render('pages/division_management');
     });
     app.get('/off_a',function(req,res){
-        res.render('pages/officier_management');
+        res.render('pages/staff_management');
     });
     app.get('/res_a',function(req,res){
-        res.render('pages/research_area_management');
+        res.render('pages/research_field_management');
     });
 
     var random_id = function  ()
