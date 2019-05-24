@@ -37,14 +37,22 @@
             <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
           </tr>';
           for(i in data){
-            var id = data[i]["staff_id"];
+            var id = i;
+            // self-defined id is not related to staff code
+            // If using the staff code as the above id,
+            // there will be many problems to be solved
+            // because the current id above is used to create
+            // unique id for the element to help query. 
+            // (ex: Changing staff code -> must update all elements id,
+            // duplicate handling when querying elements,
+            // error token passes parameters to the function)
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
 
-            x +='<td id="offCode'+id+'">'+ data[i]["staff_number"] + '</td>'
+            x +='<td id="offCode'+id+'">'+ data[i]["staff_id"] + '</td>'
               +'<td id="fullName'+id+'">'+ data[i]["full_name"] + '</td>'
-              +'<td id="account'+id+'">'+ data[i]["account_id"] + '</td>'
+              +'<td id="account'+id+'">'+ data[i]["username"] + '</td>'
               +'<td id="vnuMail'+id+'">'+ data[i]["vnu_email"] + '</td>'
               +'<td id="offType'+id+'">'+ data[i]["staff_type"] + '</td>'
               +'<td id="degree'+id+'">'+ data[i]["degree_level"] + '</td>'
@@ -61,22 +69,9 @@
           //  console.log("new Body: ",x);
           // }
           document.getElementById("table-u").innerHTML = x;
-          /*var indexNumRow=parseInt($("table:first tr td:first-child").length)-1;
-          var indexNumRow2=document.getElementById("table-u").lastChild.childNodes.length;
-          console.log(indexNumRow2);*/
         }
       });
   });
-
-  /*$(document).ajaxError(() => {
-
-  });*/
-  // var random_id = function  ()
-	// {
-	// 	var id_num = Math.random().toString(9).substr(2,3);
-	// 	var id_str = Math.random().toString(36).substr(2);
-	// 	return id_num + id_str;
-  // }
 
   function insert_row(){
     var table = document.getElementById("table-u");  
@@ -107,10 +102,9 @@
       url:'officers/insert',
       dataType: 'json',
       data:{
-        staff_id:nextIDtoInsert,
-        staff_number: offCode,
+        staff_id: offCode,
         full_name:fullName,
-        account_id: account,
+        username: account,
         vnu_email:vnuMail,
         staff_type:offType,
         degree_level: degree,
@@ -139,6 +133,8 @@
 
               +'<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                  +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                  +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
                   +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
                   +'</td></tr>';
             //Reset to ""
@@ -162,7 +158,7 @@
     var offType=document.getElementById("offType"+id).innerHTML;
     var degree=document.getElementById("degree"+id).innerHTML;
     var workingUnit=document.getElementById("workingUnit"+id).innerHTML;
-    console.log(offCode,fullName,account,vnuMail,offType,degree,workingUnit);
+    console.log(id,offCode,fullName,account,vnuMail,offType,degree,workingUnit);
 
     document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
     document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
@@ -182,15 +178,16 @@
   }
 
   function save_row(id){
-    var offCode=document.getElementById("offCode"+id).value;
-    var fullName=document.getElementById("fullName"+id).value;
-    var account=document.getElementById("account"+id).value;
-    var vnuMail=document.getElementById("vnuMail"+id).value;
-    var offType=document.getElementById("offType"+id).value;
-    var degree=document.getElementById("degree"+id).value;
-    var workingUnit=document.getElementById("workingUnit"+id).value;
+    var old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    var offCode=document.getElementById("offCode_text"+id).value;
+    var fullName=document.getElementById("fullName_text"+id).value;
+    var vnuMail=document.getElementById("vnuMail_text"+id).value;
+    var degree=document.getElementById("degree_text"+id).value;
+    var workingUnit=document.getElementById("workingUnit_text"+id).value;
+    var offType=document.getElementById("offType_text"+id).value;
+    var account=document.getElementById("account_text"+id).value;
     // if(!isRelease){
-    //   console.log("data from save_row(id): ",unit,fullName,add,webAdd,phone); 
+    //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
     //   /*console.log(document.getElementById("add"+id));*/
     // }
 
@@ -199,10 +196,10 @@
       url:'officers/edit',
       dataType: 'json',
       data:{
-        staff_id: id,
-        staff_number: offCode,
+        staff_id: old_offCode,
+        new_staff_id: offCode,
         full_name:fullName,
-        account_id: account,
+        username: account,
         vnu_email:vnuMail,
         staff_type:offType,
         degree_level: degree,
@@ -212,13 +209,13 @@
         console.log(response);
         if(response.message=="success")
           {
-            document.getElementById("offCode"+id).innerHTML = offCode;
-            document.getElementById("fullName"+id).innerHTML = fullName;
-            document.getElementById("account"+id).innerHTML = account;
-            document.getElementById("vnuMail"+id).innerHTML = vnuMail;
-            document.getElementById("offType"+id).innerHTML = offType;
-            document.getElementById("degree"+id).innerHTML = degree;
-            document.getElementById("workingUnit"+id).innerHTML = workingUnit;
+            document.getElementById("offCode"+id).innerHTML=offCode;
+            document.getElementById("fullName"+id).innerHTML=fullName;
+            document.getElementById("account"+id).innerHTML=account;
+            document.getElementById("vnuMail"+id).innerHTML=vnuMail;
+            document.getElementById("offType"+id).innerHTML=offType;
+            document.getElementById("degree"+id).innerHTML=degree;
+            document.getElementById("workingUnit"+id).innerHTML=workingUnit;
           }
       }
     });
@@ -230,13 +227,13 @@
   }
 
   function cancel_row(id){
-    var offCode=document.getElementById("offCode"+id).getAttribute("value");
-    var fullName=document.getElementById("fullName"+id).getAttribute("value");
-    var account=document.getElementById("account"+id).getAttribute("value");
-    var vnuMail=document.getElementById("vnuMail"+id).getAttribute("value");
-    var offType=document.getElementById("offType"+id).getAttribute("value");
-    var degree=document.getElementById("degree"+id).getAttribute("value");
-    var workingUnit=document.getElementById("workingUnit"+id).getAttribute("value");
+    var offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    var fullName=document.getElementById("fullName_text"+id).getAttribute("value");
+    var account=document.getElementById("account_text"+id).getAttribute("value");
+    var vnuMail=document.getElementById("vnuMail_text"+id).getAttribute("value");
+    var offType=document.getElementById("offType_text"+id).getAttribute("value");
+    var degree=document.getElementById("degree_text"+id).getAttribute("value");
+    var workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
     // if(!isRelease){
     //   console.log("data from cancel_row(id): ",unit,fullName,add,webAdd,phone); 
     // }
@@ -256,12 +253,13 @@
   }
 
   function delete_row(id){
+    var offCode=document.getElementById("offCode"+id).innerHTML;
     $.ajax({
       type:'POST',
       url:'officers/delete',
       dataType: 'json',
       data:{
-        staff_id: id
+        staff_id: offCode
       },
       success:(response) => {
         console.log(response);

@@ -60,22 +60,9 @@
           //  console.log("new Body: ",x);
           // }
           document.getElementById("table-u").innerHTML = x;
-          /*var indexNumRow=parseInt($("table:first tr td:first-child").length)-1;
-          var indexNumRow2=document.getElementById("table-u").lastChild.childNodes.length;
-          console.log(indexNumRow2);*/
         }
       });
   });
-
-  /*$(document).ajaxError(() => {
-
-  });*/
-  // var random_id = function  ()
-	// {
-	// 	var id_num = Math.random().toString(9).substr(2,3);
-	// 	var id_str = Math.random().toString(36).substr(2);
-	// 	return id_num + id_str;
-  // }
 
   function insert_row(){
     var table = document.getElementById("table-u");  
@@ -128,9 +115,11 @@
               +'<td id="unitType'+id+'">'+unitType+'</td>'
               +'<td id="add'+id+'">'+add+'</td>'
               +'<td id="phone'+id+'">'+phone+'</td>'
-              +'<td id="web'+id+'">'+webAdd+'</td>'
+              +'<td id="webAdd'+id+'">'+webAdd+'</td>'
               +'<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                  +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                  +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
                   +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
                   +'</td></tr>';
             //Reset to ""
@@ -145,7 +134,10 @@
   }
 
   function edit_row(id){
-    var unit=document.getElementById("unit"+id).innerHTML
+    console.log("df",id);
+    var unit=document.getElementById("unit"+id).innerHTML;
+    console.log(unit,"df");
+    console.log("dfádf",document.getElementById('row'+10))
     var unitType=document.getElementById("unitType"+id).innerHTML;
     var add=document.getElementById("add"+id).innerHTML;
     var phone=document.getElementById("phone"+id).innerHTML;
@@ -278,7 +270,6 @@
         <section>
           <div>
               <h1>Đơn vị</h1>
-              <!--<h1><button id="addU-id">Thêm mới </button></h1>-->
           </div>
           <div style="overflow-x:auto;" class="unit-table-content">
             <table id="table-u">
