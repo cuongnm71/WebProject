@@ -1,17 +1,22 @@
-var express = require('express');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var port = process.env.PORT || 8080;
-var morgan = require('morgan');
-var app = express();
-var path = require('path');
+const express = require('express');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 8080;
+const morgan = require('morgan');
+const app = express();
+const path = require('path');
 
-var passport = require('passport');
-var flash = require('connect-flash');
+const passport = require('passport');
+const flash = require('connect-flash');
 
-require('./config/passport')(passport);
+// Connection
+const mysql = require('mysql');
+const dbconfig = require('./config/database');
+const connection = mysql.createConnection(dbconfig.connection);
+connection.query('USE ' + dbconfig.database);
 
+require('./config/passport')(passport, connection);
 // Set public path
 app.use(express.static(path.resolve('./public')));
 
@@ -24,9 +29,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Set view ẻnginge to ejs
+// Set view engine to ejs
 app.set('view engine', 'ejs');
 
+// Sesion
 app.use(session({
  secret: 'justasecret',
  resave:true,
@@ -39,8 +45,8 @@ app.use(passport.session());
 app.use(flash());
 
 // Route
-require('./routes/index.js')(app, passport);
+require('./routes/router.js')(app, passport, connection);
 
 // Run server
 app.listen(port);
-console.log("Port: " + port);
+console.log("Server running on: " + port);
