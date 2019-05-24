@@ -7,9 +7,6 @@
 
     <header>
         <% include ../partials/header %>
-      <!--  <% if(message.length > 0) { %>
-            <div id="errorLogin"><%- message %></div>
-        <% } %>-->
     </header>
     <main class="main-content">
         <section id="login-section">
@@ -19,8 +16,8 @@
                     <input type="text" name="username" placeholder="Enter Username" id="user">
                     <label for="passwrd">Password</label>
                     <input type="password" name="password" placeholder="Enter Password" id="password">
-                    <% if(message.length > 0) { %>
-                     <div id="errorLogin" ><%- message %></div>
+                    <% if(loginMessage.length > 0) { %>
+                     <div id="errorLogin" ><%- loginMessage %></div>
                     <% } %>
                     <input type="submit" value="Login">
                 </form>
