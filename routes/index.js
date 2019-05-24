@@ -37,13 +37,13 @@ module.exports = function(app, passport) {
     );
     // for admin
     app.get('/unit_a',function(req,res){
-        res.render('pages/unit_management');
+        res.render('pages/division_management');
     });
     app.get('/off_a',function(req,res){
-        res.render('pages/officier_management');
+        res.render('pages/staff_management');
     });
     app.get('/res_a',function(req,res){
-        res.render('pages/research_area_management');
+        res.render('pages/research_field_management');
     });
 
     var random_id = function  ()
@@ -66,18 +66,18 @@ module.exports = function(app, passport) {
     });
     app.get('/officers',(req,res)=>{
         //res.send(allDV);
-        var fakeDataOfficer = {
-            'dt': {
-                staff_id : '1',
-                staff_number: 'asdf',
+        var fakeDataOfficer = 
+        [
+            {
+                staff_id : '2492',
                 full_name: 'Lê Minh Tiến',
-                account_id: "adsfasdf",
+                username: "adsfasdf",
                 vnu_email: 'tienle@vnu.edu.vn',
                 staff_type: 'Giảng viên',
                 degree_level: 'Tiến sĩ',
                 address: 'Bộ môn khoa học máy tính'
             }
-        };
+        ]
         var allDV = Object.keys(fakeDataOfficer);
         console.log('running app.get /officers get data: ', allDV);
         res.send(fakeDataOfficer);
@@ -96,18 +96,6 @@ module.exports = function(app, passport) {
 
     const bodyParser = require('body-parser');
     app.use( bodyParser.urlencoded({extended: true}));
-    app.post('/units/:command',(req,res)=>{
-        var command = req.params.command;
-        console.log(command);
-        console.log(req.body);
-        console.log(req.body.division_id);
-        // lenh gi do cho database
-
-        // kiem tra neu thuc hien than cong thay doi dtb thi:
-            res.send({message:'success'});
-        // khong thi
-        // res.send({message:'error gi do'})
-    });
     app.post('/officers/:command',(req,res)=>{
         var command = req.params.command;
         console.log(command);
@@ -120,6 +108,19 @@ module.exports = function(app, passport) {
         // khong thi
         // res.send({message:'error gi do'})
     });
+    app.post('/units/:command',(req,res)=>{
+        var command = req.params.command;
+        console.log(command);
+        console.log(req.body);
+        console.log(req.body.division_id);
+        // lenh gi do cho database
+
+        // kiem tra neu thuc hien than cong thay doi dtb thi:
+            res.send({message:'success'});
+        // khong thi
+        // res.send({message:'error gi do'})
+    });
+
 
     // app.get('/login', function(req, res) {
     //     res.render('login.ejs', {

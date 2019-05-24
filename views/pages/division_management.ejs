@@ -12,7 +12,7 @@
         type: 'GET',
         dataType: 'json',
         success: (data) =>{
-          var x = ' <thead> <tr class="title">\
+          let x = ' <thead> <tr class="title">\
                 <th>Thứ tự</th>\
                 <th>Tên đơn vị</th>\
                 <th>Loại đơn vị</th>\
@@ -23,7 +23,7 @@
               </tr> </thead>';
 
           console.log('ajax success!',data);
-          var nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
+          let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
           // no childs -> nextIndexRow = 0;
           
           // if(!isRelease){
@@ -38,7 +38,7 @@
             <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
           </tr>';
           for(i in data){
-            var id = data[i]["division_id"];
+            let id = data[i]["division_id"];
             console.log(id);
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
@@ -60,44 +60,31 @@
           //  console.log("new Body: ",x);
           // }
           document.getElementById("table-u").innerHTML = x;
-          /*var indexNumRow=parseInt($("table:first tr td:first-child").length)-1;
-          var indexNumRow2=document.getElementById("table-u").lastChild.childNodes.length;
-          console.log(indexNumRow2);*/
         }
       });
   });
 
-  /*$(document).ajaxError(() => {
-
-  });*/
-  // var random_id = function  ()
-	// {
-	// 	var id_num = Math.random().toString(9).substr(2,3);
-	// 	var id_str = Math.random().toString(36).substr(2);
-	// 	return id_num + id_str;
-  // }
-
   function insert_row(){
-    var table = document.getElementById("table-u");  
+    let table = document.getElementById("table-u");  
     
     //real row index
-    var lastRow = table.rows.length - 1;
-    var nextIDtoInsert = parseInt(table.rows[lastRow].getAttribute("id").split("row")[1]) + 1;
+    let lastRow = table.rows.length - 1;
+    let nextIDtoInsert = parseInt(table.rows[lastRow].getAttribute("id").split("row")[1]) + 1;
     // if(!isRelease){
     //   console.log("next ID to insert",nextIDtoInsert);
     // }
 
     //row order ~ ..
-    var nextIndexRow=table.lastChild.childNodes.length;
+    let nextIndexRow=table.lastChild.childNodes.length;
     // if(!isRelease){
     //   console.log(nextIndexRow+1);
     // }
 
-    var unit=document.getElementById("new_unit").value;
-    var unitType=document.getElementById("new_unitType").value;
-    var add=document.getElementById("new_add").value;
-    var webAdd=document.getElementById("new_webAdd").value;
-    var phone=document.getElementById("new_phone").value;
+    let unit=document.getElementById("new_unit").value;
+    let unitType=document.getElementById("new_unitType").value;
+    let add=document.getElementById("new_add").value;
+    let webAdd=document.getElementById("new_webAdd").value;
+    let phone=document.getElementById("new_phone").value;
     
     $.ajax({
       type:'POST',
@@ -118,19 +105,21 @@
             // if(!isRelease){
             //   console.log("running in inserting block");
             // }
-            var id=nextIDtoInsert;
-            var table=document.getElementById("table-u");
-            var table_len=(table.rows.length);
-            var row = table.insertRow(table_len).outerHTML=
+            let id=nextIDtoInsert;
+            let table=document.getElementById("table-u");
+            let table_len=(table.rows.length);
+            let row = table.insertRow(table_len).outerHTML=
             '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+(nextIndexRow)+'</td>'
               +'<td id="unit'+id+'">'+unit+'</td>'
               +'<td id="unitType'+id+'">'+unitType+'</td>'
               +'<td id="add'+id+'">'+add+'</td>'
               +'<td id="phone'+id+'">'+phone+'</td>'
-              +'<td id="web'+id+'">'+webAdd+'</td>'
+              +'<td id="webAdd'+id+'">'+webAdd+'</td>'
               +'<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                  +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                  +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
                   +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
                   +'</td></tr>';
             //Reset to ""
@@ -145,11 +134,14 @@
   }
 
   function edit_row(id){
-    var unit=document.getElementById("unit"+id).innerHTML
-    var unitType=document.getElementById("unitType"+id).innerHTML;
-    var add=document.getElementById("add"+id).innerHTML;
-    var phone=document.getElementById("phone"+id).innerHTML;
-    var webAdd=document.getElementById("webAdd"+id).innerHTML;
+    console.log("df",id);
+    let unit=document.getElementById("unit"+id).innerHTML;
+    console.log(unit,"df");
+    console.log("dfádf",document.getElementById('row'+10))
+    let unitType=document.getElementById("unitType"+id).innerHTML;
+    let add=document.getElementById("add"+id).innerHTML;
+    let phone=document.getElementById("phone"+id).innerHTML;
+    let webAdd=document.getElementById("webAdd"+id).innerHTML;
     document.getElementById("unit"+id).innerHTML="<input type='text' id='unit_text"+id+"' value='"+unit+"'>";
     document.getElementById("unitType"+id).innerHTML="<input type='text' id='unitType_text"+id+"' value='"+unitType+"'>";
     document.getElementById("add"+id).innerHTML="<input type='text' id='add_text"+id+"' value='"+add+"'>";
@@ -166,11 +158,11 @@
   }
 
   function save_row(id){
-    var unit=document.getElementById("unit_text"+id).value;
-    var unitType=document.getElementById("unitType_text"+id).value;
-    var add=document.getElementById("add_text"+id).value;
-    var phone=document.getElementById("phone_text"+id).value;
-    var webAdd=document.getElementById("webAdd_text"+id).value;
+    let unit=document.getElementById("unit_text"+id).value;
+    let unitType=document.getElementById("unitType_text"+id).value;
+    let add=document.getElementById("add_text"+id).value;
+    let phone=document.getElementById("phone_text"+id).value;
+    let webAdd=document.getElementById("webAdd_text"+id).value;
     // if(!isRelease){
     //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
     //   /*console.log(document.getElementById("add"+id));*/
@@ -208,11 +200,11 @@
   }
 
   function cancel_row(id){
-    var unit=document.getElementById("unit_text"+id).getAttribute("value");
-    var unitType=document.getElementById("unitType_text"+id).getAttribute("value");
-    var add=document.getElementById("add_text"+id).getAttribute("value");
-    var phone=document.getElementById("phone_text"+id).getAttribute("value");
-    var webAdd=document.getElementById("webAdd_text"+id).getAttribute("value");
+    let unit=document.getElementById("unit_text"+id).getAttribute("value");
+    let unitType=document.getElementById("unitType_text"+id).getAttribute("value");
+    let add=document.getElementById("add_text"+id).getAttribute("value");
+    let phone=document.getElementById("phone_text"+id).getAttribute("value");
+    let webAdd=document.getElementById("webAdd_text"+id).getAttribute("value");
     // if(!isRelease){
     //   console.log("data from cancel_row(id): ",unit,unitType,add,webAdd,phone); 
     // }
@@ -241,22 +233,22 @@
         console.log(response);
         if(response.message=="success")
           {
-            var row_toDelete = document.getElementById("row"+id);
+            let row_toDelete = document.getElementById("row"+id);
             console.log(row_toDelete);
             // if(!isRelease){
             //   console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);
             // }           
             
             // update order index column
-            var table = document.getElementById("table-u");  
-            var indexRowNext = parseInt(document.getElementById("indexRow"+id).innerHTML);
+            let table = document.getElementById("table-u");  
+            let indexRowNext = parseInt(document.getElementById("indexRow"+id).innerHTML);
             // if(!isRelease){
             //   console.log("row next, order number to be:",indexRowNext);
             //   //console.log("info row delete",table.rows[indexRowNext+1]);
             // }
-            var lenthRow = table.rows.length;
-            var curRowToChangeOrd = indexRowNext+2;
-            for (var i = curRowToChangeOrd; i <= lenthRow-1; i++) {
+            let lenthRow = table.rows.length;
+            let curRowToChangeOrd = indexRowNext+2;
+            for (let i = curRowToChangeOrd; i <= lenthRow-1; i++) {
               table.rows[i].cells[0].innerHTML = indexRowNext;
               // if(!isRelease){
               //   console.log(table.rows[i].cells[0].innerHTML);
@@ -278,7 +270,6 @@
         <section>
           <div>
               <h1>Đơn vị</h1>
-              <!--<h1><button id="addU-id">Thêm mới </button></h1>-->
           </div>
           <div style="overflow-x:auto;" class="unit-table-content">
             <table id="table-u">
