@@ -71,12 +71,17 @@ nav ul li a:hover, nav ul li a:focus{
 .dropdown{
   position: relative;
   display: inline-block;
+  flex-direction: column;
+}
+.dropdown-content ul {
+  flex-direction: column;
 }
 .dropdown-content{
   background: #222;
+  white-space:nowrap;/* make width fit content*/
   position: absolute;
   display: none;
-  min-width: 115px;
+  /*min-width: 115px;*/ 
   z-index: 1;
 
   margin-top: 20px;
@@ -239,7 +244,11 @@ footer{
 .main-content button {
   float: right;
 }*/
-.main-content section div:first-child{
+/* .main-content section div:first-child{
+  display: flex;
+  justify-content: space-between;
+} */
+.main-content section div{
   display: flex;
   justify-content: space-between;
 }
@@ -319,3 +328,12 @@ table td input[type="button"]{
 #div-ntf{
   text-align: center;
 }
+.list-container > div{
+  display: flex;
+  flex-direction: row;
+}
+.list-container button{
+  background: green;
+  color: white;
+}
+
