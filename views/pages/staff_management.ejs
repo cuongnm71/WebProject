@@ -8,7 +8,7 @@
 
   $(document).ready(()=>{
     $.ajax({
-        url: 'officers',
+        url: 'staff',
         type: 'GET',
         dataType: 'json',
         success: (data) =>{
@@ -99,7 +99,7 @@
     
     $.ajax({
       type:'POST',
-      url:'officers/insert',
+      url:'staff/insert',
       dataType: 'json',
       data:{
         staff_id: offCode,
@@ -193,7 +193,7 @@
 
     $.ajax({
       type:'POST',
-      url:'officers/edit',
+      url:'staff/edit',
       dataType: 'json',
       data:{
         staff_id: old_offCode,
@@ -256,7 +256,7 @@
     let offCode=document.getElementById("offCode"+id).innerHTML;
     $.ajax({
       type:'POST',
-      url:'officers/delete',
+      url:'staff/delete',
       dataType: 'json',
       data:{
         staff_id: offCode
