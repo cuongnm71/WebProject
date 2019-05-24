@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <% include ../partials/head %>
+</head>
+<script type="text/javascript">
+  var isRelease = false;
+
+  $(document).ready(()=>{
+    $.ajax({
+        url: 'officers',
+        type: 'GET',
+        dataType: 'json',
+        success: (data) =>{
+          let x = ' <thead> <tr class="title">\
+                <th>Thứ tự</th>\
+                <th>Mã cán bộ</th>\
+                <th>Họ và tên</th>\
+                <th>Tài khoản</th>\
+                <th>VNU email</th>\
+                <th>Loại cán bộ</th>\
+                <th>Học vị</th>\
+                <th>Đơn vị công tác</th>\
+                <th>Thao tác</th>\
+              </tr> </thead>';
+
+          console.log('ajax success!',data);
+          let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
+          x+= '<tbody><tr id="new_row">' + '<td id = "index_insertRow">'+ nextIndexRow + '</td>';
+          x+= '<td><input type="text" id="new_offCode" required=""></td>\
+            <td><input type="text" id="new_fullName" required=""></td>\
+            <td><input type="text" id="new_account" required=""></td>\
+            <td><input type="text" id="new_vnuMail" required=""></td>\
+            <td><input type="text" id="new_offType" required=""></td>\
+            <td><input type="text" id="new_degree" required=""></td>\
+            <td><input type="text" id="new_workingUnit" required=""></td>\
+            <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>\
+          </tr>';
+          for(i in data){
+            let id = i;
+            // self-defined id is not related to staff code
+            // If using the staff code as the above id,
+            // there will be many problems to be solved
+            // because the current id above is used to create
+            // unique id for the element to help query. 
+            // (ex: Changing staff code -> must update all elements id,
+            // duplicate handling when querying elements,
+            // error token passes parameters to the function)
+            nextIndexRow++;
+            x += '<tr id="row'+id+'">'
+              +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
+
+            x +='<td id="offCode'+id+'">'+ data[i]["staff_id"] + '</td>'
+              +'<td id="fullName'+id+'">'+ data[i]["full_name"] + '</td>'
+              +'<td id="account'+id+'">'+ data[i]["username"] + '</td>'
+              +'<td id="vnuMail'+id+'">'+ data[i]["vnu_email"] + '</td>'
+              +'<td id="offType'+id+'">'+ data[i]["staff_type"] + '</td>'
+              +'<td id="degree'+id+'">'+ data[i]["degree_level"] + '</td>'
+              +'<td id="workingUnit'+id+'">'+ data[i]["address"] + '</td>'
+            x+='<td>\
+                  <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
+                +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
+                +'</td></tr>';
+          }
+          x += '</tbody>';
+          // if(!isRelease){
+          //  console.log("new Body: ",x);
+          // }
+          document.getElementById("table-u").innerHTML = x;
+        }
+      });
+  });
+
+  function insert_row(){
+    let table = document.getElementById("table-u");  
+    
+    //real row index
+    let lastRow = table.rows.length - 1;
+    let nextIDtoInsert = parseInt(table.rows[lastRow].getAttribute("id").split("row")[1]) + 1;
+    // if(!isRelease){
+    //   console.log("next ID to insert",nextIDtoInsert);
+    // }
+
+    //row order ~ ..
+    let nextIndexRow=table.lastChild.childNodes.length;
+    // if(!isRelease){
+    //   console.log(nextIndexRow+1);
+    // }
+
+    let offCode=document.getElementById("new_offCode").value;
+    let fullName=document.getElementById("new_fullName").value;
+    let account=document.getElementById("new_account").value;
+    let vnuMail=document.getElementById("new_vnuMail").value;
+    let offType=document.getElementById("new_offType").value;
+    let degree=document.getElementById("new_degree").value;
+    let workingUnit=document.getElementById("new_workingUnit").value;
+    
+    $.ajax({
+      type:'POST',
+      url:'officers/insert',
+      dataType: 'json',
+      data:{
+        staff_id: offCode,
+        full_name:fullName,
+        username: account,
+        vnu_email:vnuMail,
+        staff_type:offType,
+        degree_level: degree,
+        address: workingUnit
+      },
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            // if(!isRelease){
+            //   console.log("running in inserting block");
+            // }
+            let id=nextIDtoInsert;
+            let table=document.getElementById("table-u");
+            let table_len=(table.rows.length);
+            let row = table.insertRow(table_len).outerHTML=
+            '<tr id="row'+id+'">'
+              +'<td id="indexRow'+id+'">'+(nextIndexRow)+'</td>'
+              +'<td id="offCode'+id+'">'+offCode+'</td>'
+              +'<td id="fullName'+id+'">'+fullName+'</td>'
+              +'<td id="account'+id+'">'+account+'</td>'
+              +'<td id="vnuMail'+id+'">'+vnuMail+'</td>'
+              +'<td id="offType'+id+'">'+offType+'</td>'
+              +'<td id="degree'+id+'">'+degree+'</td>'
+              +'<td id="workingUnit'+id+'">'+workingUnit+'</td>'
+
+              +'<td>\
+                  <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
+                  +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
+                  +'<input type="button" value="Hủy" style="display:none" id="cancel_button'+id+'" onclick="cancel_row('+id +');">'
+                  +'<input type="button" value="Xóa" id="delete_button'+id+'" onclick="delete_row('+id +');">'
+                  +'</td></tr>';
+            //Reset to ""
+            document.getElementById("new_offCode").value="";
+            document.getElementById("new_fullName").value="";
+            document.getElementById("new_account").value="";
+            document.getElementById("new_vnuMail").value="";
+            document.getElementById("new_offType").value="";
+            document.getElementById("new_degree").value="";
+            document.getElementById("new_workingUnit").value="";
+          }
+      }
+    });
+  }
+
+  function edit_row(id){
+    let offCode=document.getElementById("offCode"+id).innerHTML;
+    let fullName=document.getElementById("fullName"+id).innerHTML;
+    let account=document.getElementById("account"+id).innerHTML;
+    let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
+    let offType=document.getElementById("offType"+id).innerHTML;
+    let degree=document.getElementById("degree"+id).innerHTML;
+    let workingUnit=document.getElementById("workingUnit"+id).innerHTML;
+    console.log(id,offCode,fullName,account,vnuMail,offType,degree,workingUnit);
+
+    document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
+    document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
+    document.getElementById("account"+id).innerHTML="<input type='text' id='account_text"+id+"' value='"+account+"'>";
+    document.getElementById("vnuMail"+id).innerHTML="<input type='text' id='vnuMail_text"+id+"' value='"+vnuMail+"'>";
+    document.getElementById("offType"+id).innerHTML="<input type='text' id='offType_text"+id+"' value='"+offType+"'>";
+    document.getElementById("degree"+id).innerHTML="<input type='text' id='degree_text"+id+"' value='"+degree+"'>";
+    document.getElementById("workingUnit"+id).innerHTML="<input type='text' id='workingUnit_text"+id+"' value='"+workingUnit+"'>";
+   
+    document.getElementById("edit_button"+id).style.display="none";
+    document.getElementById("delete_button"+id).style.display="none";
+    document.getElementById("save_button"+id).style.display="inline-block";
+    document.getElementById("cancel_button"+id).style.display="inline-block";
+    // if(!isRelease){
+    //   console.log("data from edit_row(id): ",unit,fullName,add,webAdd,phone); 
+    // }
+  }
+
+  function save_row(id){
+    let old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    let offCode=document.getElementById("offCode_text"+id).value;
+    let fullName=document.getElementById("fullName_text"+id).value;
+    let vnuMail=document.getElementById("vnuMail_text"+id).value;
+    let degree=document.getElementById("degree_text"+id).value;
+    let workingUnit=document.getElementById("workingUnit_text"+id).value;
+    let offType=document.getElementById("offType_text"+id).value;
+    let account=document.getElementById("account_text"+id).value;
+    // if(!isRelease){
+    //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
+    //   /*console.log(document.getElementById("add"+id));*/
+    // }
+
+    $.ajax({
+      type:'POST',
+      url:'officers/edit',
+      dataType: 'json',
+      data:{
+        staff_id: old_offCode,
+        new_staff_id: offCode,
+        full_name:fullName,
+        username: account,
+        vnu_email:vnuMail,
+        staff_type:offType,
+        degree_level: degree,
+        address: workingUnit
+      },
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            document.getElementById("offCode"+id).innerHTML=offCode;
+            document.getElementById("fullName"+id).innerHTML=fullName;
+            document.getElementById("account"+id).innerHTML=account;
+            document.getElementById("vnuMail"+id).innerHTML=vnuMail;
+            document.getElementById("offType"+id).innerHTML=offType;
+            document.getElementById("degree"+id).innerHTML=degree;
+            document.getElementById("workingUnit"+id).innerHTML=workingUnit;
+          }
+      }
+    });
+
+    document.getElementById("edit_button"+id).style.display="inline-block";
+    document.getElementById("delete_button"+id).style.display="inline-block";
+    document.getElementById("save_button"+id).style.display="none";
+    document.getElementById("cancel_button"+id).style.display="none";
+  }
+
+  function cancel_row(id){
+    let offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    let fullName=document.getElementById("fullName_text"+id).getAttribute("value");
+    let account=document.getElementById("account_text"+id).getAttribute("value");
+    let vnuMail=document.getElementById("vnuMail_text"+id).getAttribute("value");
+    let offType=document.getElementById("offType_text"+id).getAttribute("value");
+    let degree=document.getElementById("degree_text"+id).getAttribute("value");
+    let workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
+    // if(!isRelease){
+    //   console.log("data from cancel_row(id): ",unit,fullName,add,webAdd,phone); 
+    // }
+
+    document.getElementById("offCode"+id).innerHTML = offCode;
+    document.getElementById("fullName"+id).innerHTML = fullName;
+    document.getElementById("account"+id).innerHTML = account;
+    document.getElementById("vnuMail"+id).innerHTML = vnuMail;
+    document.getElementById("offType"+id).innerHTML = offType;
+    document.getElementById("degree"+id).innerHTML = degree;
+    document.getElementById("workingUnit"+id).innerHTML = workingUnit;
+
+    document.getElementById("edit_button"+id).style.display="inline-block";
+    document.getElementById("delete_button"+id).style.display="inline-block";
+    document.getElementById("save_button"+id).style.display="none";
+    document.getElementById("cancel_button"+id).style.display="none";
+  }
+
+  function delete_row(id){
+    let offCode=document.getElementById("offCode"+id).innerHTML;
+    $.ajax({
+      type:'POST',
+      url:'officers/delete',
+      dataType: 'json',
+      data:{
+        staff_id: offCode
+      },
+      success:(response) => {
+        console.log(response);
+        if(response.message=="success")
+          {
+            let row_toDelete = document.getElementById("row"+id);
+            console.log(row_toDelete);
+            // if(!isRelease){
+            //   console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);
+            // }           
+            
+            // update order index column
+            let table = document.getElementById("table-u");  
+            let indexRowNext = parseInt(document.getElementById("indexRow"+id).innerHTML);
+            // if(!isRelease){
+            //   console.log("row next, order number to be:",indexRowNext);
+            //   //console.log("info row delete",table.rows[indexRowNext+1]);
+            // }
+            let lenthRow = table.rows.length;
+            let curRowToChangeOrd = indexRowNext+2;
+            for (let i = curRowToChangeOrd; i <= lenthRow-1; i++) {
+              table.rows[i].cells[0].innerHTML = indexRowNext;
+              // if(!isRelease){
+              //   console.log(table.rows[i].cells[0].innerHTML);
+              // }
+              ++indexRowNext;  
+            }
+            row_toDelete.parentNode.removeChild(row_toDelete);
+          }
+          
+      }
+    });
+  }
+</script>
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <main class="main-content">
+        <section>
+          <div>
+              <h1>Cán bộ</h1>
+              <h1>
+                <button>Thêm từ excel </button>
+              </h1>
+          </div>
+          <div style="overflow-x:auto;" class="unit-table-content">
+            <table id="table-u">
+              <thead>
+                  <tr class="title">
+                    <th>Thứ tự</th>
+                    <th>Mã cán bộ</th>
+                    <th>Họ và tên</th>
+                    <th>Tài khoản</th>
+                    <th>VNU email</th>
+                    <th>Loại cán bộ</th>
+                    <th>Học vị</th>
+                    <th>Đơn vị công tác</th>
+                    <th>Thao tác</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr id="new_row"><td id = "insert_row_o">0</td>
+                    <td id = "insert_row"><input type="text" id="new_offCode" required=""></td>
+                    <td><input type="text" id="new_fullName" required=""></td>
+                    <td><input type="text" id="new_account" required=""></td>
+                    <td><input type="text" id="new_vnuMail" required=""></td>
+                    <td><input type="text" id="new_offType" required=""></td>
+                    <td><input type="text" id="new_degree" required=""></td>
+                    <td><input type="text" id="new_workingUnit" required=""></td>
+                    <td><input type="button" value="Thêm mới" onclick="insert_row();"></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>

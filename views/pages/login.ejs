@@ -7,10 +7,12 @@
 
     <header>
         <% include ../partials/header %>
+      <!--  <% if(message.length > 0) { %>
+            <div id="errorLogin"><%- message %></div>
+        <% } %>-->
     </header>
     <main class="main-content">
         <section id="login-section">
-
             <div class = "login-div">
                 <form class="login" action="/login" method="post">
                     <label for="user">Username</label>
@@ -32,3 +34,6 @@
 
 </body>
 </html>
+<script>
+    $("#errorLogin").delay(2000).fadeOut();
+</script>
