@@ -21,8 +21,9 @@
                 <th>Website </th>\
                 <th>Thao tác</th>\
               </tr> </thead>';
-
-          console.log('ajax success!',data);
+          if(!isRelease){
+            console.log('ajax success!',data);
+          }
           let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
           // no childs -> nextIndexRow = 0;
           
@@ -39,7 +40,6 @@
           </tr>';
           for(i in data){
             let id = data[i]["division_id"];
-            console.log(id);
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
@@ -99,9 +99,11 @@
         website: webAdd
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Thêm thành công";
             // if(!isRelease){
             //   console.log("running in inserting block");
             // }
@@ -128,16 +130,22 @@
             document.getElementById("new_add").value="";
             document.getElementById("new_phone").value="";
             document.getElementById("new_webAdd").value="";
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
   }
 
   function edit_row(id){
-    console.log("df",id);
     let unit=document.getElementById("unit"+id).innerHTML;
-    console.log(unit,"df");
-    console.log("dfádf",document.getElementById('row'+10))
     let unitType=document.getElementById("unitType"+id).innerHTML;
     let add=document.getElementById("add"+id).innerHTML;
     let phone=document.getElementById("phone"+id).innerHTML;
@@ -181,15 +189,26 @@
         website: webAdd
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Sửa thành công";
             document.getElementById("unit"+id).innerHTML=unit;
             document.getElementById("unitType"+id).innerHTML=unitType;
             document.getElementById("add"+id).innerHTML=add;
             document.getElementById("phone"+id).innerHTML=phone;
             document.getElementById("webAdd"+id).innerHTML=webAdd;
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
 
@@ -230,12 +249,14 @@
         division_id: id
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Xóa thành công";
             let row_toDelete = document.getElementById("row"+id);
-            console.log(row_toDelete);
             // if(!isRelease){
+            //  console.log(row_toDelete);
             //   console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);
             // }           
             
@@ -256,8 +277,16 @@
               ++indexRowNext;  
             }
             row_toDelete.parentNode.removeChild(row_toDelete);
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
-          
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
   }

@@ -24,7 +24,9 @@
                 <th>Thao tác</th>\
               </tr> </thead>';
 
-          console.log('ajax success!',data);
+          if(!isRelease){
+            console.log('ajax success!',data);
+          }
           let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
           x+= '<tbody><tr id="new_row">' + '<td id = "index_insertRow">'+ nextIndexRow + '</td>';
           x+= '<td><input type="text" id="new_offCode" required=""></td>\
@@ -111,9 +113,11 @@
         address: workingUnit
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Thêm thành công";
             // if(!isRelease){
             //   console.log("running in inserting block");
             // }
@@ -145,7 +149,16 @@
             document.getElementById("new_offType").value="";
             document.getElementById("new_degree").value="";
             document.getElementById("new_workingUnit").value="";
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
   }
@@ -158,7 +171,6 @@
     let offType=document.getElementById("offType"+id).innerHTML;
     let degree=document.getElementById("degree"+id).innerHTML;
     let workingUnit=document.getElementById("workingUnit"+id).innerHTML;
-    console.log(id,offCode,fullName,account,vnuMail,offType,degree,workingUnit);
 
     document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
     document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
@@ -206,9 +218,11 @@
         address: workingUnit
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Sửa thành công";
             document.getElementById("offCode"+id).innerHTML=offCode;
             document.getElementById("fullName"+id).innerHTML=fullName;
             document.getElementById("account"+id).innerHTML=account;
@@ -216,7 +230,16 @@
             document.getElementById("offType"+id).innerHTML=offType;
             document.getElementById("degree"+id).innerHTML=degree;
             document.getElementById("workingUnit"+id).innerHTML=workingUnit;
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
 
@@ -262,12 +285,14 @@
         staff_id: offCode
       },
       success:(response) => {
-        console.log(response);
+        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
         if(response.message=="success")
           {
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = "Xóa thành công";
             let row_toDelete = document.getElementById("row"+id);
-            console.log(row_toDelete);
             // if(!isRelease){
+            //   console.log("row to delete", row_toDelete);
             //   console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);
             // }           
             
@@ -288,8 +313,16 @@
               ++indexRowNext;  
             }
             row_toDelete.parentNode.removeChild(row_toDelete);
+          } else {
+            document.getElementById("notification").style.color ="red";
+            document.getElementById("notification").innerHTML = response.message;
           }
-          
+          $("#notification").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+          });
       }
     });
   }

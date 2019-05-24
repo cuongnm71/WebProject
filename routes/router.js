@@ -117,6 +117,7 @@ module.exports = function(app, passport, connection) {
     const bodyParser = require('body-parser');
     app.use( bodyParser.urlencoded({extended: true}));
     app.post('/staff/:command',(req,res)=>{
+        // kiểm
         var command = req.params.command;
         console.log(command);
         console.log(req.body);
