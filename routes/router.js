@@ -78,13 +78,13 @@ module.exports = function(app, passport, connection) {
         if (err) throw err;
         fakeDatabase = results;
     })
-    app.get('/units',(req,res)=>{
+    app.get('/division',(req,res)=>{
         var allDV = Object.keys(fakeDatabase);
         console.log('running app.get /units get data: ', allDV);
         //res.send(allDV);
         res.send(fakeDatabase);
     });
-    app.get('/officers',(req,res)=>{
+    app.get('/staff',(req,res)=>{
         //res.send(allDV);
         var fakeDataOfficer =
         [
@@ -116,7 +116,7 @@ module.exports = function(app, passport, connection) {
 
     const bodyParser = require('body-parser');
     app.use( bodyParser.urlencoded({extended: true}));
-    app.post('/officers/:command',(req,res)=>{
+    app.post('/staff/:command',(req,res)=>{
         var command = req.params.command;
         console.log(command);
         console.log(req.body);
@@ -128,7 +128,7 @@ module.exports = function(app, passport, connection) {
         // khong thi
         // res.send({message:'error gi do'})
     });
-    app.post('/units/:command',(req,res)=>{
+    app.post('/division/:command',(req,res)=>{
         var command = req.params.command;
         console.log(command);
         console.log(req.body);
