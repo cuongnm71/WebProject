@@ -32,5 +32,10 @@
 </body>
 </html>
 <script>
-    $("#errorLogin").delay(2000).fadeOut();
+    $("#errorLogin").fadeOut(3000, function() {
+            $(this).css({
+                "visibility": "hidden",
+                "display": "block"
+            });
+    });
 </script>

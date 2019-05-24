@@ -34,6 +34,18 @@ module.exports = function(app, passport, connection) {
         });
     })
 
+    app.get('/lecturer_info', function(req, res) {
+        if (req.isAuthenticated() == 1) {
+            req.flash('userMessage', 'User logged in');
+            if (req.user.isAdmin == 1) {
+                res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+            } else {
+                res.redirect('/');
+            }
+        } else {
+            res.redirect('/');
+        }
+    });
     // for admin
     app.get('/division_admin', function(req,res){
         if (req.isAuthenticated() == 1) {
