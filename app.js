@@ -10,8 +10,13 @@ var path = require('path');
 var passport = require('passport');
 var flash = require('connect-flash');
 
-require('./config/passport')(passport);
+// Connection
+var mysql = require('mysql');
+var dbconfig = require('./config/database');
+var connection = mysql.createConnection(dbconfig.connection);
+connection.query('USE ' + dbconfig.database);
 
+require('./config/passport')(passport);
 // Set public path
 app.use(express.static(path.resolve('./public')));
 
@@ -24,9 +29,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Set view ẻnginge to ejs
+// Set view engine to ejs
 app.set('view engine', 'ejs');
 
+// Sesion
 app.use(session({
  secret: 'justasecret',
  resave:true,
@@ -39,8 +45,8 @@ app.use(passport.session());
 app.use(flash());
 
 // Route
-require('./routes/index.js')(app, passport);
+require('./routes/router.js')(app, passport, connection);
 
 // Run server
 app.listen(port);
-console.log("Port: " + port);
+console.log("Server running on: " + port);
