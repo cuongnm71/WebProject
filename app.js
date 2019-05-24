@@ -1,22 +1,22 @@
-var express = require('express');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var port = process.env.PORT || 8080;
-var morgan = require('morgan');
-var app = express();
-var path = require('path');
+const express = require('express');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 8080;
+const morgan = require('morgan');
+const app = express();
+const path = require('path');
 
-var passport = require('passport');
-var flash = require('connect-flash');
+const passport = require('passport');
+const flash = require('connect-flash');
 
 // Connection
-var mysql = require('mysql');
-var dbconfig = require('./config/database');
-var connection = mysql.createConnection(dbconfig.connection);
+const mysql = require('mysql');
+const dbconfig = require('./config/database');
+const connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 
-require('./config/passport')(passport);
+require('./config/passport')(passport, connection);
 // Set public path
 app.use(express.static(path.resolve('./public')));
 
