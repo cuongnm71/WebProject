@@ -1,6 +1,6 @@
 body, html{
   font-size: 100%;
-  font-family: "Helvetica", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   margin: 0;
   height: 100%;
 }
@@ -30,7 +30,7 @@ nav{
   display: flex;/* flex box */
   justify-content: space-between; /* chia giua cac khoi box noi dung boi space*/
   /* fill white space between logo and link text with color black*/
-  background: #222;
+  background: #4CAF50;
 
   position: relative;
 }
@@ -63,8 +63,13 @@ nav ul li {
 
   /*position: relative;*/
 }
-nav ul li a:hover, nav ul li a:focus{
-  text-decoration: underline;
+nav ul li a:hover{
+  background-color: white;
+  color: black;
+}
+
+a {
+    font-size: 22px;
 }
 
 
@@ -77,11 +82,11 @@ nav ul li a:hover, nav ul li a:focus{
   flex-direction: column;
 }
 .dropdown-content{
-  background: #222;
+  background: #4CAF50;
   white-space:nowrap;/* make width fit content*/
   position: absolute;
   display: none;
-  /*min-width: 115px;*/ 
+  /*min-width: 115px;*/
   z-index: 1;
 
   margin-top: 20px;
@@ -103,7 +108,7 @@ text-decoration: underline;
 
 /* styling logo*/
 nav .banner{
-  background: #222;
+  background: #4CAF50;
 }
 .banner h1{
   margin: 0;
@@ -133,43 +138,42 @@ nav .banner{
   height: 100%;
 }
 .login{
-  max-width: 500px;
+  max-width: 450px;
+  max-height: 280px;
   margin: auto;
-  background: gray;
+  background: #cccccc;
   padding:50px;
-  color:white;
-  font-weight: bold;
+  color: black;
   letter-spacing: 1px;
   text-align: center;
 }
 .login input[type=text],.login input[type=password]
 {
-  width: 100%;
+  width: 90%;
   padding: 12px 20px;
-  margin: 30px 0;
+  margin: 20px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
 .login label{
-  font-size: 20px;
+  font-size: 22px;
 }
 .login input[type=submit]{
-  font-size: 19px;
-  width:100%;
+  font-size: 22px;
+  width:30%;
   padding:15px;
   margin-top: 15px;
-  background: #323541;
+  background: #4CAF50;
   border:none;
-  color:white;
-  font-weight: bold;
+  color: white;
   letter-spacing: 1px;
   cursor: pointer;
 }
 
 footer{
   width: 100%;
-  background-color: #222;
+  background-color: #4CAF50;
   color:#ddd;
   text-align: center;
 }
@@ -323,7 +327,7 @@ ul.last-ul > ul {
     flex-direction: column;
     list-style: none;
     padding:0;
-    background: #222;
+    background: #4CAF50;
   }
   .nav-main.responsive li {
     border: 1px dotted #ddd;
@@ -347,7 +351,7 @@ ul.last-ul > ul {
     margin: 0 25%;
     width: 50%;
   }
-  
+
   .main-content section {
     padding: 0;
     width: 100%;
