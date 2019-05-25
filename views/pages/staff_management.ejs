@@ -192,6 +192,11 @@
     let fullName=document.getElementById("fullName"+id).innerHTML;
     let account=document.getElementById("account"+id).innerHTML;    
     let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
+    
+    let degree_old=document.getElementById("degree_text"+id).getAttribute("value");
+    let workingUnit_old=document.getElementById("workingUnit_text"+id).getAttribute("value");
+    let offType_old=document.getElementById("offType_text"+id).getAttribute("value");
+
     let degree=document.getElementById("degree_text"+id).value;
     let workingUnit=document.getElementById("workingUnit_text"+id).value;
     let offType=document.getElementById("offType_text"+id).value;
@@ -199,6 +204,11 @@
     //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
     //   /*console.log(document.getElementById("add"+id));*/
     // }
+
+    // cach moi
+    document.getElementById("offType"+id).innerHTML=offType;
+    document.getElementById("degree"+id).innerHTML=degree;
+    document.getElementById("workingUnit"+id).innerHTML=workingUnit;
     $.ajax({
       type:'POST',
       url:'staff/edit',
@@ -223,19 +233,24 @@
             //document.getElementById("fullName"+id).innerHTML=fullName;
             //document.getElementById("account"+id).innerHTML=account;
             //document.getElementById("vnuMail"+id).innerHTML=vnuMail;
-            document.getElementById("offType"+id).innerHTML=offType;
-            document.getElementById("degree"+id).innerHTML=degree;
-            document.getElementById("workingUnit"+id).innerHTML=workingUnit;
+            
+            /*cach cu
+            // document.getElementById("offType"+id).innerHTML=offType;
+            // document.getElementById("degree"+id).innerHTML=degree;
+            // document.getElementById("workingUnit"+id).innerHTML=workingUnit;
+            */
           } else {
             document.getElementById("notification").style.color ="red";
             document.getElementById("notification").innerHTML = response.message;
             //reset to origin
-            let offType=document.getElementById("offType_text"+id).getAttribute("value");
-            let degree=document.getElementById("degree_text"+id).getAttribute("value");
-            let workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
-            document.getElementById("offType"+id).innerHTML = offType;
-            document.getElementById("degree"+id).innerHTML = degree;
-            document.getElementById("workingUnit"+id).innerHTML = workingUnit;
+            /* cach cu
+            // let offType=document.getElementById("offType_text"+id).getAttribute("value");
+            // let degree=document.getElementById("degree_text"+id).getAttribute("value");
+            // let workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
+            */
+            document.getElementById("offType"+id).innerHTML = offType_old;
+            document.getElementById("degree"+id).innerHTML = degree_old;
+            document.getElementById("workingUnit"+id).innerHTML = workingUnit_old;
           }
           $("#notification").fadeOut(3000, function() {
             $(this).css({

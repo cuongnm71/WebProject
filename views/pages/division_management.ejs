@@ -174,6 +174,12 @@
   }
 
   function save_row(id){
+    let unit_old=document.getElementById("unit_text"+id).getAttribute("value");
+    let unitType_old=document.getElementById("unitType_text"+id).getAttribute("value");
+    let add_old=document.getElementById("add_text"+id).getAttribute("value");
+    let phone_old=document.getElementById("phone_text"+id).getAttribute("value");
+    let webAdd_old=document.getElementById("webAdd_text"+id).getAttribute("value");
+    
     let unit=document.getElementById("unit_text"+id).value;
     let unitType=document.getElementById("unitType_text"+id).value;
     let add=document.getElementById("add_text"+id).value;
@@ -184,6 +190,11 @@
     //   /*console.log(document.getElementById("add"+id));*/
     // }
 
+    document.getElementById("unit"+id).innerHTML=unit;
+    document.getElementById("unitType"+id).innerHTML=unitType;
+    document.getElementById("add"+id).innerHTML=add;
+    document.getElementById("phone"+id).innerHTML=phone;
+    document.getElementById("webAdd"+id).innerHTML=webAdd;
     $.ajax({
       type:'POST',
       url:'division/edit',
@@ -202,14 +213,16 @@
           {
             document.getElementById("notification").style.color ="green";
             document.getElementById("notification").innerHTML = "Sửa thành công";
-            document.getElementById("unit"+id).innerHTML=unit;
-            document.getElementById("unitType"+id).innerHTML=unitType;
-            document.getElementById("add"+id).innerHTML=add;
-            document.getElementById("phone"+id).innerHTML=phone;
-            document.getElementById("webAdd"+id).innerHTML=webAdd;
           } else {
+
             document.getElementById("notification").style.color ="red";
             document.getElementById("notification").innerHTML = response.message;
+            //reset to origin
+            document.getElementById("unit"+id).innerHTML=unit_old;
+            document.getElementById("unitType"+id).innerHTML=unitType_old;
+            document.getElementById("add"+id).innerHTML=add_old;
+            document.getElementById("phone"+id).innerHTML=phone_old;
+            document.getElementById("webAdd"+id).innerHTML=webAdd_old;
           }
           $("#notification").fadeOut(3000, function() {
             $(this).css({
