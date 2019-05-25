@@ -93,8 +93,6 @@ module.exports = function(app, passport, connection) {
             res.send(results);
         });
     });
-    const bodyParser = require('body-parser');
-    app.use( bodyParser.urlencoded({extended: true}));
     app.post('/staff/:command', (req,res) => {
         if (req.body.staff_id == '' |
             req.body.username == '' |
