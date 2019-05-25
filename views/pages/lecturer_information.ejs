@@ -8,7 +8,26 @@
     <header>
         <% include ../partials/header %>
     </header>
-    
+    <script type="text/javascript">
+        var isRelease = false;
+        function returnBlank(item){
+            if(item == null){
+                return "";
+            }else{
+                return item;
+            }
+        }
+        $(document).ready(()=>{
+            // Chờ gửi lại id accout này của ai
+            $.ajax({
+                url: 'profle/',
+                type: 'GET',
+                dataType: 'json',
+                success: (data) =>{
+                }
+            });
+        });
+    </script>
     <main class="main-content">
         <section class = "list-container">
             <div class="basic-info">
