@@ -5,7 +5,7 @@ module.exports = {
         password: 'iotlab2018',
         multipleStatements: true
     },
-    database: 'uFaculties_test2',
+    database: 'uFaculties_test3',
 }
 // module.exports = {
 //     'connection': {
