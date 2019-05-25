@@ -1,13 +1,17 @@
 module.exports = function(app, passport, connection) {
-    // index page
+    // Index page
     app.get('/', (req, res) => {
         res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 
-    // contact page
+
+    // Contact page
     app.get('/contact', function(req, res) {
         res.render('pages/contact');
     });
+
+
+    // Login page
     app.get('/login',function(req,res){
         res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
     });
@@ -24,6 +28,9 @@ module.exports = function(app, passport, connection) {
             // }
         }
     );
+
+
+    // Logout
     app.get('/logout', (req, res) => {
         req.logout();
         req.session.destroy(err => {
@@ -31,20 +38,6 @@ module.exports = function(app, passport, connection) {
             res.redirect('/');
         });
     })
-
-    app.get('/lecturer_info', function(req, res) {
-        if (req.isAuthenticated() == 1) {
-            if (req.user.isAdmin == 1) {
-                req.flash('userMessage', 'admin');
-                res.redirect('/');
-            } else {
-                req.flash('userMessage', 'staff');
-                res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
-            }
-        } else {
-            res.redirect('/');
-        }
-    });
 
 
     // Admin page
@@ -57,9 +50,7 @@ module.exports = function(app, passport, connection) {
                 req.flash('userMessage', 'staff');
                 res.redirect('/');
             }
-        } else {
-            res.redirect('/');
-        }
+        } else res.redirect('/');
     });
 
     app.get('/staff_admin', function(req,res){
@@ -71,9 +62,7 @@ module.exports = function(app, passport, connection) {
                 req.flash('userMessage', 'staff');
                 res.redirect('/');
             }
-        } else {
-            res.redirect('/');
-        }
+        } else res.redirect('/');
     });
 
     app.get('/research_field_admin', function(req,res){
@@ -85,27 +74,33 @@ module.exports = function(app, passport, connection) {
                 req.flash('userMessage', 'staff');
                 res.redirect('/');
             }
-        } else {
-            res.redirect('/');
+        } else res.redirect('/');
+    });
+
+
+    // Get data and send back
+    app.get('/division',(req,res) => {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.query("SELECT * FROM division ORDER BY division_id ASC;", (err, results, fields) => {
+                if (err) throw err;
+                res.send(results);
+            });
         }
     });
 
-    app.get('/division',(req,res)=> {
-        connection.query("SELECT * FROM division ORDER BY division_id ASC;", (err, results, fields) => {
-            if (err) throw err;
-            res.send(results);
-        });
-    });
-
     app.get('/staff',(req,res)=>{
-        connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, s.address FROM staff s JOIN user_account ua ON s.account_id = ua.id ORDER BY username ASC;", (err, results, fields) => {
-            if (err) throw err;
-            res.send(results);
-        });
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, s.address FROM staff s JOIN user_account ua ON s.account_id = ua.id ORDER BY username ASC;", (err, results, fields) => {
+                if (err) throw err;
+                res.send(results);
+            });
+        }
     });
 
+
+    // Admin CRUD command
     app.post('/staff/:command', (req,res) => {
-        if (req.isAuthenticated() == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
             if (req.body.staff_id == '' |
                 req.body.username == '' |
                 req.body.vnu_email == '' |
@@ -142,7 +137,22 @@ module.exports = function(app, passport, connection) {
         }
     });
     app.post('/division/:command',(req,res) => {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        }
+    });
 
+
+    // Staff page
+    app.get('/lecturer_info', function(req, res) {
+        if (req.isAuthenticated() == 1) {
+            if (req.user.isAdmin == 1) {
+                req.flash('userMessage', 'admin');
+                res.redirect('/');
+            } else {
+                req.flash('userMessage', 'staff');
+                res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+            }
+        } else res.redirect('/');
     });
 
 };
