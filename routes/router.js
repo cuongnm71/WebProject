@@ -81,18 +81,16 @@ module.exports = function(app, passport, connection) {
             res.redirect('/');
         }
     });
-    app.get('/division',(req,res)=>{
+    app.get('/division',(req,res)=> {
         connection.query("SELECT * FROM division ORDER BY division_id ASC;", (err, results, fields) => {
             if (err) throw err;
             res.send(results);
-            console.log(results);
         });
     });
     app.get('/staff',(req,res)=>{
         connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, s.address FROM staff s JOIN user_account ua ON s.account_id = ua.id ORDER BY username ASC;", (err, results, fields) => {
             if (err) throw err;
             res.send(results);
-            console.log(results);
         });
     });
     const bodyParser = require('body-parser');
@@ -101,15 +99,21 @@ module.exports = function(app, passport, connection) {
         console.log(req.body);
         console.log(req.body.username);
         if (req.params.command == 'insert') {
-            var sql = "INSERT IGNORE INTO user_account(username) VALUES (?); INSERT IGNORE INTO division(name) VALUES (?); SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, address, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
-            connection.query(sql, [req.body.username, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
+            var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; INSERT INTO user_account(username) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT username FROM user_account WHERE username = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, address, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
+            connection.query(sql, [req.body.address, req.body.address, req.body.username, req.body.username, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
                 if (err) {
                     throw err;
                     res.send({message:'error'});;
                 } else res.send({message:'success'});
             });
         } else if (req.params.command == 'edit') {
-
+            var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; UPDATE staff SET staff_type = ?, degree_level = ?, address = ? WHERE staff_id = ?;";
+            connection.query(sql, [req.body.address, req.body.address, req.body.staff_type, req.body.degree_level, req.body.address, req.body.staff_id], (err) => {
+                if (err) {
+                    throw err;
+                    res.send({message:'error'});;
+                } else res.send({message:'success'});
+            });
         }
     });
     app.post('/division/:command',(req,res)=>{

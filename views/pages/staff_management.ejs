@@ -29,7 +29,6 @@
                 <th>Đơn vị công tác</th>\
                 <th>Thao tác</th>\
               </tr> </thead>';
-
           if(!isRelease){
             console.log('ajax success!',data);
           }
@@ -57,7 +56,6 @@
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
-
             x +='<td id="offCode'+id+'">'+ returnBlank(data[i]["staff_id"]) + '</td>'
               +'<td id="fullName'+id+'">'+ returnBlank(data[i]["full_name"]) + '</td>'
               +'<td id="account'+id+'">'+ returnBlank(data[i]["username"]) + '</td>'
@@ -80,7 +78,6 @@
         }
       });
   });
-
   function insert_row(){
     let table = document.getElementById("table-u");  
     
@@ -90,13 +87,11 @@
     // if(!isRelease){
     //   console.log("next ID to insert",nextIDtoInsert);
     // }
-
     //row order ~ ..
     let nextIndexRow=table.lastChild.childNodes.length;
     // if(!isRelease){
     //   console.log(nextIndexRow+1);
     // }
-
     let offCode=document.getElementById("new_offCode").value;
     let fullName=document.getElementById("new_fullName").value;
     let account=document.getElementById("new_account").value;
@@ -140,7 +135,6 @@
               +'<td id="offType'+id+'">'+offType+'</td>'
               +'<td id="degree'+id+'">'+degree+'</td>'
               +'<td id="workingUnit'+id+'">'+workingUnit+'</td>'
-
               +'<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
                   +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
@@ -168,20 +162,18 @@
       }
     });
   }
-
   function edit_row(id){
     //let offCode=document.getElementById("offCode"+id).innerHTML;
-    let fullName=document.getElementById("fullName"+id).innerHTML;
-    let account=document.getElementById("account"+id).innerHTML;
-    let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
+    //let fullName=document.getElementById("fullName"+id).innerHTML;
+    //let account=document.getElementById("account"+id).innerHTML;
+    //let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
     let offType=document.getElementById("offType"+id).innerHTML;
     let degree=document.getElementById("degree"+id).innerHTML;
     let workingUnit=document.getElementById("workingUnit"+id).innerHTML;
-
     //document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
-    document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
-    document.getElementById("account"+id).innerHTML="<input type='text' id='account_text"+id+"' value='"+account+"'>";
-    document.getElementById("vnuMail"+id).innerHTML="<input type='text' id='vnuMail_text"+id+"' value='"+vnuMail+"'>";
+    //document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
+    //document.getElementById("account"+id).innerHTML="<input type='text' id='account_text"+id+"' value='"+account+"'>";
+    //document.getElementById("vnuMail"+id).innerHTML="<input type='text' id='vnuMail_text"+id+"' value='"+vnuMail+"'>";
     document.getElementById("offType"+id).innerHTML="<input type='text' id='offType_text"+id+"' value='"+offType+"'>";
     document.getElementById("degree"+id).innerHTML="<input type='text' id='degree_text"+id+"' value='"+degree+"'>";
     document.getElementById("workingUnit"+id).innerHTML="<input type='text' id='workingUnit_text"+id+"' value='"+workingUnit+"'>";
@@ -194,21 +186,19 @@
     //   console.log("data from edit_row(id): ",unit,fullName,add,webAdd,phone); 
     // }
   }
-
   function save_row(id){
     //let old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
     let offCode=document.getElementById("offCode"+id).innerHTML;
-    let fullName=document.getElementById("fullName_text"+id).value;
-    let vnuMail=document.getElementById("vnuMail_text"+id).value;
+    let fullName=document.getElementById("fullName"+id).innerHTML;
+    let account=document.getElementById("account"+id).innerHTML;    
+    let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
     let degree=document.getElementById("degree_text"+id).value;
     let workingUnit=document.getElementById("workingUnit_text"+id).value;
     let offType=document.getElementById("offType_text"+id).value;
-    let account=document.getElementById("account_text"+id).value;
     // if(!isRelease){
     //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
     //   /*console.log(document.getElementById("add"+id));*/
     // }
-
     $.ajax({
       type:'POST',
       url:'staff/edit',
@@ -223,22 +213,29 @@
         address: workingUnit
       },
       success:(response) => {
+        console.log("IN mess res");
         document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
         if(response.message=="success")
           {
             document.getElementById("notification").style.color ="green";
             document.getElementById("notification").innerHTML = "Sửa thành công";
-            document.getElementById("offCode"+id).innerHTML=offCode;
-            document.getElementById("fullName"+id).innerHTML=fullName;
-            document.getElementById("account"+id).innerHTML=account;
-            document.getElementById("vnuMail"+id).innerHTML=vnuMail;
-            //document.getElementById("offType"+id).innerHTML=offType;
+            //document.getElementById("offCode"+id).innerHTML=offCode;
+            //document.getElementById("fullName"+id).innerHTML=fullName;
+            //document.getElementById("account"+id).innerHTML=account;
+            //document.getElementById("vnuMail"+id).innerHTML=vnuMail;
             document.getElementById("offType"+id).innerHTML=offType;
             document.getElementById("degree"+id).innerHTML=degree;
             document.getElementById("workingUnit"+id).innerHTML=workingUnit;
           } else {
             document.getElementById("notification").style.color ="red";
             document.getElementById("notification").innerHTML = response.message;
+            //reset to origin
+            let offType=document.getElementById("offType_text"+id).getAttribute("value");
+            let degree=document.getElementById("degree_text"+id).getAttribute("value");
+            let workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
+            document.getElementById("offType"+id).innerHTML = offType;
+            document.getElementById("degree"+id).innerHTML = degree;
+            document.getElementById("workingUnit"+id).innerHTML = workingUnit;
           }
           $("#notification").fadeOut(3000, function() {
             $(this).css({
@@ -248,15 +245,13 @@
           });
       }
     });
-
     document.getElementById("edit_button"+id).style.display="inline-block";
     document.getElementById("delete_button"+id).style.display="inline-block";
     document.getElementById("save_button"+id).style.display="none";
     document.getElementById("cancel_button"+id).style.display="none";
   }
-
   function cancel_row(id){
-    let offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    //let offCode=document.getElementById("offCode_text"+id).getAttribute("value");
     let fullName=document.getElementById("fullName_text"+id).getAttribute("value");
     let account=document.getElementById("account_text"+id).getAttribute("value");
     let vnuMail=document.getElementById("vnuMail_text"+id).getAttribute("value");
@@ -266,21 +261,18 @@
     // if(!isRelease){
     //   console.log("data from cancel_row(id): ",unit,fullName,add,webAdd,phone); 
     // }
-
-    document.getElementById("offCode"+id).innerHTML = offCode;
+    //document.getElementById("offCode"+id).innerHTML = offCode;
     document.getElementById("fullName"+id).innerHTML = fullName;
     document.getElementById("account"+id).innerHTML = account;
     document.getElementById("vnuMail"+id).innerHTML = vnuMail;
     document.getElementById("offType"+id).innerHTML = offType;
     document.getElementById("degree"+id).innerHTML = degree;
     document.getElementById("workingUnit"+id).innerHTML = workingUnit;
-
     document.getElementById("edit_button"+id).style.display="inline-block";
     document.getElementById("delete_button"+id).style.display="inline-block";
     document.getElementById("save_button"+id).style.display="none";
     document.getElementById("cancel_button"+id).style.display="none";
   }
-
   function delete_row(id){
     let offCode=document.getElementById("offCode"+id).innerHTML;
     $.ajax({
