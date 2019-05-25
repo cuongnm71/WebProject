@@ -85,12 +85,14 @@ module.exports = function(app, passport, connection) {
         connection.query("SELECT * FROM division ORDER BY division_id ASC;", (err, results, fields) => {
             if (err) throw err;
             res.send(results);
+            console.log(results);
         });
     });
     app.get('/staff',(req,res)=>{
         connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, s.address FROM staff s JOIN user_account ua ON s.account_id = ua.id ORDER BY username ASC;", (err, results, fields) => {
             if (err) throw err;
             res.send(results);
+            console.log(results);
         });
     });
     const bodyParser = require('body-parser');

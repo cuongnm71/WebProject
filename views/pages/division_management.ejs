@@ -5,6 +5,13 @@
 </head>
 <script type="text/javascript">
   var isRelease = false;
+  function returnBlank(item){
+    if(item == null){
+      return "";
+    }else{
+      return item;
+    }
+  }
 
   $(document).ready(()=>{
     $.ajax({
@@ -23,7 +30,7 @@
               </tr> </thead>';
           if(!isRelease){
             console.log('ajax success!',data);
-          }
+          }      
           let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
           // no childs -> nextIndexRow = 0;
           
@@ -40,14 +47,15 @@
           </tr>';
           for(i in data){
             let id = data[i]["division_id"];
+            let emptyString = ' ';
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
-            x +='<td id="unit'+id+'">'+ data[i]["name"] + '</td>'
-              +'<td id="unitType'+id+'">'+ data[i]["type"] + '</td>'
-              +'<td id="add'+id+'">'+ data[i]["address"] + '</td>'
-              +'<td id="phone'+id+'">'+ data[i]["phone_number"] + '</td>'
-              + '<td id="webAdd'+id+'">'+ data[i]["website"] + '</td>'
+            x +='<td id="unit'+id+'">'+ returnBlank(data[i]["name"])  + '</td>'
+              +'<td id="unitType'+id+'">'+ returnBlank(data[i]["type"]) + '</td>'
+              +'<td id="add'+id+'">'+ returnBlank(data[i]["address"]) + '</td>'
+              +'<td id="phone'+id+'">'+ returnBlank(data[i]["phone_number"]) + '</td>'
+              + '<td id="webAdd'+id+'">'+ returnBlank(data[i]["website"]) + '</td>'
             x+='<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
                 +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'

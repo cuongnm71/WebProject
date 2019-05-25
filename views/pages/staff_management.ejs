@@ -5,7 +5,13 @@
 </head>
 <script type="text/javascript">
   var isRelease = false;
-
+  function returnBlank(item){
+    if(item == null){
+      return "";
+    }else{
+      return item;
+    }
+  }
   $(document).ready(()=>{
     $.ajax({
         url: 'staff',
@@ -52,12 +58,12 @@
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
 
-            x +='<td id="offCode'+id+'">'+ data[i]["staff_id"] + '</td>'
-              +'<td id="fullName'+id+'">'+ data[i]["full_name"] + '</td>'
-              +'<td id="account'+id+'">'+ data[i]["username"] + '</td>'
-              +'<td id="vnuMail'+id+'">'+ data[i]["vnu_email"] + '</td>'
-              +'<td id="offType'+id+'">'+ data[i]["staff_type"] + '</td>'
-              +'<td id="degree'+id+'">'+ data[i]["degree_level"] + '</td>'
+            x +='<td id="offCode'+id+'">'+ returnBlank(data[i]["staff_id"]) + '</td>'
+              +'<td id="fullName'+id+'">'+ returnBlank(data[i]["full_name"]) + '</td>'
+              +'<td id="account'+id+'">'+ returnBlank(data[i]["username"]) + '</td>'
+              +'<td id="vnuMail'+id+'">'+ returnBlank(data[i]["vnu_email"]) + '</td>'
+              +'<td id="offType'+id+'">'+ returnBlank(data[i]["staff_type"]) + '</td>'
+              +'<td id="degree'+id+'">'+ returnBlank(data[i]["degree_level"]) + '</td>'
               +'<td id="workingUnit'+id+'">'+ data[i]["address"] + '</td>'
             x+='<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
@@ -164,7 +170,7 @@
   }
 
   function edit_row(id){
-    let offCode=document.getElementById("offCode"+id).innerHTML;
+    //let offCode=document.getElementById("offCode"+id).innerHTML;
     let fullName=document.getElementById("fullName"+id).innerHTML;
     let account=document.getElementById("account"+id).innerHTML;
     let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
@@ -172,7 +178,7 @@
     let degree=document.getElementById("degree"+id).innerHTML;
     let workingUnit=document.getElementById("workingUnit"+id).innerHTML;
 
-    document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
+    //document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
     document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
     document.getElementById("account"+id).innerHTML="<input type='text' id='account_text"+id+"' value='"+account+"'>";
     document.getElementById("vnuMail"+id).innerHTML="<input type='text' id='vnuMail_text"+id+"' value='"+vnuMail+"'>";
@@ -190,8 +196,8 @@
   }
 
   function save_row(id){
-    let old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
-    let offCode=document.getElementById("offCode_text"+id).value;
+    //let old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
+    let offCode=document.getElementById("offCode"+id).innerHTML;
     let fullName=document.getElementById("fullName_text"+id).value;
     let vnuMail=document.getElementById("vnuMail_text"+id).value;
     let degree=document.getElementById("degree_text"+id).value;
@@ -208,8 +214,7 @@
       url:'staff/edit',
       dataType: 'json',
       data:{
-        staff_id: old_offCode,
-        new_staff_id: offCode,
+        staff_id: offCode,
         full_name:fullName,
         username: account,
         vnu_email:vnuMail,
@@ -227,6 +232,7 @@
             document.getElementById("fullName"+id).innerHTML=fullName;
             document.getElementById("account"+id).innerHTML=account;
             document.getElementById("vnuMail"+id).innerHTML=vnuMail;
+            //document.getElementById("offType"+id).innerHTML=offType;
             document.getElementById("offType"+id).innerHTML=offType;
             document.getElementById("degree"+id).innerHTML=degree;
             document.getElementById("workingUnit"+id).innerHTML=workingUnit;
