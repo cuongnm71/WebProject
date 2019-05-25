@@ -279,7 +279,6 @@ table td input[type="button"]{
 }
 section.list-container {
   box-shadow: 2px 0 4px 10px rgba(0, 0, 0, 0.03);
-  width: 50%;
 }
 .list-container > div{
   display: flex;
@@ -298,7 +297,10 @@ ul.last-ul{
 ul.last-ul > ul {
   display: grid;
 }
-
+.list-container > div span i {
+  width: 18px;
+  height: 18px;
+}
 @media screen and (max-width: 600px){
   nav {
     flex-direction: column;
@@ -354,5 +356,9 @@ ul.last-ul > ul {
   }
   .list-container > div {
     flex-direction: column;
+  }
+  .list-container > div span{
+    display: flex;
+    flex-wrap: wrap;
   }
 }
