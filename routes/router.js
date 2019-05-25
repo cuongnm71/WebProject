@@ -96,37 +96,41 @@ module.exports = function(app, passport, connection) {
     const bodyParser = require('body-parser');
     app.use( bodyParser.urlencoded({extended: true}));
     app.post('/staff/:command', (req,res) => {
-        console.log(req.body);
-        console.log(req.body.username);
-        if (req.params.command == 'insert') {
-            var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; INSERT INTO user_account(username) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT username FROM user_account WHERE username = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, address, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
-            connection.query(sql, [req.body.address, req.body.address, req.body.username, req.body.username, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
-                if (err) {
-                    throw err;
-                    res.send({message:'error'});;
-                } else res.send({message:'success'});
-            });
-        } else if (req.params.command == 'edit') {
-            var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; UPDATE staff SET staff_type = ?, degree_level = ?, address = ? WHERE staff_id = ?;";
-            connection.query(sql, [req.body.address, req.body.address, req.body.staff_type, req.body.degree_level, req.body.address, req.body.staff_id], (err) => {
-                if (err) {
-                    throw err;
-                    res.send({message:'error'});;
-                } else res.send({message:'success'});
-            });
+        if (req.body.staff_id == '' |
+            req.body.username == '' |
+            req.body.vnu_email == '' |
+            req.body.staff_type == '' |
+            req.body.degree_level == '' |
+            req.body.address == '') res.send({message:'error'});
+        else {
+            if (req.params.command == 'insert') {
+                var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; INSERT INTO user_account(username) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT username FROM user_account WHERE username = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, address, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
+                connection.query(sql, [req.body.address, req.body.address, req.body.username, req.body.username, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
+                    if (err) {
+                        // throw err;
+                        res.send({message:'error'});;
+                    } else res.send({message:'success'});
+                });
+            } else if (req.params.command == 'edit') {
+                var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; UPDATE staff SET staff_type = ?, degree_level = ?, address = ?, division_id = @division_id WHERE staff_id = ?;";
+                connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.staff_type, req.body.degree_level, req.body.address, req.body.staff_id], (err) => {
+                    if (err) {
+                        throw err;
+                        res.send({message:'error'});;
+                    } else res.send({message:'success'});
+                });
+            } else if (req.params.command == 'delete') {
+                var sql = "DELETE FROM user_account WHERE username = ?; DELETE FROM staff WHERE staff_id = ?";
+                connection.query(sql, [req.body.username, req.body.staff_id], (err) => {
+                    if (err) {
+                        throw err;
+                        res.send({message:'error'});;
+                    } else res.send({message:'success'});
+                });
+            }
         }
     });
     app.post('/division/:command',(req,res)=>{
-        var command = req.params.command;
-        console.log(command);
-        console.log(req.body);
-        console.log(req.body.division_id);
-        // lenh gi do cho database
 
-        // kiem tra neu thuc hien than cong thay doi dtb thi:
-            res.send({message:'success'});
-        // khong thi
-        // res.send({message:'error gi do'})
     });
 };
-//
