@@ -151,8 +151,7 @@ nav .banner{
   letter-spacing: 1px;
   text-align: center;
 }
-.login input[type=text],.login input[type=password]
-{
+.login input[type=text],.login input[type=password] {
   width: 90%;
   padding: 12px 20px;
   margin: 20px 0;
@@ -160,21 +159,24 @@ nav .banner{
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
-.login label{
+
+.login label {
   font-size: 22px;
 }
-.login input[type=submit]{
+.login input[type=submit] {
   font-size: 22px;
-  width:30%;
+  width: 35%;
   padding:15px;
-  margin-top: 15px;
+  margin-top: 10px;
   background: #4CAF50;
   border:none;
   color: white;
   letter-spacing: 1px;
   cursor: pointer;
 }
-
+.login input[type=submit]:hover {
+  color: black;
+}
 footer{
   width: 100%;
   background-color: #4CAF50;
@@ -365,7 +367,7 @@ ul.last-ul > ul {
   .list-container > div {
     flex-direction: column;
   }
-  
+
   .list-container > div span{
     display: flex;
     flex-wrap: wrap;

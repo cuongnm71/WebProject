@@ -12,14 +12,17 @@
         <section id="login-section">
             <div class = "login-div">
                 <form class="login" action="/login" method="post">
-                    <label for="user">Username</label>
+                    <label for="user">Tên đăng nhập</label>
                     <input type="text" name="username" placeholder="Enter Username" id="user" autofocus>
-                    <label for="passwrd">Password</label>
+                    <label for="passwrd">Mật khẩu</label>
                     <input type="password" name="password" placeholder="Enter Password" id="password">
                     <% if(loginMessage.length > 0) { %>
-                     <div id="errorLogin" ><%- loginMessage %></div>
+                    <div id="errorLogin" ><%- loginMessage %></div>
+                    <% } else { %>
+                    <div></div>
+                    <br>
                     <% } %>
-                    <input type="submit" value="Login">
+                    <input type="submit" value="Đăng nhập">
                 </form>
             </div>
         </section>
