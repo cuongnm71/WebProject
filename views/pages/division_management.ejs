@@ -5,6 +5,13 @@
 </head>
 <script type="text/javascript">
   var isRelease = false;
+  function returnBlank(item){
+    if(item == null){
+      return "";
+    }else{
+      return item;
+    }
+  }
 
   $(document).ready(()=>{
     $.ajax({
@@ -23,7 +30,7 @@
               </tr> </thead>';
           if(!isRelease){
             console.log('ajax success!',data);
-          }
+          }      
           let nextIndexRow=document.getElementById("table-u").lastChild.childNodes.length;
           // no childs -> nextIndexRow = 0;
           
@@ -40,14 +47,15 @@
           </tr>';
           for(i in data){
             let id = data[i]["division_id"];
+            let emptyString = ' ';
             nextIndexRow++;
             x += '<tr id="row'+id+'">'
               +'<td id="indexRow'+id+'">'+ nextIndexRow + '</td>';
-            x +='<td id="unit'+id+'">'+ data[i]["name"] + '</td>'
-              +'<td id="unitType'+id+'">'+ data[i]["type"] + '</td>'
-              +'<td id="add'+id+'">'+ data[i]["address"] + '</td>'
-              +'<td id="phone'+id+'">'+ data[i]["phone_number"] + '</td>'
-              + '<td id="webAdd'+id+'">'+ data[i]["website"] + '</td>'
+            x +='<td id="unit'+id+'">'+ returnBlank(data[i]["name"])  + '</td>'
+              +'<td id="unitType'+id+'">'+ returnBlank(data[i]["type"]) + '</td>'
+              +'<td id="add'+id+'">'+ returnBlank(data[i]["address"]) + '</td>'
+              +'<td id="phone'+id+'">'+ returnBlank(data[i]["phone_number"]) + '</td>'
+              + '<td id="webAdd'+id+'">'+ returnBlank(data[i]["website"]) + '</td>'
             x+='<td>\
                   <input type="button" value="Sửa" id="edit_button'+id+'" onclick="edit_row('+id +');">'
                 +'<input type="button" value="Lưu" style="display:none" id="save_button'+id+'" onclick="save_row('+id +');">'
@@ -166,6 +174,12 @@
   }
 
   function save_row(id){
+    let unit_old=document.getElementById("unit_text"+id).getAttribute("value");
+    let unitType_old=document.getElementById("unitType_text"+id).getAttribute("value");
+    let add_old=document.getElementById("add_text"+id).getAttribute("value");
+    let phone_old=document.getElementById("phone_text"+id).getAttribute("value");
+    let webAdd_old=document.getElementById("webAdd_text"+id).getAttribute("value");
+    
     let unit=document.getElementById("unit_text"+id).value;
     let unitType=document.getElementById("unitType_text"+id).value;
     let add=document.getElementById("add_text"+id).value;
@@ -176,6 +190,11 @@
     //   /*console.log(document.getElementById("add"+id));*/
     // }
 
+    document.getElementById("unit"+id).innerHTML=unit;
+    document.getElementById("unitType"+id).innerHTML=unitType;
+    document.getElementById("add"+id).innerHTML=add;
+    document.getElementById("phone"+id).innerHTML=phone;
+    document.getElementById("webAdd"+id).innerHTML=webAdd;
     $.ajax({
       type:'POST',
       url:'division/edit',
@@ -194,14 +213,16 @@
           {
             document.getElementById("notification").style.color ="green";
             document.getElementById("notification").innerHTML = "Sửa thành công";
-            document.getElementById("unit"+id).innerHTML=unit;
-            document.getElementById("unitType"+id).innerHTML=unitType;
-            document.getElementById("add"+id).innerHTML=add;
-            document.getElementById("phone"+id).innerHTML=phone;
-            document.getElementById("webAdd"+id).innerHTML=webAdd;
           } else {
+
             document.getElementById("notification").style.color ="red";
             document.getElementById("notification").innerHTML = response.message;
+            //reset to origin
+            document.getElementById("unit"+id).innerHTML=unit_old;
+            document.getElementById("unitType"+id).innerHTML=unitType_old;
+            document.getElementById("add"+id).innerHTML=add_old;
+            document.getElementById("phone"+id).innerHTML=phone_old;
+            document.getElementById("webAdd"+id).innerHTML=webAdd_old;
           }
           $("#notification").fadeOut(3000, function() {
             $(this).css({

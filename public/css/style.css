@@ -167,57 +167,6 @@ nav .banner{
   cursor: pointer;
 }
 
-@media screen and (max-width: 600px){
-  nav {
-    flex-direction: column;
-  }
-  .nav-main a:not(.icon) {display: none;}
-  .nav-main a.icon{
-    display: block;
-    margin: auto;
-  }
-  .nav-main li{
-    /* cho cac "li" trong .nav-main (khi chua click vao nut mo rong) do rong la 100%
-    cua man hinh,de doi tuong "li" co chua icon mo rong set text-align cho icon ben trong
-    "li" nay vao giua (cu the la cho */
-    width: 100%;
-    text-align: center;
-  }
-  #icon-extend{
-    border: 1px dotted #ddd;
-  }
-  .nav-main.responsive {
-    width: 100%;
-    flex-direction: column;
-    list-style: none;
-    padding:0;
-    background: #222;
-  }
-  .nav-main.responsive li {
-    border: 1px dotted #ddd;
-    width: 100%;
-  }
-  .nav-main.responsive a {
-    text-align: center;
-    list-style: none;
-    display: block;
-  }
-  .banner {
-    text-align: center;
-  }
-  .banner h1 img{
-    height: 90px;
-  }
-  .modal-content{
-    width: 80%;
-  }
-  .dropdown-content {
-    margin: 0 25%;
-    width: 50%;
-  }
-}
-
-
 footer{
   width: 100%;
   background-color: #222;
@@ -328,12 +277,82 @@ table td input[type="button"]{
 #div-ntf{
   text-align: center;
 }
+section.list-container {
+  box-shadow: 2px 0 4px 10px rgba(0, 0, 0, 0.03);
+  width: 50%;
+}
 .list-container > div{
   display: flex;
   flex-direction: row;
+}
+.list-container > div span{
+  display: -webkit-box;
 }
 .list-container button{
   background: green;
   color: white;
 }
+ul.last-ul{
+  display: -webkit-box;
+}
+ul.last-ul > ul {
+  display: grid;
+}
 
+@media screen and (max-width: 600px){
+  nav {
+    flex-direction: column;
+  }
+  .nav-main a:not(.icon) {display: none;}
+  .nav-main a.icon{
+    display: block;
+    margin: auto;
+  }
+  .nav-main li{
+    /* cho cac "li" trong .nav-main (khi chua click vao nut mo rong) do rong la 100%
+    cua man hinh,de doi tuong "li" co chua icon mo rong set text-align cho icon ben trong
+    "li" nay vao giua (cu the la cho */
+    width: 100%;
+    text-align: center;
+  }
+  #icon-extend{
+    border: 1px dotted #ddd;
+  }
+  .nav-main.responsive {
+    width: 100%;
+    flex-direction: column;
+    list-style: none;
+    padding:0;
+    background: #222;
+  }
+  .nav-main.responsive li {
+    border: 1px dotted #ddd;
+    width: 100%;
+  }
+  .nav-main.responsive a {
+    text-align: center;
+    list-style: none;
+    display: block;
+  }
+  .banner {
+    text-align: center;
+  }
+  .banner h1 img{
+    height: 90px;
+  }
+  .modal-content{
+    width: 80%;
+  }
+  .dropdown-content {
+    margin: 0 25%;
+    width: 50%;
+  }
+  
+  .main-content section {
+    padding: 0;
+    width: 100%;
+  }
+  .list-container > div {
+    flex-direction: column;
+  }
+}
