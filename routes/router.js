@@ -82,7 +82,7 @@ module.exports = function(app, passport, connection) {
     // Get data and send back
     app.get('/division',(req,res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-            connection.query("SELECT * FROM division ORDER BY division_id ASC;", (err, results, fields) => {
+            connection.query("SELECT * FROM division", (err, results, fields) => {
                 if (err) throw err;
                 res.send(results);
             });
@@ -114,23 +114,23 @@ module.exports = function(app, passport, connection) {
                     connection.query(sql, [req.body.address, req.body.address, req.body.username, req.body.username, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
                         if (err) {
                             // throw err;
-                            res.send({message:'error'});;
+                            res.send({message:'error'});
                         } else res.send({message:'success'});
                     });
                 } else if (req.params.command == 'edit') {
                     var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; UPDATE staff SET staff_type = ?, degree_level = ?, address = ?, division_id = @division_id WHERE staff_id = ?;";
                     connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.staff_type, req.body.degree_level, req.body.address, req.body.staff_id], (err) => {
                         if (err) {
-                            throw err;
-                            res.send({message:'error'});;
+                            // throw err;
+                            res.send({message:'error'});
                         } else res.send({message:'success'});
                     });
                 } else if (req.params.command == 'delete') {
-                    var sql = "DELETE FROM user_account WHERE username = ?; DELETE FROM staff WHERE staff_id = ?";
+                    var sql = "DELETE FROM user_account WHERE username = ?; DELETE FROM staff WHERE staff_id = ?;";
                     connection.query(sql, [req.body.username, req.body.staff_id], (err) => {
                         if (err) {
-                            throw err;
-                            res.send({message:'error'});;
+                            // throw err;
+                            res.send({message:'error'});
                         } else res.send({message:'success'});
                     });
                 }
@@ -139,7 +139,37 @@ module.exports = function(app, passport, connection) {
     });
     app.post('/division/:command',(req,res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-
+            if (req.body.division_id == '' |
+                req.body.name == '' |
+                req.body.type == '' ) res.send({message:'error'});
+            else {
+                if (req.params.command == 'insert') {
+                    console.log(req.body);
+                    var sql = "INSERT INTO division(division_id, name, type, address, phone_number, website) VALUES (?, ?, ?, ?, ?, ?)";
+                    connection.query(sql, [req.body.division_id, req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website], (err) => {
+                        if (err) {
+                            throw err;
+                            res.send({message:'error'});
+                        } else res.send({message:'success'});
+                    });
+                } else if (req.params.command == 'edit') {
+                    var sql = "UPDATE division SET name = ?, type = ?, address = ?, phone_number = ?, website = ? WHERE division_id = ?;";
+                    connection.query(sql, [req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website, req.body.division_id], (err) => {
+                        if (err) {
+                            throw err;
+                            res.send({message:'error'});
+                        } else res.send({message:'success'});
+                    });
+                } else if (req.params.command == 'delete') {
+                    var sql = "DELETE FROM division WHERE division_id = ?;";
+                    connection.query(sql, [req.body.division_id, ], (err) => {
+                        if (err) {
+                            throw err;
+                            res.send({message:'error'});
+                        } else res.send({message:'success'});
+                    });
+                }
+            }
         }
     });
 
