@@ -19,13 +19,25 @@
             }
         }
         $(document).ready(()=>{
+            //document.getElementsByClassName("interested-field")[0].innerHTML = "he";
             $.ajax({
                 url: 'profle',
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
+                    id = data[i]["staff_id"];
+                    staff_type
+
                 }
             });
+            /*
+            $.ajax({
+                url: //linh vuc quan tam - cay,
+                type: 'GET',
+                dataType: 'json',
+                success: (data) =>{
+                }
+            });*/
         });
     </script>
     <main class="main-content">
@@ -34,6 +46,16 @@
                 <ul class="first-ul">
                     <h1>Lê Đình Thanh</h1>
                     <ul>
+                            
+                        <span>
+                            <i class="fa fa-address-card" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i> 
+                            Mã cán bộ:&nbsp
+                            <!--&nbsp make a space-->
+                            <li>
+                                9
+                            </li>
+                            &nbsp
+                        </span> 
                         <span>
                             <i class="fa fa-briefcase" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i> 
                             Chức vụ:&nbsp
@@ -103,7 +125,7 @@
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </span>
                         <span>
-                            <i class="fa fa-address-card" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i> 
+                            <i class="fa fa-university" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i> 
                             Địa chỉ:&nbsp
                             <!--&nbsp make a space-->
                             <li>
@@ -123,13 +145,19 @@
                 </ul>
             </div>
 
-            <div class="research-field">
+            <div class="interested-field">
                 <ul>
                     <h1>Chủ đề nghiên cứu</h1>
-                    <ul>
-                        <li>An toàn thông tin</li>
-                        <li>Phát triển ứng dụng web</li>
-                        <li>Mạng cảm biến khôn dây</li>
+                    <ul class = "main-ul-content">
+                        <span>
+                            <strong>-</strong>&nbsp<li> An toàn thông tin</li>
+                        </span>
+                        <span>
+                            <strong>-</strong>&nbsp<li>Phát triển ứng dụng web</li>
+                        </span>
+                        <span>
+                            <strong>-</strong>&nbsp<li>Mạng cảm biến khôn dây</li>
+                        </span>
                     </ul>
                 </ul>
                 <ul>
@@ -137,7 +165,7 @@
                 </ul>
             </div>
 
-            <div>
+            <div class="research-field">
                 <ul>
                     <h1>Lĩnh vực quan tâm</h1>
                     <ul>
