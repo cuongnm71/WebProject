@@ -9,23 +9,28 @@
             <i class="fa fa-bars"></i>
           </a>
         </li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="#">Trang chủ</a></li>
+        <li><a href="#">Liên hệ</a></li>
         <li class="dropdown">
-            <a class="dropdown-btn">Option <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+            <% if(userMessage.length != 0) { %>
+            <a class="dropdown-btn">Tùy chọn <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+            <% } %>
             <div class="dropdown-content">
                <ul>
-                 <li><a href="/lecturer_info">Thông tin cá nhân</a></li>
-                 <li><a href="/division_admin">Đơn vị</a></li>
-                 <li><a href="/staff_admin">Cán bộ</a></li>
-                 <li><a href="/research_field_admin">Nghiên cứu</a></li>
+                   <% if(userMessage == 'staff') { %>
+                   <li><a href="/lecturer_info">Thông tin cá nhân</a></li>
+                   <% } else{ %>
+                   <li><a href="/division_admin">Đơn vị</a></li>
+                   <li><a href="/staff_admin">Cán bộ</a></li>
+                   <li><a href="/research_field_admin">Nghiên cứu</a></li>
+                   <% } %>
                </ul>
             </div>
          </li>
         <% if(userMessage.length > 0) { %>
-        <li><a href="/logout" style="width:auto;">Logout</a></li>
+        <li><a href="/logout" style="width:auto;">Đăng xuất</a></li>
         <% } else{ %>
-        <li><a href="/login" style="width:auto;">Login</a></li>
+        <li><a href="/login" style="width:auto;">Đăng nhập</a></li>
         <% } %>
     </ul>
 
