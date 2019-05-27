@@ -184,8 +184,8 @@ footer{
 
 .main-content > section{
   display: block;
-  width: 95%;
-  padding: 0 16px 16px 16px;
+  width: 96%;
+  padding: 2px 16px 16px -2px;
   margin: 0 auto;
   margin-bottom: 0;
   /*box-shadow: 2px 0 4px 1px rgba(0, 0, 0, 0.03)*/
@@ -287,6 +287,8 @@ table td input[type="button"]{
 }
 section.list-container {
   box-shadow: 2px 0 4px 10px rgba(0, 0, 0, 0.03);
+  height: 96%;
+  width: 56%;
 }
 .list-container > div{
   display: flex;
@@ -298,6 +300,9 @@ section.list-container {
 .list-container button{
   background: green;
   color: white;
+}
+.list-container div > ul:last-of-type{
+  padding-right: 40px;
 }
 ul.last-ul{
   display: -webkit-box;
@@ -361,6 +366,7 @@ ul.last-ul > ul {
   .main-content section {
     padding: 0;
     width: 100%;
+    height: 100%;
   }
   .list-container > div {
     flex-direction: column;
