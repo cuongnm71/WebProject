@@ -8,7 +8,7 @@ module.exports = function(passport, connection) {
     });
 
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM user_account WHERE id = ? ", [id],
+        connection.query("SELECT ua.*, s.account_id FROM user_account ua JOIN staff s ON ua.id = s.account_id WHERE id = ?;", [id],
             function(err, rows) {
                 done(err, rows[0]);
             });
@@ -31,7 +31,10 @@ module.exports = function(passport, connection) {
                         }
                         if (!bcrypt.compareSync(password, rows[0].password))
                             return done(null, false, req.flash('loginMessage', 'Wrong Password'));
-                        return done(null, rows[0], req.flash('userMessage', 'User logged in'));
+                        if (rows[0].isAdmin == 1)
+                            return done(null, rows[0], req.flash('userMessage', 'admin'));
+                        else
+                            return done(null, rows[0], req.flash('userMessage', 'staff'));
                     });
             })
     );
