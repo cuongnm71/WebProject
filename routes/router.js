@@ -139,12 +139,14 @@ module.exports = function(app, passport, connection) {
     });
     app.post('/division/:command',(req,res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+
         }
     });
 
 
     // Staff page
     app.get('/lecturer_info', function(req, res) {
+        console.log(req.user);
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
