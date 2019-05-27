@@ -8,7 +8,7 @@ module.exports = function(passport, connection) {
     });
 
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM user_account WHERE id = ? ", [id],
+        connection.query("SELECT ua.*, s.account_id FROM user_account ua JOIN staff s ON ua.id = s.account_id WHERE id = ?;", [id],
             function(err, rows) {
                 done(err, rows[0]);
             });

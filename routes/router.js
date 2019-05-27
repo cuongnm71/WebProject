@@ -1,6 +1,7 @@
 module.exports = function(app, passport, connection) {
     // Index page
     app.get('/', (req, res) => {
+
         res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 
