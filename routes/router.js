@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-module.exports = function(app, passport, connection) {
+module.exports = (app, passport, connection) => {
     // Index page
     app.get('/', (req, res) => {
         if (req.flash('userMessage').length == 0 && req.isAuthenticated() == 1) {
@@ -13,13 +13,13 @@ module.exports = function(app, passport, connection) {
 
 
     // Contact page
-    app.get('/contact', function(req, res) {
+    app.get('/contact', (req, res) => {
         res.render('pages/contact');
     });
 
 
     // Login page
-    app.get('/login',function(req,res){
+    app.get('/login',(req,res) => {
         res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
     });
     app.post('/login', passport.authenticate('local-login', {
@@ -27,7 +27,7 @@ module.exports = function(app, passport, connection) {
             failureRedirect: '/login',
             failureFlash: true
         }),
-        function(req, res) {
+        (req, res) => {
             // if (req.body.remember) {
             //     req.session.cookie.maxAge = 1000 * 10;
             // } else {
@@ -245,5 +245,44 @@ module.exports = function(app, passport, connection) {
             }
         } else res.redirect('/');
     });
+
+    const jsondata = [
+                {"id" : 1, "parent" : "#", "text" : "General and Reference"},
+                {"id" : 2, "parent" : "1", "text" : "Document types"},
+                {"id" : 3, "parent" : "2", "text" : "Surveys and overviews"},
+                {"id" : 4, "parent" : "2", "text" : "Reference works"},
+                {"id" : 5, "parent" : "2", "text" : "General conference proceedings"},
+                {"id" : 6, "parent" : "2", "text" : "Biographies"},
+                {"id" : 7, "parent" : "2", "text" : "General literature"},
+                {"id" : 8, "parent" : "2", "text" : "Computing standards, RFCs and guidelines"},
+                {"id" : 9, "parent" : "1", "text" : "Cross-computing tools and techniques"},
+                {"id" : 10, "parent" : "9", "text" : "Reliability"},
+                {"id" : 11, "parent" : "9", "text" : "Empirical studies"},
+                {"id" : 12, "parent" : "9", "text" : "Measurement"},
+                {"id" : 13, "parent" : "9", "text" : "Metrics"},
+                {"id" : 14, "parent" : "9", "text" : "Evaluation"},
+                {"id" : 15, "parent" : "9", "text" : "Experimentation"},
+                {"id" : 16, "parent" : "#", "text" : "Hardware"}
+            ];
+
+    app.get('/research', (req, res) => {
+        console.log("sent json to render tree!");
+        res.send(jsondata);
+    });
+
+    app.post('/research/create', (req, res) => {
+        console.log(req.body);
+        res.send({id:"18"});
+    });
+
+    app.post('/research/rename', (req, res) => {
+        console.log(req.body);
+        res.send({message:"renamed"});
+    })
+
+    app.post('/research/delete', (req, res) => {
+        console.log(req.body);
+        res.send({message:"deleted"});
+    })
 
 };
