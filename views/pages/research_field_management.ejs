@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <% include ../partials/head %>
-    <style> 
+    <style>
     input[type=text] {
       width: 30%;
       padding: 10px 15px;
@@ -25,7 +25,7 @@
     <header>
         <% include ../partials/header %>
     </header>
-    
+
     <main class="main-content">
         <br/>
         <div id="search_box">
@@ -78,38 +78,38 @@
             "show_only_matches": true
         },
         "contextmenu": {
-                    "items": function ($node) {
-                        var tree = $("#research_tree").jstree(true);
-                        return {
-                            "create": {
-                                "separator_before": false,
-                                "separator_after": true,
-                                "label": "Thêm lĩnh vực",
-                                "action": function (obj) { 
-                                    $node = tree.create_node($node);
-                                    tree.edit($node);
-                                }
-                            },
-                            "rename": {
-                                "separator_before": false,
-                                "separator_after": false,
-                                "label": "Đổi tên",
-                                "action": function (obj) {
-                                    tree.edit($node);                                    
-                                }
-                            },
-                            "delete": {
-                                "separator_before": false,
-                                "separator_after": false,
-                                "label": "Xóa",
-                                "action": function (obj) {
-                                    if (confirm("Bạn chắc chắn muốn xóa mục này?")) {
-                                        tree.delete_node($node);
-                                    }
-                                }
+            "items": function ($node) {
+                var tree = $("#research_tree").jstree(true);
+                return {
+                    "create": {
+                        "separator_before": false,
+                        "separator_after": true,
+                        "label": "Thêm lĩnh vực",
+                        "action": function (obj) {
+                            $node = tree.create_node($node);
+                            tree.edit($node);
+                        }
+                    },
+                    "rename": {
+                        "separator_before": false,
+                        "separator_after": false,
+                        "label": "Đổi tên",
+                        "action": function (obj) {
+                            tree.edit($node);
+                        }
+                    },
+                    "delete": {
+                        "separator_before": false,
+                        "separator_after": false,
+                        "label": "Xóa",
+                        "action": function (obj) {
+                            if (confirm("Bạn chắc chắn muốn xóa mục này?")) {
+                                tree.delete_node($node);
                             }
-                        };
+                        }
                     }
+                };
+            }
         }
         }).on('create_node.jstree', function (e, data) {
             console.log(data.node.parent + ", " + data.position + ", " + data.node.text);
@@ -124,7 +124,7 @@
                 },
                 success: (response) => {
                     console.log(response);
-                    data.instance.set_id(data.node, response.id);   
+                    data.instance.set_id(data.node, response.id);
                 }
             });
 
@@ -139,7 +139,7 @@
                 },
                 success: (response) => {
                     console.log(response);
-                    //data.instance.set_id(data.node, response);   
+                    //data.instance.set_id(data.node, response);
                 }
             });
         }).on('delete_node.jstree', function (e, data) {
@@ -152,7 +152,7 @@
                 },
                 success: (response) => {
                     console.log(response);
-                    //data.instance.set_id(data.node, d.id);   
+                    //data.instance.set_id(data.node, d.id);
                 }
             });
         });
@@ -160,10 +160,10 @@
 
         $( "#search_field" ).keyup(function() {
            var text = $(this).val();
-           search(text); 
+           search(text);
         });
-         
-        function search(text){ 
+
+        function search(text){
             $('#research_tree').jstree(true).search(text);
         }
     });

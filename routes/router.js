@@ -110,6 +110,19 @@ module.exports = (app, passport, connection) => {
         });
     });
 
+    app.get('/research', (req, res) => {
+        connection.getConnection((err, connection) => {
+            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+                connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
+                    connection.release();
+                    if (err) throw err;
+                    console.log(results);
+                    res.send(results);
+                });
+            }
+        });
+    });
+
 
     // Admin CRUD command
     app.post('/staff/:command', (req,res) => {
@@ -246,29 +259,7 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
-    const jsondata = [
-                {"id" : 1, "parent" : "#", "text" : "General and Reference"},
-                {"id" : 2, "parent" : "1", "text" : "Document types"},
-                {"id" : 3, "parent" : "2", "text" : "Surveys and overviews"},
-                {"id" : 4, "parent" : "2", "text" : "Reference works"},
-                {"id" : 5, "parent" : "2", "text" : "General conference proceedings"},
-                {"id" : 6, "parent" : "2", "text" : "Biographies"},
-                {"id" : 7, "parent" : "2", "text" : "General literature"},
-                {"id" : 8, "parent" : "2", "text" : "Computing standards, RFCs and guidelines"},
-                {"id" : 9, "parent" : "1", "text" : "Cross-computing tools and techniques"},
-                {"id" : 10, "parent" : "9", "text" : "Reliability"},
-                {"id" : 11, "parent" : "9", "text" : "Empirical studies"},
-                {"id" : 12, "parent" : "9", "text" : "Measurement"},
-                {"id" : 13, "parent" : "9", "text" : "Metrics"},
-                {"id" : 14, "parent" : "9", "text" : "Evaluation"},
-                {"id" : 15, "parent" : "9", "text" : "Experimentation"},
-                {"id" : 16, "parent" : "#", "text" : "Hardware"}
-            ];
 
-    app.get('/research', (req, res) => {
-        console.log("sent json to render tree!");
-        res.send(jsondata);
-    });
 
     app.post('/research/create', (req, res) => {
         console.log(req.body);
