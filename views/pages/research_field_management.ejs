@@ -2,6 +2,23 @@
 <html lang="vi">
 <head>
     <% include ../partials/head %>
+    <style> 
+    input[type=text] {
+      width: 30%;
+      padding: 10px 15px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid #ccc;
+      -webkit-transition: 0.5s;
+      transition: 0.5s;
+      outline: none;
+    }
+
+    input[type=text]:focus {
+      border: 3px solid #555;
+    }
+
+    </style>
 </head>
 <body>
 
@@ -10,16 +27,11 @@
     </header>
     
     <main class="main-content">
-        <br/> 
-        <div id="tree-container"></div>
-              <!-- <ul>
-                <li data-jstree='{ "selected" : true, "opened" : true }'>Root node
-                  <ul>
-                    <li>Child node 1</li>
-                    <li>Child node 2</li>
-                  </ul>
-                </li>
-              </ul> -->
+        <br/>
+        <div id="search_box">
+            <input type="text" class="form-control input-sm" placeholder="Tìm kiếm lĩnh vực" id="search_field" name="searchText"/>
+        </div>
+        <div id="research_tree"></div>
         </div>
     </main>
 
@@ -31,7 +43,7 @@
 </html>
 
 <!--CSS-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" href="/dist/themes/default/style.min.css" />
 
 <!--JS-->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -41,7 +53,7 @@
 
     $(document).ready(function(){
         $.jstree.defaults.core.themes.variant = "medium";
-        $('#tree-container').jstree({
+        $('#research_tree').jstree({
         'core' : {
             'data' : {
                 'url' : 'research',
@@ -60,10 +72,14 @@
                 return true; // allow everything else
             }
         },
-        'plugins' : ['state','contextmenu'],
+        'plugins' : ['state','contextmenu','search'],
+        "search": {
+            "case_insensitive": true,
+            "show_only_matches": true
+        },
         "contextmenu": {
                     "items": function ($node) {
-                        var tree = $("#tree-container").jstree(true);
+                        var tree = $("#research_tree").jstree(true);
                         return {
                             "create": {
                                 "separator_before": false,
@@ -140,6 +156,16 @@
                 }
             });
         });
+
+
+        $( "#search_field" ).keyup(function() {
+           var text = $(this).val();
+           search(text); 
+        });
+         
+        function search(text){ 
+            $('#research_tree').jstree(true).search(text);
+        }
     });
 
 </script>
