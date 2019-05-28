@@ -176,7 +176,6 @@ module.exports = function(app, passport, connection) {
 
     // Staff page
     app.get('/lecturer_info', function(req, res) {
-        console.log(req.user);
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');

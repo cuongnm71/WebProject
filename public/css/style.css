@@ -30,7 +30,7 @@ nav{
   display: flex;/* flex box */
   justify-content: space-between; /* chia giua cac khoi box noi dung boi space*/
   /* fill white space between logo and link text with color black*/
-  background: #4CAF50;
+  background: #27aac6;
 
   position: relative;
 }
@@ -82,7 +82,7 @@ a {
   flex-direction: column;
 }
 .dropdown-content{
-  background: #4CAF50;
+  background: #27aac6;
   white-space:nowrap;/* make width fit content*/
   position: absolute;
   display: none;
@@ -112,7 +112,7 @@ text-decoration: underline;
 
 /* styling logo*/
 nav .banner{
-  background: #4CAF50;
+  background: #27aac6;
 }
 .banner h1{
   margin: 0;
@@ -167,7 +167,7 @@ nav .banner{
   font-size: 22px;
   padding:15px;
   margin-top: 10px;
-  background: #4CAF50;
+  background: #27aac6;
   border:none;
   color: white;
   letter-spacing: 1px;
@@ -178,7 +178,7 @@ nav .banner{
 }
 footer{
   width: 100%;
-  background-color: #4CAF50;
+  background-color: #27aac6;
   color:#ddd;
   text-align: center;
 }
@@ -345,7 +345,7 @@ input[type=file]::-webkit-file-upload-button {
     flex-direction: column;
     list-style: none;
     padding:0;
-    background: #4CAF50;
+    background: #27aac6;
   }
   .nav-main.responsive li {
     border: 1px dotted #ddd;
