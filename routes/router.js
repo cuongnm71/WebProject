@@ -39,7 +39,7 @@ module.exports = (app, passport, connection) => {
 
 
     // Logout
-    app.get('/logout', (req, res) => {
+    app.get('/logout',(req, res) => {
         req.logout();
         req.session.destroy(err => {
             res.clearCookie();
@@ -49,7 +49,7 @@ module.exports = (app, passport, connection) => {
 
 
     // Admin page
-    app.get('/division_admin', function(req,res){
+    app.get('/division_admin',(req,res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
@@ -61,7 +61,7 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
-    app.get('/staff_admin', function(req,res){
+    app.get('/staff_admin',(req,res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
@@ -73,7 +73,7 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
-    app.get('/research_field_admin', function(req,res){
+    app.get('/research_field_admin', (req,res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
@@ -256,12 +256,11 @@ module.exports = (app, passport, connection) => {
             console.log(req.body);
             res.send({message:"deleted"});
         }
-
     });
 
 
     // Staff page
-    app.get('/lecturer_info', function(req, res) {
+    app.get('/lecturer_info', (req, res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');

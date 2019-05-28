@@ -15,7 +15,6 @@ module.exports = (passport, connection) => {
                     done(err, rows[0]);
                 });
             });
-
         } else {
             connection.getConnection((err, connection) => {
                 connection.query("SELECT ua.*, s.staff_id FROM user_account ua JOIN staff s ON ua.id = s.account_id WHERE id = ?;", [id], (err, rows) => {
