@@ -196,4 +196,45 @@ module.exports = function(app, passport, connection) {
         res.send({message:'success'});
     });
 
+
+    // research treeview
+    const jsondata = [
+                {"id" : 1, "parent" : "#", "text" : "General and Reference"},
+                {"id" : 2, "parent" : "1", "text" : "Document types"},
+                {"id" : 3, "parent" : "2", "text" : "Surveys and overviews"},
+                {"id" : 4, "parent" : "2", "text" : "Reference works"},
+                {"id" : 5, "parent" : "2", "text" : "General conference proceedings"},
+                {"id" : 6, "parent" : "2", "text" : "Biographies"},
+                {"id" : 7, "parent" : "2", "text" : "General literature"},
+                {"id" : 8, "parent" : "2", "text" : "Computing standards, RFCs and guidelines"},
+                {"id" : 9, "parent" : "1", "text" : "Cross-computing tools and techniques"},
+                {"id" : 10, "parent" : "9", "text" : "Reliability"},
+                {"id" : 11, "parent" : "9", "text" : "Empirical studies"},
+                {"id" : 12, "parent" : "9", "text" : "Measurement"},
+                {"id" : 13, "parent" : "9", "text" : "Metrics"},
+                {"id" : 14, "parent" : "9", "text" : "Evaluation"},
+                {"id" : 15, "parent" : "9", "text" : "Experimentation"},
+                {"id" : 16, "parent" : "#", "text" : "Hardware"}
+            ];
+
+    app.get('/research', (req, res) => {
+        console.log("Sent JSON data to render tree!");
+        res.send(jsondata);
+    });
+
+    app.post('/research/create', (req, res) => {
+        console.log(req.body);
+        res.send({id:"18"}); // fake ID
+    });
+
+    app.post('/research/rename', (req, res) => {
+        console.log(req.body);
+        res.send({message:"renamed"});
+    })
+
+    app.post('/research/delete', (req, res) => {
+        console.log(req.body);
+        res.send({message:"deleted"});
+    })
+
 };
