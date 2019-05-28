@@ -353,12 +353,14 @@
             success:(response) => {
                 document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
                 if(response.message=="success"){
-                        loadTable();
-                        document.getElementById("notification").style.color ="green";
-                        document.getElementById("notification").innerHTML = "Thêm thành công";
+                    loadTable();
+                    // document.getElementById("notification").style.color ="green";
+                    // document.getElementById("notification").innerHTML = "Thêm thành công";
+                    alert("Thêm thành công tài khoản của: " + full_nameI);
                 } else {
-                    document.getElementById("notification").style.color ="red";
-                    document.getElementById("notification").innerHTML = response.message;
+                    // document.getElementById("notification").style.color ="red";
+                    // document.getElementById("notification").innerHTML = response.message;
+                    alert("Không thêm được tài khoản của: " + full_nameI);
                 }
                 $("#notification").fadeOut(3000, function() {
                     $(this).css({
