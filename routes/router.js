@@ -1,7 +1,11 @@
 module.exports = function(app, passport, connection) {
     // Index page
     app.get('/', (req, res) => {
-
+        if (req.flash('userMessage').length == 0 && req.isAuthenticated() == 1) {
+            if (req.user.isAdmin == 1) {
+                req.flash('userMessage', 'admin');
+            } else req.flash('userMessage', 'staff');
+        }
         res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 

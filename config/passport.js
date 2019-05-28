@@ -38,10 +38,11 @@ module.exports = function(passport, connection) {
                     }
                     if (!bcrypt.compareSync(password, rows[0].password))
                         return done(null, false, req.flash('loginMessage', 'Wrong Password'));
-                    if (rows[0].isAdmin == 1)
-                        return done(null, rows[0], req.flash('userMessage', 'admin'));
-                    else
-                        return done(null, rows[0], req.flash('userMessage', 'staff'));
+                    // if (rows[0].isAdmin == 1)
+                    //     return done(null, rows[0], req.flash('userMessage', 'admin'));
+                    // else
+                    //     return done(null, rows[0], req.flash('userMessage', 'staff'));
+                    return done(null, rows[0]);
                 }
             );
         })
