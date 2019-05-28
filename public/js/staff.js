@@ -337,13 +337,14 @@
         });
     }
 
-    function insertAccountByExcel(usernameI,passwordI,full_nameI,vnu_emailI){
-        console.log("DF",usernameI,passwordI,full_nameI,vnu_emailI);
+    function insertAccountByExcel(staff_idI,usernameI,passwordI,full_nameI,vnu_emailI){
+        //console.log("In insertAccountByExcel function",usernameI,passwordI,full_nameI,vnu_emailI);
         $.ajax({
             type:'POST',
             url:'account/excel',
             dataType: 'json',
             data:{
+                staff_id: staff_idI,
                 username: usernameI,
                 password: passwordI,
                 full_name: full_nameI,
@@ -352,12 +353,14 @@
             success:(response) => {
                 document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
                 if(response.message=="success"){
-                        loadTable();
-                        document.getElementById("notification").style.color ="green";
-                        document.getElementById("notification").innerHTML = "Thêm thành công";
+                    loadTable();
+                    // document.getElementById("notification").style.color ="green";
+                    // document.getElementById("notification").innerHTML = "Thêm thành công";
+                    alert("Thêm thành công tài khoản của: " + full_nameI);
                 } else {
-                    document.getElementById("notification").style.color ="red";
-                    document.getElementById("notification").innerHTML = response.message;
+                    // document.getElementById("notification").style.color ="red";
+                    // document.getElementById("notification").innerHTML = response.message;
+                    alert("Không thêm được tài khoản của: " + full_nameI);
                 }
                 $("#notification").fadeOut(3000, function() {
                     $(this).css({
@@ -384,15 +387,12 @@
                     var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
                     var json_object = JSON.stringify(XL_row_object);
                     var data = JSON.parse(json_object);
-                    console.log(data);
-                    if("thanhld"==data[0]['Tên đăng nhập']){
-                        console.log("Mạnh cường ngu");
-                    }
-                    console.log(data[0]["Họ và tên"]);
-                    console.log("json_object",typeof json_object );
+                    // console.log(data);
+                    // console.log(data[0]["Họ và tên"]);
+                    // console.log("json_object",typeof json_object );
                     for(i in data){
-                        console.log(data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
-                        insertAccountByExcel(data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
+                        // console.log(data[i]["Mã cán bộ"],data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
+                        insertAccountByExcel(data[i]["Mã cán bộ"],data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
                     }
                 })
             };

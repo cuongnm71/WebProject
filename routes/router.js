@@ -193,6 +193,7 @@ module.exports = function(app, passport, connection) {
 
     app.post('/account/excel',function(req,res){
         console.log(req.body);
+        res.send({message:'success'});
     });
 
 };
