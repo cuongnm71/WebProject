@@ -165,7 +165,6 @@ nav .banner{
 }
 .login input[type=submit] {
   font-size: 22px;
-  width: 35%;
   padding:15px;
   margin-top: 10px;
   background: #4CAF50;
@@ -316,6 +315,12 @@ ul.last-ul > ul {
   width: 18px;
   height: 18px;
 }
+
+/* change name input button upload file that default by browser*/
+input[type=file]::-webkit-file-upload-button {
+  border: 1px solid grey;
+  background: #FFFAAA;
+}
 @media screen and (max-width: 600px){
   nav {
     flex-direction: column;
@@ -344,6 +349,8 @@ ul.last-ul > ul {
   }
   .nav-main.responsive li {
     border: 1px dotted #ddd;
+    border-bottom: none;
+    /* avoid overlap border*/
     width: 100%;
   }
   .nav-main.responsive a {
