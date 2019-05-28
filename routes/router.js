@@ -27,8 +27,7 @@ module.exports = (app, passport, connection) => {
             successRedirect: '/',
             failureRedirect: '/login',
             failureFlash: true
-        }),
-        (req, res) => {
+        }), (req, res) => {
             // if (req.body.remember) {
             //     req.session.cookie.maxAge = 1000 * 10;
             // } else {
@@ -125,6 +124,47 @@ module.exports = (app, passport, connection) => {
 
 
     // Admin command
+    app.post('/division/:command', (req,res) => {
+        connection.getConnection((err, connection) => {
+            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+                if (req.body.username == '' |
+                    req.body.name == '' |
+                    req.body.type == '' ) res.send({message:'emptyField'});
+                else {
+                    if (req.params.command == 'insert') {
+                        console.log(req.body);
+                        var sql = "INSERT INTO division(division_id, name, type, address, phone_number, website) VALUES (?, ?, ?, ?, ?, ?)";
+                        connection.query(sql, [req.body.division_id, req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website], (err) => {
+                            connection.release();
+                            if (err) {
+                                throw err;
+                                res.send({message:'error'});
+                            } else res.send({message:'success'});
+                        });
+                    } else if (req.params.command == 'edit') {
+                        var sql = "UPDATE division SET name = ?, type = ?, address = ?, phone_number = ?, website = ? WHERE division_id = ?;";
+                        connection.query(sql, [req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website, req.body.division_id], (err) => {
+                            connection.release();
+                            if (err) {
+                                throw err;
+                                res.send({message:'error'});
+                            } else res.send({message:'success'});
+                        });
+                    } else if (req.params.command == 'delete') {
+                        var sql = "DELETE FROM division WHERE division_id = ?;";
+                        connection.query(sql, [req.body.division_id, ], (err) => {
+                            connection.release();
+                            if (err) {
+                                throw err;
+                                res.send({message:'error'});
+                            } else res.send({message:'success'});
+                        });
+                    }
+                }
+            }
+        });
+    });
+
     app.post('/staff/:command', (req,res) => {
         connection.getConnection((err, connection) => {
             if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
@@ -174,45 +214,17 @@ module.exports = (app, passport, connection) => {
         });
     });
 
-    app.post('/division/:command', (req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-                if (req.body.username == '' |
-                    req.body.name == '' |
-                    req.body.type == '' ) res.send({message:'emptyField'});
-                else {
-                    if (req.params.command == 'insert') {
-                        console.log(req.body);
-                        var sql = "INSERT INTO division(division_id, name, type, address, phone_number, website) VALUES (?, ?, ?, ?, ?, ?)";
-                        connection.query(sql, [req.body.division_id, req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website], (err) => {
-                            connection.release();
-                            if (err) {
-                                throw err;
-                                res.send({message:'error'});
-                            } else res.send({message:'success'});
-                        });
-                    } else if (req.params.command == 'edit') {
-                        var sql = "UPDATE division SET name = ?, type = ?, address = ?, phone_number = ?, website = ? WHERE division_id = ?;";
-                        connection.query(sql, [req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website, req.body.division_id], (err) => {
-                            connection.release();
-                            if (err) {
-                                throw err;
-                                res.send({message:'error'});
-                            } else res.send({message:'success'});
-                        });
-                    } else if (req.params.command == 'delete') {
-                        var sql = "DELETE FROM division WHERE division_id = ?;";
-                        connection.query(sql, [req.body.division_id, ], (err) => {
-                            connection.release();
-                            if (err) {
-                                throw err;
-                                res.send({message:'error'});
-                            } else res.send({message:'success'});
-                        });
-                    }
-                }
-            }
-        });
+    app.post('/research/:command', (req, res) => {
+        if (req.params.command == 'create') {
+            console.log(req.body);
+            res.send({id:"18"});
+        } else if (req.params.command == 'rename') {
+            console.log(req.body);
+            res.send({message:"renamed"});
+        } else if (req.params.command == 'delete') {
+            console.log(req.body);
+            res.send({message:"deleted"});
+        }
     });
 
     app.post('/account/excel',(req,res) => {
@@ -243,19 +255,6 @@ module.exports = (app, passport, connection) => {
                 }
             }
         });
-    });
-
-    app.post('/research/:command', (req, res) => {
-        if (req.params.command == 'create') {
-            console.log(req.body);
-            res.send({id:"18"});
-        } else if (req.params.command == 'rename') {
-            console.log(req.body);
-            res.send({message:"renamed"});
-        } else if (req.params.command == 'delete') {
-            console.log(req.body);
-            res.send({message:"deleted"});
-        }
     });
 
 
