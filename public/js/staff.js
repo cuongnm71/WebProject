@@ -337,7 +337,7 @@
         });
     }
 
-    function insertAccountByExcel(staff_idI,usernameI,passwordI,full_nameI,vnu_emailI){
+    function insertAccountByExcel(staff_idI,usernameI,passwordI,full_nameI,vnu_emailI,division_nameI){
         //console.log("In insertAccountByExcel function",usernameI,passwordI,full_nameI,vnu_emailI);
         $.ajax({
             type:'POST',
@@ -348,7 +348,8 @@
                 username: usernameI,
                 password: passwordI,
                 full_name: full_nameI,
-                vnu_email: vnu_emailI
+                vnu_email: vnu_emailI,
+                division_name: division_nameI
             },
             success:(response) => {
                 document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
@@ -360,7 +361,7 @@
                 } else {
                     // document.getElementById("notification").style.color ="red";
                     // document.getElementById("notification").innerHTML = response.message;
-                    alert("Không thêm được tài khoản của: " + full_nameI);
+                    alert("Không thêm được tài khoản của: " + full_nameI + " ~ " + response.message);
                 }
                 $("#notification").fadeOut(3000, function() {
                     $(this).css({
@@ -376,23 +377,23 @@
 // Handle excel file - convert to json
     var ExcelToJSON = function() {
         this.parseExcel = function(file) {
-            var reader = new FileReader();
+            let reader = new FileReader();
 
             reader.onload = function(e) {
-                var data = e.target.result;
-                var workbook = XLSX.read(data, {
+                let data = e.target.result;
+                let workbook = XLSX.read(data, {
                     type: 'binary'
                 });
                 workbook.SheetNames.forEach(function(sheetName) {
-                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                    var json_object = JSON.stringify(XL_row_object);
-                    var data = JSON.parse(json_object);
+                    let XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    let json_object = JSON.stringify(XL_row_object);
+                    let data = JSON.parse(json_object);
                     // console.log(data);
                     // console.log(data[0]["Họ và tên"]);
                     // console.log("json_object",typeof json_object );
                     for(i in data){
                         // console.log(data[i]["Mã cán bộ"],data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
-                        insertAccountByExcel(data[i]["Mã cán bộ"],data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
+                        insertAccountByExcel(data[i]["Mã cán bộ"],data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"],data[i]["Bộ môn"]);
                     }
                 })
             };
@@ -404,7 +405,7 @@
         };
     };
     function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
-        var xl2json = new ExcelToJSON();
+        let files = evt.target.files; // FileList object
+        let xl2json = new ExcelToJSON();
         xl2json.parseExcel(files[0]);
     }
