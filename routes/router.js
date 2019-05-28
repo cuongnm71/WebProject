@@ -22,6 +22,7 @@ module.exports = (app, passport, connection) => {
     app.get('/login',(req,res) => {
         res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
     });
+
     app.post('/login', passport.authenticate('local-login', {
             successRedirect: '/',
             failureRedirect: '/login',
@@ -116,7 +117,6 @@ module.exports = (app, passport, connection) => {
                 connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
                     connection.release();
                     if (err) throw err;
-                    console.log(results);
                     res.send(results);
                 });
             }
@@ -124,7 +124,7 @@ module.exports = (app, passport, connection) => {
     });
 
 
-    // Admin CRUD command
+    // Admin command
     app.post('/staff/:command', (req,res) => {
         connection.getConnection((err, connection) => {
             if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
@@ -245,6 +245,20 @@ module.exports = (app, passport, connection) => {
         });
     });
 
+    app.post('/research/:command', (req, res) => {
+        if (req.params.command == 'create') {
+            console.log(req.body);
+            res.send({id:"18"});
+        } else if (req.params.command == 'rename') {
+            console.log(req.body);
+            res.send({message:"renamed"});
+        } else if (req.params.command == 'delete') {
+            console.log(req.body);
+            res.send({message:"deleted"});
+        }
+
+    });
+
 
     // Staff page
     app.get('/lecturer_info', function(req, res) {
@@ -258,22 +272,5 @@ module.exports = (app, passport, connection) => {
             }
         } else res.redirect('/');
     });
-
-
-
-    app.post('/research/create', (req, res) => {
-        console.log(req.body);
-        res.send({id:"18"});
-    });
-
-    app.post('/research/rename', (req, res) => {
-        console.log(req.body);
-        res.send({message:"renamed"});
-    })
-
-    app.post('/research/delete', (req, res) => {
-        console.log(req.body);
-        res.send({message:"deleted"});
-    })
 
 };
