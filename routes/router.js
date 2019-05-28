@@ -197,7 +197,6 @@ module.exports = function(app, passport, connection) {
     });
 
 
-    // research treeview
     const jsondata = [
                 {"id" : 1, "parent" : "#", "text" : "General and Reference"},
                 {"id" : 2, "parent" : "1", "text" : "Document types"},
@@ -218,13 +217,13 @@ module.exports = function(app, passport, connection) {
             ];
 
     app.get('/research', (req, res) => {
-        console.log("Sent JSON data to render tree!");
+        console.log("sent json to render tree!");
         res.send(jsondata);
     });
 
     app.post('/research/create', (req, res) => {
         console.log(req.body);
-        res.send({id:"18"}); // fake ID
+        res.send({id:"18"});
     });
 
     app.post('/research/rename', (req, res) => {
