@@ -1,8 +1,9 @@
+require('dotenv').config()
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 const morgan = require('morgan');
 const app = express();
 const path = require('path');
@@ -13,7 +14,7 @@ const flash = require('connect-flash');
 // Connection
 const mysql = require('mysql');
 const dbconfig = require('./config/database');
-const connection = mysql.createConnection(dbconfig.connection);
+const connection = mysql.createPool(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 
 require('./config/passport')(passport, connection);
@@ -34,7 +35,7 @@ app.set('view engine', 'ejs');
 
 // Sesion
 app.use(session({
- secret: 'justasecret',
+ secret: process.env.SECRET,
  resave:true,
  saveUninitialized: true
 }));

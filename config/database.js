@@ -1,11 +1,12 @@
 module.exports = {
     'connection': {
+        connectionLimit: 100,
         host: 'k61iotlab.duckdns.org',
-        user: 'root',
-        password: 'iotlab2018',
-        multipleStatements: true
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        multipleStatements: true,
+        database: 'uFaculties_test3',
     },
-    database: 'uFaculties_test3',
 }
 // module.exports = {
 //     'connection': {
