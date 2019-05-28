@@ -338,6 +338,7 @@
     }
 
     function insertAccountByExcel(usernameI,passwordI,full_nameI,vnu_emailI){
+        console.log("DF",usernameI,passwordI,full_nameI,vnu_emailI);
         $.ajax({
             type:'POST',
             url:'account/excel',
@@ -375,25 +376,29 @@
             var reader = new FileReader();
 
             reader.onload = function(e) {
-            var data = e.target.result;
-            var workbook = XLSX.read(data, {
-                type: 'binary'
-            });
-            workbook.SheetNames.forEach(function(sheetName) {
-                var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                var json_object = JSON.stringify(XL_row_object);
-                var data = JSON.parse(json_object);
-                console.log(data);
-                console.log(data[0]["Họ và tên"]);
-                console.log("json_object",typeof json_object );
-                for(i in data){
-                    console.log(data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
-                }
-            })
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+                workbook.SheetNames.forEach(function(sheetName) {
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    var json_object = JSON.stringify(XL_row_object);
+                    var data = JSON.parse(json_object);
+                    console.log(data);
+                    if("thanhld"==data[0]['Tên đăng nhập']){
+                        console.log("Mạnh cường ngu");
+                    }
+                    console.log(data[0]["Họ và tên"]);
+                    console.log("json_object",typeof json_object );
+                    for(i in data){
+                        console.log(data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
+                        insertAccountByExcel(data[i]["Tên đăng nhập"],data[i]["Mật khẩu"],data[i]["Họ và tên"],data[i]["VNU email"]);
+                    }
+                })
             };
 
             reader.onerror = function(ex) {
-            console.log(ex);
+                console.log(ex);
             };
             reader.readAsBinaryString(file);
         };
