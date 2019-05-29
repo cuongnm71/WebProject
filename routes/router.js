@@ -271,4 +271,28 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
+    app.post('/account/excel',function(req,res){
+        console.log(req.body);
+        res.send({message:'success'});
+    });
+
+    app.get('/profile',function(req,res){
+        res.send({
+            "full_name": "Lê Đình Thanh",
+            "staff_id":"9",
+            "staff_type": "",
+            "address":"qưe",
+            "degree_level":"qe",
+            "phone_number":"9",
+            "vnu_email":"9",
+            "other_email":"9",
+            "website":"9",
+            "staff_address":"9",
+            "interested_field":{
+                /*key ví dụ "1" là topic id*/
+                "1": "LLLL",
+                "2":"sssss"
+            }
+        });
+    });
 };

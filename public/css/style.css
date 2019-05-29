@@ -315,6 +315,9 @@ ul.last-ul > ul {
   width: 18px;
   height: 18px;
 }
+.list-container span li a {
+  font-size: 100%;
+}
 
 /* change name input button upload file that default by browser*/
 input[type=file]::-webkit-file-upload-button {

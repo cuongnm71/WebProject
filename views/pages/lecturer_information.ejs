@@ -18,40 +18,66 @@
                 return item;
             }
         }
-        // $(document).ready(()=>{
-        //     //document.getElementsByClassName("interested-field")[0].innerHTML = "he";
-        //     $.ajax({
-        //         url: 'profle',
-        //         type: 'GET',
-        //         dataType: 'json',
-        //         success: (data) =>{
-        //             id = data[i]["staff_id"];
-        //             staff_type
+         $(document).ready(()=>{
+            // document.getElementById("full_name").innerHTML = "Lê Đình Thanh";
+            // document.getElementById("staff_id").innerHTML = "9";
+            // document.getElementById("staff_type").innerHTML = "Giảng viên";
+            // document.getElementById("address").innerHTML = "Phòng thí nghiệm an toàn thông tin";
+            // document.getElementById("degree_level").innerHTML = "TS";
+            // document.getElementById("phone_number").innerHTML = "0987257504";
+            // document.getElementById("vnu_email").innerHTML = "thanhld@vnu.edu.vn";
+            // document.getElementById("other_email").innerHTML = "thanhld.vnuh@gmail.com";
+            // document.getElementById("website").innerHTML = "http://uet.vnu.edu.vn/~thanhld/";
+            // document.getElementById("staff_address").innerHTML = "Phòng 413-E3";
+            loadBasicInfoAndInterestedField();
+         });
+        function loadBasicInfoAndInterestedField(){
+            $.ajax({
+                url: 'profile',
+                type: 'GET',
+                dataType: 'json',
+                success: (data) =>{
+                    // document.getElementsByClassName("research-topic")[0].innerHTML = "he";
+                    // document.getElementsByClassName("basic-info")[0].innerHTML = "hoho";
+                    /*data["topic_id"]
+                    data["degree_level"]
+                    data["staff_address"]// địa chỉ kiểu 404E3 
+                    // trong division table
+                    // hiện tại để key là staff_address do trong d
+                    //vẫn là key address nhưng trong staff table nó lại là Bộ môn các hệ thống thông tin
+                    // tên bộ môn trong staff table*
+                    */
+                    document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
+                    document.getElementById("staff_id").innerHTML = returnBlank(data["staff_id"]);
+                    document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
+                    document.getElementById("address").innerHTML = returnBlank(data["address"]);
+                    document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
+                    document.getElementById("phone_number").innerHTML = returnBlank(data["phone_number"]);
+                    document.getElementById("vnu_email").innerHTML = returnBlank(data["vnu_mail"]);
+                    document.getElementById("other_email").innerHTML = returnBlank(data["other_email"]);
+                    document.getElementById("website").innerHTML = returnBlank(data["website"]);
+                    document.getElementById("staff_address").innerHTML = returnBlank(data["address"]);
 
-        //         }
-        //     });
-        //     /*
-        //     $.ajax({
-        //         url: //linh vuc quan tam - cay,
-        //         type: 'GET',
-        //         dataType: 'json',
-        //         success: (data) =>{
-        //         }
-        //     });*/
-        // });
+                    // let res_topic = "ss";
+                    // document.getElementsByClassName("research-topic")[0].getElementsByClassName("main-ul-content")[0].innerHTML = res_topic;
+
+
+                }
+            });
+        }
     </script>
     <main class="main-content">
         <section class = "list-container">
             <div class="basic-info">
                 <ul class="first-ul">
-                    <h1>Lê Đình Thanh</h1>
+                    <h1 id="full_name">Lê Đình Thanh</h1>
                     <ul>
 
                         <span>
                             <i class="fa fa-address-card" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Mã cán bộ:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id = "staff_id">
                                 9
                             </li>
                             &nbsp
@@ -60,7 +86,7 @@
                             <i class="fa fa-briefcase" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Chức vụ:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="staff_type">
                                 Giảng viên
                             </li>
                             &nbsp
@@ -69,7 +95,7 @@
                             <i class="fa fa-book" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Bộ môn:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="address">
                                 Phòng thí nghiệm an toàn thông tin
                             </li>
                             &nbsp
@@ -79,7 +105,7 @@
                             <i class="fa fa-id-card-o" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Học hàm, học vị:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="degree_level">
                                 Tiến sĩ
                             </li>
                             &nbsp
@@ -88,7 +114,7 @@
                             <i class="fa fa-phone-square" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Số điện thoại:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="phone_number">
                                 0987257504
                             </li>
                             &nbsp
@@ -98,7 +124,7 @@
                             <i class="fa fa-envelope" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             VNU email:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="vnu_email">
                                 thanhld@vnu.edu.vn
                             </li>
                             &nbsp
@@ -108,7 +134,7 @@
                             <i class="fa fa-envelope-o" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Email khác:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="other_email">
                                 thanhld.vnuh@gmail.com
                             </li>
                             &nbsp
@@ -118,7 +144,7 @@
                             <i class="fa fa-globe" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Website:&nbsp
                             <!--&nbsp make a space-->
-                            <li> <a href="http://uet.vnu.edu.vn/~thanhld/">
+                            <li> <a href="http://uet.vnu.edu.vn/~thanhld/" id="website">
                                 http://uet.vnu.edu.vn/~thanhld/
                             </a></li>
                             &nbsp
@@ -128,7 +154,7 @@
                             <i class="fa fa-university" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Địa chỉ:&nbsp
                             <!--&nbsp make a space-->
-                            <li>
+                            <li id="staff_address">
                                 Phòng 413-E3
                             </li>
                             &nbsp
@@ -145,7 +171,7 @@
                 </ul>
             </div>
 
-            <div class="interested-field">
+            <div class="research-topic">
                 <ul>
                     <h1>Chủ đề nghiên cứu</h1>
                     <ul class = "main-ul-content">
