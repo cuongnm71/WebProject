@@ -112,7 +112,7 @@
                 address: workingUnit
             },
             success:(response) => {
-                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
+                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
                 if(response.message=="success")
                     {
                     document.getElementById("notification").style.color ="green";
@@ -295,7 +295,7 @@
                 staff_id: offCode
             },
             success:(response) => {
-                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
+                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
                 if(response.message=="success"){
                     document.getElementById("notification").style.color ="green";
                     document.getElementById("notification").innerHTML = "Xóa thành công";
@@ -352,7 +352,7 @@
                 division_name: division_nameI
             },
             success:(response) => {
-                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
+                document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
                 if(response.message=="success"){
                     loadTable();
                     // document.getElementById("notification").style.color ="green";
