@@ -177,7 +177,7 @@ module.exports = (app, passport, connection) => {
                         var sql = "INSERT INTO user_account(username) VALUES (?);";
                         connection.query(sql, [req.body.username], (err) => {
                             if (err) {
-                                throw err;
+                                // throw err;
                                 res.send({message:'error'});
                             } else {
                                 var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
@@ -216,11 +216,11 @@ module.exports = (app, passport, connection) => {
 
     app.post('/research/:command', (req, res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-            console.log(req.body);
             connection.getConnection((err, connection) => {
                 if (req.params.command == 'create') {
                     var sql = "INSERT INTO research_field(field_id, name, parent_id) VALUES(?, ?, ?);";
                     connection.query(sql, [req.body.id, req.body.text, req.body.parent_id], (err) => {
+                        connection.release();
                         if (err) throw err;
                     });
                 } else if (req.params.command == 'rename') {

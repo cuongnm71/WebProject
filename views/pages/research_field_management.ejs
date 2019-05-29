@@ -69,13 +69,8 @@
                 success: (data) => {
                     maxID = data[0].id;
                     for (var i = 1; i < data.length; i++)
-                    {
                         if (data[i].id > maxID)
-                        {
                             maxID = data[i].id;
-                        }
-                    }
-                    //console.log(maxID);
                 }
             },
             'animation' : 150,
@@ -128,20 +123,16 @@
             }
         }
         }).on('create_node.jstree', (e, data) => {
-            console.log(data.node.parent + ", " + data.position + ", " + data.node.text);
+            maxID++;
+            data.instance.set_id(data.node, maxID);
             $.ajax({
                 type:'POST',
                 url:'research/create',
                 dataType: 'json',
                 data: {
-                    id: maxID+1,
+                    id: maxID,
                     parent_id: data.node.parent,
                     text: data.node.text
-                },
-                success: (response) => {
-                    console.log(response);
-                    maxID++;
-                    data.instance.set_id(data.node, maxID);
                 }
             });
 
@@ -153,9 +144,6 @@
                 data: {
                     id: data.node.id,
                     text: data.text
-                },
-                success: (response) => {
-                    console.log(response);
                 }
             });
         }).on('delete_node.jstree', (e, data) => {
@@ -165,9 +153,6 @@
                 dataType: 'json',
                 data: {
                     id: data.node.id
-                },
-                success: (response) => {
-                    console.log(response);
                 }
             });
         });
@@ -181,25 +166,6 @@
         function search(text) {
             $('#research_tree').jstree(true).search(text);
         }
-
-        /*function updateMaxID(){
-            $.ajax({
-                url: 'research',
-                type: 'GET',
-                dataType: 'json',
-                success: (data) => {
-                    maxID = data[0].id;
-                    for (var i = 1; i < data.length; i++)
-                    {
-                        if (data[i].id > maxID)
-                        {
-                            maxID = data[i].id;
-                        }
-                    }
-                    console.log(maxID);
-                }
-            })
-        }*/
     });
 
 </script>
