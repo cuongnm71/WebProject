@@ -8,7 +8,10 @@ module.exports = (app, passport, connection) => {
                 req.flash('userMessage', 'admin');
             } else req.flash('userMessage', 'staff');
         }
-        res.render('pages/index', {userMessage: req.flash('userMessage')});
+        //res.render('pages/index', {userMessage: req.flash('userMessage')});
+        /* tạm thời để đây để xem trang này còn sau nó sẽ được gán href cho jstree*/
+        res.render('pages/staff_information',{userMessage: req.flash('userMessage')});
+
     });
 
 
@@ -84,6 +87,9 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
+    // app.get('/staff_information',(req,res)=>{
+    //     res.render('pages/staff_information');
+    // });
 
     // Get data and send back
     app.get('/division',(req,res) => {
@@ -121,7 +127,6 @@ module.exports = (app, passport, connection) => {
             });
         }
     });
-
 
     // Admin command
     app.post('/division/:command', (req,res) => {

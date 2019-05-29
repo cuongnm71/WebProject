@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <script type="text/javascript">
+        var isRelease = false;
+        var id;
+        function returnBlank(item){
+            if(item == null){
+                return "";
+            }else{
+                return item;
+            }
+        }
+         $(document).ready(()=>{
+            loadBasicInfoAndInterestedField();
+         });
+        function loadBasicInfoAndInterestedField(){
+            $.ajax({
+                url: 'profile',/* sua thanh staff_information/id gì đó mà lấy id kiểu gì*/
+                type: 'GET',
+                dataType: 'json',
+                success: (data) =>{
+                    document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
+                    document.getElementById("staff_id").innerHTML = returnBlank(data["staff_id"]);
+                    document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
+                    document.getElementById("address").innerHTML = returnBlank(data["address"]);
+                    document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
+                    document.getElementById("phone_number").innerHTML = returnBlank(data["phone_number"]);
+                    document.getElementById("vnu_email").innerHTML = returnBlank(data["vnu_email"]);
+                    document.getElementById("other_email").innerHTML = returnBlank(data["other_email"]);
+                    document.getElementById("website").innerHTML = returnBlank(data["website"]);
+                    document.getElementById("staff_address").innerHTML = returnBlank(data["address"]);
+                    document.getElementById("interested-field-editor").value = returnBlank(data['text_area']);
+
+                }
+            });
+        }
+    </script>
+    <main class="main-content">
+        <section class = "list-container">
+            <div class="basic-info">
+                <ul class="first-ul">
+                    <h1 id="full_name">Lê Đình Thanh</h1>
+                    <ul>
+
+                        <span>
+                            <i class="fa fa-address-card" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Mã cán bộ:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id = "staff_id">
+                                9
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-briefcase" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Chức vụ:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="staff_type">
+                                Giảng viên
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-book" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Bộ môn:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="address">
+                                Phòng thí nghiệm an toàn thông tin
+                            </li>
+                            &nbsp
+                        </span>
+
+                        <span>
+                            <i class="fa fa-id-card-o" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Học hàm, học vị:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="degree_level">
+                                Tiến sĩ
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-phone-square" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Số điện thoại:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="phone_number">
+                                0987257504
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-envelope" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            VNU email:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="vnu_email">
+                                thanhld@vnu.edu.vn
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-envelope-o" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Email khác:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="other_email">
+                                thanhld.vnuh@gmail.com
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-globe" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Website:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="website"> 
+                                <!-- <a href="http://uet.vnu.edu.vn/~thanhld/" id="website">
+                                    http://uet.vnu.edu.vn/~thanhld/
+                                </a> -->
+                                http://uet.vnu.edu.vn/~thanhld/
+                            </li>
+                            &nbsp
+                        </span>
+                        <span>
+                            <i class="fa fa-university" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
+                            Địa chỉ:&nbsp
+                            <!--&nbsp make a space-->
+                            <li id="staff_address">
+                                Phòng 413-E3
+                            </li>
+                            &nbsp
+                        </span>
+                    </ul>
+                </ul>
+                <ul class="last-ul">
+                    <img src="/src/defaultAvatar.png" alt="Avatar">
+                </ul>
+            </div>
+
+            <div class=interested-field>
+                <ul>
+                    <h1>Chủ đề nghiên cứu</h1>
+                    <ul class = "main-ul-content">
+                        <span>
+                            <textarea id = "interested-field-editor" style="min-height: 100px; min-width: 200px" disabled>
+                            </textarea>
+                        </span>
+                    </ul>
+                </ul>
+            </div>
+
+            <div class="research-field">
+                <ul>
+                    <h1>Lĩnh vực quan tâm</h1>
+                    <ul>
+                        <li>Network security</li>
+                        <li>Web application security</li>
+                        <li>Web protocol security</li>
+                    </ul>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+</body>
+</html>
