@@ -238,6 +238,9 @@
                 if(e.which == 13 && e.ctrlKey){
                     document.getElementById(id).setAttribute("disabled","true");
                     saveInterestedField(id,originVal);
+
+                    /* prevent handle twice submit */
+                    event.preventDefault();
                 } else if(e.key=="Esc"||e.key=="Escape"){
                     // "Esc": // IE/Edge specific value
                     cancelInterestedField(id,originVal);

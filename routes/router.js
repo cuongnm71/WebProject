@@ -288,8 +288,7 @@ module.exports = (app, passport, connection) => {
             "other_email":"9",
             "website":"9",
             "staff_address":"9",
-            "text_area":
-            "- Chủ đề \n- toán \n- lý luận\n"
+            "text_area":"- Chủ đề \n- toán \n- lý luận\n"
             /*
             du lieu cay
             */
