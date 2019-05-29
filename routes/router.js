@@ -87,46 +87,46 @@ module.exports = (app, passport, connection) => {
 
     // Get data and send back
     app.get('/division',(req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
                 connection.query("SELECT * FROM division", (err, results, fields) => {
                     connection.release();
                     if (err) throw err;
                     res.send(results);
                 });
-            }
-        });
+            });
+        }
     });
 
     app.get('/staff', (req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-                connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, s.address FROM staff s JOIN user_account ua ON s.account_id = ua.id ORDER BY username ASC;", (err, results, fields) => {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
+                connection.query("SELECT s.staff_id, s.full_name, ua.username, s.vnu_email, s.staff_type, s.degree_level, d.name address FROM staff s LEFT JOIN user_account ua ON s.account_id = ua.id LEFT JOIN division d ON s.division_id = d.division_id;", (err, results, fields) => {
                     connection.release();
                     if (err) throw err;
                     res.send(results);
                 });
-            }
-        });
+            });
+        }
     });
 
     app.get('/research', (req, res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
                 connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
                     connection.release();
                     if (err) throw err;
                     res.send(results);
                 });
-            }
-        });
+            });
+        }
     });
 
 
     // Admin command
     app.post('/division/:command', (req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
                 if (req.body.username == '' |
                     req.body.name == '' |
                     req.body.type == '' ) res.send({message:'emptyField'});
@@ -161,13 +161,13 @@ module.exports = (app, passport, connection) => {
                         });
                     }
                 }
-            }
-        });
+            });
+        }
     });
 
     app.post('/staff/:command', (req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
                 if (req.body.staff_id == '' |
                     req.body.username == '' |
                     req.body.full_name == '' |
@@ -180,8 +180,8 @@ module.exports = (app, passport, connection) => {
                                 throw err;
                                 res.send({message:'error'});
                             } else {
-                                var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, address, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
-                                connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.address, req.body.staff_type], (err) => {
+                                var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
+                                connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.staff_type], (err) => {
                                     connection.release();
                                     if (err) {
                                         throw err;
@@ -210,26 +210,33 @@ module.exports = (app, passport, connection) => {
                         });
                     }
                 }
-            }
-        });
+            });
+        }
     });
 
     app.post('/research/:command', (req, res) => {
-        if (req.params.command == 'create') {
-            console.log(req.body);
-            res.send({id:"18"});
-        } else if (req.params.command == 'rename') {
-            console.log(req.body);
-            res.send({message:"renamed"});
-        } else if (req.params.command == 'delete') {
-            console.log(req.body);
-            res.send({message:"deleted"});
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
+                if (req.params.command == 'create') {
+                    connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
+                        connection.release();
+                        if (err) throw err;
+                        res.send(results);
+                    });
+                } else if (req.params.command == 'rename') {
+                    console.log(req.body);
+                    res.send({message:"renamed"});
+                } else if (req.params.command == 'delete') {
+                    console.log(req.body);
+                    res.send({message:"deleted"});
+                }
+            });
         }
     });
 
     app.post('/account/excel',(req,res) => {
-        connection.getConnection((err, connection) => {
-            if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            connection.getConnection((err, connection) => {
                 if (req.body.staff_id == '' |
                     req.body.username == '' |
                     req.body.password == '' |
@@ -253,8 +260,8 @@ module.exports = (app, passport, connection) => {
                         }
                     });
                 }
-            }
-        });
+            });
+        }
     });
 
 
@@ -269,11 +276,6 @@ module.exports = (app, passport, connection) => {
                 res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
             }
         } else res.redirect('/');
-    });
-
-    app.post('/account/excel',function(req,res){
-        console.log(req.body);
-        res.send({message:'success'});
     });
 
     app.get('/profile',function(req,res){

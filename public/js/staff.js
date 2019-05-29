@@ -47,7 +47,7 @@
                     // If using the staff code as the above id,
                     // there will be many problems to be solved
                     // because the current id above is used to create
-                    // unique id for the element to help query. 
+                    // unique id for the element to help query.
                     // (ex: Changing staff code -> must update all elements id,
                     // duplicate handling when querying elements,
                     // error token passes parameters to the function)
@@ -77,8 +77,8 @@
         });
     }
     function insert_row(){
-        let table = document.getElementById("table-u");  
-        
+        let table = document.getElementById("table-u");
+
         //real row index
         let lastRow = table.rows.length - 1;
         let nextIDtoInsert = parseInt(table.rows[lastRow].getAttribute("id").split("row")[1]) + 1;
@@ -97,7 +97,7 @@
         let offType=document.getElementById("new_offType").value;
         let degree=document.getElementById("new_degree").value;
         let workingUnit=document.getElementById("new_workingUnit").value;
-        
+
         $.ajax({
             type:'POST',
             url:'staff/insert',
@@ -167,7 +167,7 @@
         //let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
         let offType=document.getElementById("offType"+id).innerHTML;
         let degree=document.getElementById("degree"+id).innerHTML;
-        let workingUnit=document.getElementById("workingUnit"+id).innerHTML;
+        let workingUnit=document.getElementById("workingUnitc"+id).innerHTML;
         //document.getElementById("offCode"+id).innerHTML="<input type='text' id='offCode_text"+id+"' value='"+offCode+"'>";
         //document.getElementById("fullName"+id).innerHTML="<input type='text' id='fullName_text"+id+"' value='"+fullName+"'>";
         //document.getElementById("account"+id).innerHTML="<input type='text' id='account_text"+id+"' value='"+account+"'>";
@@ -175,22 +175,22 @@
         document.getElementById("offType"+id).innerHTML="<input type='text' id='offType_text"+id+"' value='"+offType+"'>";
         document.getElementById("degree"+id).innerHTML="<input type='text' id='degree_text"+id+"' value='"+degree+"'>";
         document.getElementById("workingUnit"+id).innerHTML="<input type='text' id='workingUnit_text"+id+"' value='"+workingUnit+"'>";
-        
+
         document.getElementById("edit_button"+id).style.display="none";
         document.getElementById("delete_button"+id).style.display="none";
         document.getElementById("save_button"+id).style.display="inline-block";
         document.getElementById("cancel_button"+id).style.display="inline-block";
         // if(!isRelease){
-        //   console.log("data from edit_row(id): ",unit,fullName,add,webAdd,phone); 
+        //   console.log("data from edit_row(id): ",unit,fullName,add,webAdd,phone);
         // }
     }
     function save_row(id){
         //let old_offCode=document.getElementById("offCode_text"+id).getAttribute("value");
         let offCode=document.getElementById("offCode"+id).innerHTML;
         let fullName=document.getElementById("fullName"+id).innerHTML;
-        let account=document.getElementById("account"+id).innerHTML;    
+        let account=document.getElementById("account"+id).innerHTML;
         let vnuMail=document.getElementById("vnuMail"+id).innerHTML;
-        
+
         let degree_old=document.getElementById("degree_text"+id).getAttribute("value");
         let workingUnit_old=document.getElementById("workingUnit_text"+id).getAttribute("value");
         let offType_old=document.getElementById("offType_text"+id).getAttribute("value");
@@ -199,7 +199,7 @@
         let workingUnit=document.getElementById("workingUnit_text"+id).value;
         let offType=document.getElementById("offType_text"+id).value;
         // if(!isRelease){
-        //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
+        //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone);
         //   /*console.log(document.getElementById("add"+id));*/
         // }
 
@@ -230,7 +230,7 @@
                         //document.getElementById("fullName"+id).innerHTML=fullName;
                         //document.getElementById("account"+id).innerHTML=account;
                         //document.getElementById("vnuMail"+id).innerHTML=vnuMail;
-                        
+
                         /*cach cu
                         // document.getElementById("offType"+id).innerHTML=offType;
                         // document.getElementById("degree"+id).innerHTML=degree;
@@ -271,7 +271,7 @@
         let degree=document.getElementById("degree_text"+id).getAttribute("value");
         let workingUnit=document.getElementById("workingUnit_text"+id).getAttribute("value");
         // if(!isRelease){
-        //   console.log("data from cancel_row(id): ",unit,fullName,add,webAdd,phone); 
+        //   console.log("data from cancel_row(id): ",unit,fullName,add,webAdd,phone);
         // }
         //document.getElementById("offCode"+id).innerHTML = offCode;
         // document.getElementById("fullName"+id).innerHTML = fullName;
@@ -287,12 +287,14 @@
     }
     function delete_row(id){
         let offCode=document.getElementById("offCode"+id).innerHTML;
+        let username=document.getElementById("account"+id).innerHTML;
         $.ajax({
             type:'POST',
             url:'staff/delete',
             dataType: 'json',
             data:{
-                staff_id: offCode
+                staff_id: offCode,
+                username: username
             },
             success:(response) => {
                 document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>"
@@ -304,10 +306,10 @@
                     // if(!isRelease){
                     //   console.log("row to delete", row_toDelete);
                     //   console.log(document.getElementById("table-u").rows[id+2].cells[0].innerHTML);
-                    // }           
-                    
+                    // }
+
                     // update order index column
-                    let table = document.getElementById("table-u");  
+                    let table = document.getElementById("table-u");
                     let indexRowNext = parseInt(document.getElementById("indexRow"+id).innerHTML);
                     // if(!isRelease){
                     //   console.log("row next, order number to be:",indexRowNext);
@@ -320,7 +322,7 @@
                         // if(!isRelease){
                         //   console.log(table.rows[i].cells[0].innerHTML);
                         // }
-                        ++indexRowNext;  
+                        ++indexRowNext;
                     }
                     row_toDelete.parentNode.removeChild(row_toDelete);
                 } else {
