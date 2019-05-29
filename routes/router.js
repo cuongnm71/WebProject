@@ -216,19 +216,25 @@ module.exports = (app, passport, connection) => {
 
     app.post('/research/:command', (req, res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
+            console.log(req.body);
             connection.getConnection((err, connection) => {
                 if (req.params.command == 'create') {
-                    connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
-                        connection.release();
+                    var sql = "INSERT INTO research_field(field_id, name, parent_id) VALUES(?, ?, ?);";
+                    connection.query(sql, [req.body.id, req.body.text, req.body.parent_id], (err) => {
                         if (err) throw err;
-                        res.send(results);
                     });
                 } else if (req.params.command == 'rename') {
-                    console.log(req.body);
-                    res.send({message:"renamed"});
+                    var sql = "UPDATE research_field SET name = ? WHERE field_id = ?;";
+                    connection.query(sql, [req.body.text,  req.body.id], (err) => {
+                        connection.release();
+                        if (err) throw err;
+                    });
                 } else if (req.params.command == 'delete') {
-                    console.log(req.body);
-                    res.send({message:"deleted"});
+                    var sql = "DELETE FROM research_field WHERE field_id = ?;";
+                    connection.query(sql, [req.body.id], (err) => {
+                        connection.release();
+                        if (err) throw err;
+                    })
                 }
             });
         }
