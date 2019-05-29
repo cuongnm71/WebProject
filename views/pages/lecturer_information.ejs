@@ -19,16 +19,6 @@
             }
         }
          $(document).ready(()=>{
-            // document.getElementById("full_name").innerHTML = "Lê Đình Thanh";
-            // document.getElementById("staff_id").innerHTML = "9";
-            // document.getElementById("staff_type").innerHTML = "Giảng viên";
-            // document.getElementById("address").innerHTML = "Phòng thí nghiệm an toàn thông tin";
-            // document.getElementById("degree_level").innerHTML = "TS";
-            // document.getElementById("phone_number").innerHTML = "0987257504";
-            // document.getElementById("vnu_email").innerHTML = "thanhld@vnu.edu.vn";
-            // document.getElementById("other_email").innerHTML = "thanhld.vnuh@gmail.com";
-            // document.getElementById("website").innerHTML = "http://uet.vnu.edu.vn/~thanhld/";
-            // document.getElementById("staff_address").innerHTML = "Phòng 413-E3";
             loadBasicInfoAndInterestedField();
          });
         function loadBasicInfoAndInterestedField(){
@@ -37,33 +27,265 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
-                    // document.getElementsByClassName("research-topic")[0].innerHTML = "he";
-                    // document.getElementsByClassName("basic-info")[0].innerHTML = "hoho";
-                    /*data["topic_id"]
-                    data["degree_level"]
-                    data["staff_address"]// địa chỉ kiểu 404E3 
-                    // trong division table
-                    // hiện tại để key là staff_address do trong d
-                    //vẫn là key address nhưng trong staff table nó lại là Bộ môn các hệ thống thông tin
-                    // tên bộ môn trong staff table*
-                    */
                     document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
                     document.getElementById("staff_id").innerHTML = returnBlank(data["staff_id"]);
                     document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
                     document.getElementById("address").innerHTML = returnBlank(data["address"]);
                     document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
                     document.getElementById("phone_number").innerHTML = returnBlank(data["phone_number"]);
-                    document.getElementById("vnu_email").innerHTML = returnBlank(data["vnu_mail"]);
+                    document.getElementById("vnu_email").innerHTML = returnBlank(data["vnu_email"]);
                     document.getElementById("other_email").innerHTML = returnBlank(data["other_email"]);
                     document.getElementById("website").innerHTML = returnBlank(data["website"]);
                     document.getElementById("staff_address").innerHTML = returnBlank(data["address"]);
-
-                    // let res_topic = "ss";
-                    // document.getElementsByClassName("research-topic")[0].getElementsByClassName("main-ul-content")[0].innerHTML = res_topic;
-
+                    document.getElementById("interested-field-editor").value = returnBlank(data['text_area']);
 
                 }
             });
+        }
+        function editBasicInfo(id){
+            document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = 'ENTER để "Lưu"/ ESC để "Huỷ" thay đổi';
+            $("#notification").fadeOut(5000, function() {
+                $(this).css({
+                    "visibility": "hidden",
+                    "display": "block"
+                });
+            });
+
+            let originVal = document.getElementById(id).innerHTML;
+            document.getElementById(id).innerHTML = "<input type='text' id='"+ id +"_text' value='"+originVal+"'>";
+            // if(id=="website"){
+            //     document.getElementById(id).getAttribute("href").value = "javascript:void(0)";
+            //     document.getElementById(id).innerHTML = "<input type='text' id='"+ id +"_text' value='"+originVal+"'>";
+            // }
+            document.getElementById(id+"_text").addEventListener("keydown",function(e){
+                if(e.key=="Enter"){
+                    saveBasicInfo(id);
+                } else if(e.key=="Esc"||e.key=="Escape"){
+                    // "Esc": // IE/Edge specific value
+                    cancelBasicInfo(id);
+                }
+            });
+        }
+        function saveBasicInfo(id){
+            let staff_id= document.getElementById("staff_id").innerHTML; 
+            let originVal= document.getElementById(id+"_text").getAttribute("value");
+            let newVal = document.getElementById(id+"_text").value;
+
+            console.log("origin: " + originVal, "new: "+ newVal);
+            document.getElementById(id).innerHTML=newVal;
+
+            if(id=="phone_number"){
+                $.ajax({
+                    type:'POST',
+                    url:'profile/basicInfo/edit',
+                    dataType: 'json',
+                    data:{
+                        staff_id: staff_id,
+                        phone_number: newVal
+                    },
+                    success:(response) => {
+                        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                        if(response.message=="success"){
+                            document.getElementById("notification").style.color ="green";
+                            document.getElementById("notification").innerHTML = "Sửa thành công";
+                        } else {
+                            document.getElementById("notification").style.color ="red";
+                            document.getElementById("notification").innerHTML = response.message;
+                            document.getElementById(id).innerHTML = originVal;
+                        }
+                        $("#notification").fadeOut(3000, function() {
+                            $(this).css({
+                                "visibility": "hidden",
+                                "display": "block"
+                            });
+                        });
+                    }
+                });
+            } else if (id=="vnu_email"){
+                $.ajax({
+                    type:'POST',
+                    url:'profile/basicInfo/edit',
+                    dataType: 'json',
+                    data:{
+                        staff_id: staff_id,
+                        vnu_email: newVal
+                    },
+                    success:(response) => {
+                        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                        if(response.message=="success"){
+                            document.getElementById("notification").style.color ="green";
+                            document.getElementById("notification").innerHTML = "Sửa thành công";
+                        } else {
+                            document.getElementById("notification").style.color ="red";
+                            document.getElementById("notification").innerHTML = response.message;
+                            document.getElementById(id).innerHTML = originVal;
+                        }
+                        $("#notification").fadeOut(3000, function() {
+                            $(this).css({
+                                "visibility": "hidden",
+                                "display": "block"
+                            });
+                        });
+                    }
+                });
+            } else if (id=="other_email"){
+                $.ajax({
+                    type:'POST',
+                    url:'profile/basicInfo/edit',
+                    dataType: 'json',
+                    data:{
+                        staff_id: staff_id,
+                        other_email: newVal
+                    },
+                    success:(response) => {
+                        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                        if(response.message=="success"){
+                            document.getElementById("notification").style.color ="green";
+                            document.getElementById("notification").innerHTML = "Sửa thành công";
+                        } else {
+                            document.getElementById("notification").style.color ="red";
+                            document.getElementById("notification").innerHTML = response.message;
+                            document.getElementById(id).innerHTML = originVal;
+                        }
+                        $("#notification").fadeOut(3000, function() {
+                            $(this).css({
+                                "visibility": "hidden",
+                                "display": "block"
+                            });
+                        });
+                    }
+                });
+            } else if (id=="website") {
+                $.ajax({
+                    type:'POST',
+                    url:'profile/basicInfo/edit',
+                    dataType: 'json',
+                    data:{
+                        staff_id: staff_id,
+                        website: newVal
+                    },
+                    success:(response) => {
+                        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                        if(response.message=="success"){
+                            //document.getElementById("website").getAttribute("href") = newVal;
+                            document.getElementById("notification").style.color ="green";
+                            document.getElementById("notification").innerHTML = "Sửa thành công";
+                        } else {
+                            document.getElementById("notification").style.color ="red";
+                            document.getElementById("notification").innerHTML = response.message;
+                            document.getElementById(id).innerHTML = originVal;
+                        }
+                        $("#notification").fadeOut(3000, function() {
+                            $(this).css({
+                                "visibility": "hidden",
+                                "display": "block"
+                            });
+                        });
+                    }
+                });
+            } else if (id=="staff_address"){
+                $.ajax({
+                    type:'POST',
+                    url:'profile/basicInfo/edit',
+                    dataType: 'json',
+                    data:{
+                        staff_id: staff_id,
+                        staff_address: newVal
+                    },
+                    success:(response) => {
+                        document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                        if(response.message=="success"){
+                            document.getElementById("notification").style.color ="green";
+                            document.getElementById("notification").innerHTML = "Sửa thành công";
+                        } else {
+                            document.getElementById("notification").style.color ="red";
+                            document.getElementById("notification").innerHTML = response.message;
+                            document.getElementById(id).innerHTML = originVal;
+                        }
+                        $("#notification").fadeOut(3000, function() {
+                            $(this).css({
+                                "visibility": "hidden",
+                                "display": "block"
+                            });
+                        });
+                    }
+                });
+            }
+        }
+        function cancelBasicInfo(id){
+            let originVal= document.getElementById(id+"_text").getAttribute("value");
+            document.getElementById(id).innerHTML = originVal;
+        }
+
+
+        function editInterestedField(id){
+            let originVal = document.getElementById(id).value;
+            document.getElementById(id).removeAttribute("disabled");
+
+            document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+            document.getElementById("notification").style.color ="green";
+            document.getElementById("notification").innerHTML = 'ENTER để "Xuống dòng"/  CTR ENTER để "Lưu" /ESC để "Huỷ" thay đổi';
+            $("#notification").fadeOut(8000, function() {
+                $(this).css({
+                    "visibility": "hidden",
+                    "display": "block"
+                });
+            });
+
+            document.getElementById(id).addEventListener("keydown",function(e){
+                if(e.which == 13 && e.ctrlKey){
+                    document.getElementById(id).setAttribute("disabled","true");
+                    saveInterestedField(id,originVal);
+                } else if(e.key=="Esc"||e.key=="Escape"){
+                    // "Esc": // IE/Edge specific value
+                    cancelInterestedField(id,originVal);
+                } else if(e.key=="Enter"){
+                    // &#10;
+                    //document.getElementById(id).insertAdjacentHTML("beforeend","&#10");
+                    e.stopPropagation();
+                }
+            });
+        }
+
+        function saveInterestedField(id,originVal){
+            console.log("interested field save");
+            let staff_id= document.getElementById("staff_id").innerHTML; 
+            let newVal = document.getElementById(id).value;
+            $.ajax({
+                type:'POST',
+                url:'profile/interestedField/edit',
+                dataType: 'json',
+                data:{
+                    staff_id: staff_id,
+                    text_area: newVal
+                },
+                success:(response) => {
+                    document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
+                    if(response.message=="success"){
+                        document.getElementById("notification").style.color ="green";
+                        document.getElementById("notification").innerHTML = "Sửa thành công";
+                    } else {
+                        document.getElementById("notification").style.color ="red";
+                        document.getElementById("notification").innerHTML = response.message;
+                        document.getElementById(id).innerHTML = originVal;
+                    }
+                    $("#notification").fadeOut(3000, function() {
+                        $(this).css({
+                            "visibility": "hidden",
+                            "display": "block"
+                        });
+                    });
+                }
+            });
+        }
+        
+        function cancelInterestedField(id,originVal){
+            // console.log("interested field cancel");
+            console.log(originVal);
+            document.getElementById(id).value = originVal;
+            document.getElementById(id).setAttribute("disabled","true");
         }
     </script>
     <main class="main-content">
@@ -118,7 +340,7 @@
                                 0987257504
                             </li>
                             &nbsp
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" onclick='editBasicInfo("phone_number")'></i>
                         </span>
                         <span>
                             <i class="fa fa-envelope" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
@@ -128,7 +350,7 @@
                                 thanhld@vnu.edu.vn
                             </li>
                             &nbsp
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" onclick='editBasicInfo("vnu_email")'></i>
                         </span>
                         <span>
                             <i class="fa fa-envelope-o" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
@@ -138,17 +360,20 @@
                                 thanhld.vnuh@gmail.com
                             </li>
                             &nbsp
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" onclick='editBasicInfo("other_email")'></i>
                         </span>
                         <span>
                             <i class="fa fa-globe" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
                             Website:&nbsp
                             <!--&nbsp make a space-->
-                            <li> <a href="http://uet.vnu.edu.vn/~thanhld/" id="website">
+                            <li id="website"> 
+                                <!-- <a href="http://uet.vnu.edu.vn/~thanhld/" id="website">
+                                    http://uet.vnu.edu.vn/~thanhld/
+                                </a> -->
                                 http://uet.vnu.edu.vn/~thanhld/
-                            </a></li>
+                            </li>
                             &nbsp
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" onclick='editBasicInfo("website")'></i>
                         </span>
                         <span>
                             <i class="fa fa-university" aria-hidden="true" style="color:cornflowerblue" >&nbsp</i>
@@ -158,7 +383,7 @@
                                 Phòng 413-E3
                             </li>
                             &nbsp
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true" onclick='editBasicInfo("staff_address")'></i>
                         </span>
                     </ul>
                 </ul>
@@ -171,23 +396,18 @@
                 </ul>
             </div>
 
-            <div class="research-topic">
+            <div class=interested-field>
                 <ul>
                     <h1>Chủ đề nghiên cứu</h1>
                     <ul class = "main-ul-content">
                         <span>
-                            <strong>-</strong>&nbsp<li> An toàn thông tin</li>
-                        </span>
-                        <span>
-                            <strong>-</strong>&nbsp<li>Phát triển ứng dụng web</li>
-                        </span>
-                        <span>
-                            <strong>-</strong>&nbsp<li>Mạng cảm biến khôn dây</li>
+                            <textarea id = "interested-field-editor" style="min-height: 100px; min-width: 200px" disabled>
+                            </textarea>
                         </span>
                     </ul>
                 </ul>
                 <ul>
-                    <button>Chỉnh sửa</button>
+                    <button onclick='editInterestedField("interested-field-editor");'>Chỉnh sửa</button>
                 </ul>
             </div>
 

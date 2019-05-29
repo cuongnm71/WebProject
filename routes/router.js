@@ -290,11 +290,19 @@ module.exports = (app, passport, connection) => {
             "other_email":"9",
             "website":"9",
             "staff_address":"9",
-            "interested_field":{
-                /*key ví dụ "1" là topic id*/
-                "1": "LLLL",
-                "2":"sssss"
-            }
+            "text_area":
+            "- Chủ đề \n- toán \n- lý luận\n"
+            /*
+            du lieu cay
+            */
         });
+    });
+    app.post('/profile/basicInfo/edit',function(req,res){
+        console.log(req.body);
+    });
+    app.post('/profile/interestedField/edit',function(req,res){
+        console.log(req.body);
+    });
+    app.post('/profile/researchField/:command',function(req,res){
     });
 };
