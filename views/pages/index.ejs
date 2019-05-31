@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <% include ../partials/head %>
-</head>
 
+    <!-- search box  -->
+    <style>
+        input[type=text] {
+              width: 30%;
+              padding: 10px 15px;
+              margin: 8px 0;
+              box-sizing: border-box;
+              border: 3px solid #ccc;
+              -webkit-transition: 0.5s;
+              transition: 0.5s;
+              outline: none;
+        }
+        input[type=text]:focus {
+            border: 3px solid #555;
+        }
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
 <body>
 
     <header>
@@ -12,20 +35,54 @@
     </header>
 
     <main class="main-content">
-        <h1> Chào mừng bạn đến với website tìm kiếm thông tin giảng viên</h1>
-        <section>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
+        <div class="container" id="leftHalf">
+            <h3>Tìm kiếm giảng viên</h3>
+            <br>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#menu1">Đơn vị công tá</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#menu2">Lĩnh vực nghiên cứu</a>
+                </li>
+            </ul>
 
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div id="menu1" class="container tab-pane active"><br>
+                    <div id="search_box_divison">
+                        <input type="text" class="form-control input-sm" placeholder="Tìm kiếm đơn vị" id="search_division" name="search_division"/>
+                    </div>
+                    <div id="division_tree"></div>
+                    <br/>
+                </div>
+                <div id="menu2" class="container tab-pane fade"><br>
+                    <div id="search_box_field">
+                        <input type="text" class="form-control input-sm" placeholder="Tìm kiếm lĩnh vực" id="search_field" name="search_field"/>
+                    </div>
+                    <div id="research_tree"></div>
+                    <br/>
+                </div>
+            </div>
+        </div>
 
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
-
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
-
-                                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc in ipsum et sem semper pulvinar eget ac purus. Donec velit tellus, scelerisque ac posuere venenatis, pulvinar eu dolor. Quisque est eros, fermentum ut tincidunt tempor, ornare ut nunc. Nulla semper et eros nec ultrices. Sed commodo condimentum mi. Pellentesque risus est, bibendum nec dui vel, consectetur consequat nunc. Praesent condimentum sed orci quis elementum. Fusce a nisi efficitur, mattis urna nec, ornare felis. Etiam sollicitudin viverra metus, vitae ultrices quam placerat vitae. Fusce suscipit tellus accumsan, bibendum metus in, mollis purus. Quisque volutpat, ipsum quis rutrum imperdiet, dolor odio placerat ligula, vel fringilla dui mi eu felis. Sed vel urna faucibus, sollicitudin purus pretium, sollicitudin purus. Integer elit magna, eleifend ac facilisis vel, volutpat egestas mi. Ut fermentum mi ac fermentum convallis. Maecenas vel congue leo, nec tincidunt nulla. Praesent cursus orci quis mi maximus, non gravida nisl venenatis. Nulla auctor sed eros sit amet pharetra. Suspendisse non elementum nunc, vitae volutpat lacus. Donec nunc purus, facilisis ut nulla eu, tempus porta leo. Fusce vehicula urna eu auctor gravida. Ut odio diam, semper at elementum et, tincidunt ac ligula. Nunc rhoncus et tortor et egestas. Aenean elementum pharetra turpis, vel gravida sem lacinia a. Integer iaculis ex vel neque maximus convallis. Cras luctus nunc vel dui efficitur, ac hendrerit elit convallis. Donec egestas metus ut fringilla vehicula. Nulla quis gravida lectus. Etiam felis mauris, egestas aliquam turpis et, finibus condimentum leo. Aliquam id vehicula nulla, non malesuada metus. In maximus volutpat libero, ac luctus purus imperdiet et. Proin quis ultrices lacus. Mauris eu mi sit amet justo laoreet fermentum ac in massa. Mauris tortor lorem, laoreet ut mi nec, tempus scelerisque risus. Curabitur neque enim, pharetra eget rutrum a, feugiat non tellus. Donec dapibus non libero non tristique. Nam non nisi nulla. Nulla nec tincidunt nisi. Nunc lobortis orci vel nulla rhoncus tempor sit amet vel urna. Sed semper risus sodales ante hendrerit, vitae pharetra risus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam imperdiet maximus ultricies. Mauris molestie turpis ac odio maximus, id aliquet sapien convallis. Pellentesque id velit gravida, ultricies felis vitae, sollicitudin sapien. Proin magna massa, pharetra at bibendum sed, sodales vel diam. In massa nulla, ultricies sed convallis ac, elementum feugiat mi. Vestibulum maximus ipsum erat. Phasellus consequat nisi massa, quis maximus sem scelerisque sed. Aliquam odio dolor, lacinia vitae eros at, congue semper urna. Vestibulum at commodo odio. Quisque massa felis, finibus ut eros vitae, rutrum porttitor odio. Donec porttitor faucibus interdum. Suspendisse lacinia turpis fringilla, volutpat velit sit amet, commodo risus. Duis porttitor eu ligula vitae euismod. Curabitur molestie et ex ac dapibus. In efficitur mauris nec luctus eleifend. Ut pulvinar a tortor eu ornare. Nulla volutpat tortor non dignissim dapibus. Curabitur eu lorem diam. Mauris tortor eros, elementum a nunc ac, dignissim ullamcorper ligula. Ut elementum ante vitae consectetur accumsan.
-
-        </section>
+        <div class="container" id="rightHalf">
+            <h2>Kết quả tìm kiếm</h2>
+            <p>Danh sách giảng viên:</p>
+            <table class="table table-bordered" id="lecturerInfo">
+                <thead>
+                    <tr>
+                        <th>HHHV</th>
+                        <th>Tên giảng viên</th>
+                        <th>Đơn vị</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <!--  data returned will fill this area -->
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <footer>
@@ -33,5 +90,126 @@
     </footer>
 
 </body>
-
 </html>
+
+<!--CSS-->
+<link rel="stylesheet" href="/dist/themes/default/style.css" />
+
+<!--JS-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+<script>
+
+    $(document).ready(function(){
+
+        $.jstree.defaults.core.themes.variant = "medium";
+
+        // research tree
+        $('#research_tree').jstree({
+        'core' : {
+            'data' : {
+                'url' : 'research',
+                'type': 'GET',
+                'dataType' : 'json',
+                'data' : (node) => {
+                    return { 'id' : node.id };
+                },
+                success: (data) => {
+
+                }
+            },
+            'animation' : 150,
+            "check_callback" : false
+        },
+        'plugins' : ['state','search'],
+        "search": {
+            "case_insensitive": true,
+            "show_only_matches": true
+        }
+        }).on('select_node.jstree', (e, data) => {
+            $('#lecturerInfo > tbody').empty();
+            console.log("Node selected: " + data.node.id);
+            $.ajax({
+                type:'POST',
+                url:'/result/field',
+                dataType: 'json',
+                data: {
+                    field_id: data.node.id
+                },
+                success: (response) => {
+                    console.log("success");
+                    var tr_html = '';
+                    $.each(response, function (i, item) {
+                        tr_html += '<tr><td>' + item.degree_level + '</td><td>' + item.full_name + '</td><td>' + item.name + '</td></tr>';
+                    });
+                    $('#lecturerInfo').append(tr_html);
+                }
+            });
+        });
+
+
+        // division tree
+        $('#division_tree').jstree({
+        'core' : {
+            'data' : {
+                'url' : 'search/division',
+                'type': 'GET',
+                'dataType' : 'json',
+                'data' : (node) => {
+                    return { 'id' : node.id };
+                },
+                success: (data) => {
+
+                }
+            },
+            'animation' : 150,
+            "check_callback" : false
+        },
+        'plugins' : ['state','search'],
+        "search": {
+            "case_insensitive": true,
+            "show_only_matches": true
+        }
+        }).on('select_node.jstree', (e, data) => {
+            $('#lecturerInfo > tbody').empty();
+            console.log("Node selected: " + data.node.id);
+            $.ajax({
+                type:'POST',
+                url:'/result/division',
+                dataType: 'json',
+                data: {
+                    division_id: data.node.id
+                },
+                success: (response) => {
+                    console.log("success");
+                    var tr_html = '';
+                    $.each(response, function (i, item) {
+                        tr_html += '<tr><td>' + item.degree_level + '</td><td>' + item.full_name + '</td><td>' + item.name + '</td></tr>';
+                    });
+                    $('#lecturerInfo').append(tr_html);
+                }
+            });
+        });
+
+
+        // searchbox
+        $( "#search_division" ).keyup(function() {
+           var text = $(this).val();
+           searchDivision(text);
+        });
+
+        $( "#search_field" ).keyup(function() {
+           var text = $(this).val();
+           searchField(text);
+        });
+
+        function searchField(text) {
+            $('#research_tree').jstree(true).search(text);
+        }
+
+        function searchDivision(text) {
+            $('#division_tree').jstree(true).search(text);
+        }
+    });
+</script>
