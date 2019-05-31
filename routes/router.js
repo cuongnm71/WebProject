@@ -12,6 +12,20 @@ module.exports = (app, passport, connection) => {
         res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 
+    app.get('/search/:command', function(req, res) {
+        if (req.params.command == 'division') {
+            connection.getConnection((err, connection) => {
+                var sql = "SELECT d.division_id id, '#' parent, d.name 'text' FROM division d";
+                connection.query(sql, (err, results, fields) => {
+                    connection.release();
+                    if (err)
+                        throw err;
+                    res.send(results);
+                });
+            });
+        }
+    });
+
 
     // Login page
     app.get('/login',(req,res) => {
