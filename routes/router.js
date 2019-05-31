@@ -179,7 +179,6 @@ module.exports = (app, passport, connection) => {
                             } else {
                                 var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
                                 connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.staff_type], (err) => {
-                                    connection.release();
                                     if (err) {
                                         var sql = "DELETE FROM user_account WHERE username = ?;";
                                         connection.query(sql, [req.body.username], (err) => {
@@ -187,7 +186,11 @@ module.exports = (app, passport, connection) => {
                                             if (err) throw err;
                                         });
                                         res.send({message:'Thêm không thành công'});
-                                    } else res.send({message:'success'});
+                                    } else {
+                                        connection.release();
+                                        res.send({message:'success'});
+                                    }
+
                                 });
                             }
                         });
