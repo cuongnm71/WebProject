@@ -9,8 +9,6 @@
         <% include ../partials/header %>
     </header>
     <script type="text/javascript">
-        var isRelease = false;
-        var id;
         function returnBlank(item){
             if(item == null){
                 return "";
@@ -18,17 +16,32 @@
                 return item;
             }
         }
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+        var isRelease = false;
+        var staff_id = getUrlParameter("id");
          $(document).ready(()=>{
             loadBasicInfoAndInterestedField();
          });
         function loadBasicInfoAndInterestedField(){
             $.ajax({
-                url: 'profile',
+                url: 'profile/'+staff_id,
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
                     document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
-                    document.getElementById("staff_id").innerHTML = returnBlank(data["staff_id"]);
+                    document.getElementById("staff_id").innerHTML = staff_id;
                     document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
                     document.getElementById("address").innerHTML = returnBlank(data["address"]);
                     document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
@@ -79,7 +92,7 @@
             if(id=="phone_number"){
                 $.ajax({
                     type:'POST',
-                    url:'profile/basicInfo/edit',
+                    url:'profile/' + staff_id + 'editInfo',
                     dataType: 'json',
                     data:{
                         staff_id: staff_id,
@@ -106,7 +119,7 @@
             } else if (id=="vnu_email"){
                 $.ajax({
                     type:'POST',
-                    url:'profile/basicInfo/edit',
+                    url:'profile/' + staff_id + 'editInfo',
                     dataType: 'json',
                     data:{
                         staff_id: staff_id,
@@ -133,7 +146,7 @@
             } else if (id=="other_email"){
                 $.ajax({
                     type:'POST',
-                    url:'profile/basicInfo/edit',
+                    url:'profile/' + staff_id + 'editInfo',
                     dataType: 'json',
                     data:{
                         staff_id: staff_id,
@@ -160,7 +173,7 @@
             } else if (id=="website") {
                 $.ajax({
                     type:'POST',
-                    url:'profile/basicInfo/edit',
+                    url:'profile/' + staff_id + 'editInfo',
                     dataType: 'json',
                     data:{
                         staff_id: staff_id,
@@ -188,7 +201,7 @@
             } else if (id=="staff_address"){
                 $.ajax({
                     type:'POST',
-                    url:'profile/basicInfo/edit',
+                    url:'profile/' + staff_id + 'editInfo',
                     dataType: 'json',
                     data:{
                         staff_id: staff_id,
@@ -258,7 +271,7 @@
             let newVal = document.getElementById(id).value;
             $.ajax({
                 type:'POST',
-                url:'profile/interestedField/edit',
+                url:'profile/' + staff_id + '/editInterestedField',
                 dataType: 'json',
                 data:{
                     staff_id: staff_id,

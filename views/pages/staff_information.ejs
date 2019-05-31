@@ -9,8 +9,6 @@
         <% include ../partials/header %>
     </header>
     <script type="text/javascript">
-        var isRelease = false;
-        var id;
         function returnBlank(item){
             if(item == null){
                 return "";
@@ -18,17 +16,32 @@
                 return item;
             }
         }
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+        var isRelease = false;
+        var staff_id = getUrlParameter("id");
          $(document).ready(()=>{
             loadBasicInfoAndInterestedField();
          });
         function loadBasicInfoAndInterestedField(){
             $.ajax({
-                url: 'profile',/* sua thanh staff_information/id gì đó mà lấy id kiểu gì*/
+                url: 'profile/' + staff_id,
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
                     document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
-                    document.getElementById("staff_id").innerHTML = returnBlank(data["staff_id"]);
+                    document.getElementById("staff_id").innerHTML = staff_id;
                     document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
                     document.getElementById("address").innerHTML = returnBlank(data["address"]);
                     document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
@@ -38,7 +51,6 @@
                     document.getElementById("website").innerHTML = returnBlank(data["website"]);
                     document.getElementById("staff_address").innerHTML = returnBlank(data["address"]);
                     document.getElementById("interested-field-editor").value = returnBlank(data['text_area']);
-
                 }
             });
         }
