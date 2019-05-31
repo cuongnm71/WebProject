@@ -124,9 +124,10 @@ module.exports = (app, passport, connection) => {
     app.post('/division/:command', (req,res) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
             connection.getConnection((err, connection) => {
+                console.log(req.body)
                 if (req.body.username == '' |
                     req.body.name == '' |
-                    req.body.type == '' ) res.send({message:'Chưa điền đủ trường'});
+                    req.body.type == '') res.send({message:'Chưa điền đủ trường'});
                 else {
                     if (req.params.command == 'insert') {
                         console.log(req.body);
@@ -168,7 +169,8 @@ module.exports = (app, passport, connection) => {
                 if (req.body.staff_id == '' |
                     req.body.username == '' |
                     req.body.full_name == '' |
-                    req.body.vnu_email == '') res.send({message:'Chưa điền đủ trường'});
+                    req.body.vnu_email == '' |
+                    req.body.address == '') res.send({message:'Chưa điền đủ trường'});
                 else {
                     if (req.params.command == 'insert') {
                         var sql = "INSERT INTO user_account(username) VALUES (?);";
