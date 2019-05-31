@@ -8,12 +8,3 @@ module.exports = {
         database: 'uFaculties_test3',
     },
 }
-// module.exports = {
-//     'connection': {
-//         host: 'localhost',
-//         user: 'root',
-//         password: '12345678'
-//     },
-//     database: 'ufaculties',
-//     'user_table': 'user_account'
-// }

@@ -133,7 +133,7 @@ module.exports = (app, passport, connection) => {
             connection.getConnection((err, connection) => {
                 if (req.body.username == '' |
                     req.body.name == '' |
-                    req.body.type == '' ) res.send({message:'emptyField'});
+                    req.body.type == '' ) res.send({message:'Chưa điền đủ trường'});
                 else {
                     if (req.params.command == 'insert') {
                         console.log(req.body);
@@ -141,8 +141,8 @@ module.exports = (app, passport, connection) => {
                         connection.query(sql, [req.body.division_id, req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website], (err) => {
                             connection.release();
                             if (err) {
-                                throw err;
-                                res.send({message:'error'});
+                                // throw err;
+                                res.send({message:'Thêm không thành công'});
                             } else res.send({message:'success'});
                         });
                     } else if (req.params.command == 'edit') {
@@ -150,8 +150,8 @@ module.exports = (app, passport, connection) => {
                         connection.query(sql, [req.body.name, req.body.type, req.body.address, req.body.phone_number, req.body.website, req.body.division_id], (err) => {
                             connection.release();
                             if (err) {
-                                throw err;
-                                res.send({message:'error'});
+                                // throw err;
+                                res.send({message:'Sửa không thành công'});
                             } else res.send({message:'success'});
                         });
                     } else if (req.params.command == 'delete') {
@@ -159,8 +159,8 @@ module.exports = (app, passport, connection) => {
                         connection.query(sql, [req.body.division_id, ], (err) => {
                             connection.release();
                             if (err) {
-                                throw err;
-                                res.send({message:'error'});
+                                // throw err;
+                                res.send({message:'Xóa không thành công'});
                             } else res.send({message:'success'});
                         });
                     }
@@ -175,21 +175,21 @@ module.exports = (app, passport, connection) => {
                 if (req.body.staff_id == '' |
                     req.body.username == '' |
                     req.body.full_name == '' |
-                    req.body.vnu_email == '') res.send({message:'emptyField'});
+                    req.body.vnu_email == '') res.send({message:'Chưa điền đủ trường'});
                 else {
                     if (req.params.command == 'insert') {
                         var sql = "INSERT INTO user_account(username) VALUES (?);";
                         connection.query(sql, [req.body.username], (err) => {
                             if (err) {
-                                throw err;
-                                res.send({message:'error'});
+                                // throw err;
+                                res.send({message:'Thêm không thành công'});
                             } else {
                                 var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
                                 connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.staff_type], (err) => {
                                     connection.release();
                                     if (err) {
-                                        throw err;
-                                        res.send({message:'error'});
+                                        // throw err;
+                                        res.send({message:'Thêm không thành công'});
                                     } else res.send({message:'success'});
                                 });
                             }
@@ -200,7 +200,7 @@ module.exports = (app, passport, connection) => {
                             connection.release();
                             if (err) {
                                 // throw err;
-                                res.send({message:'error'});
+                                res.send({message:'Sửa không thành công'});
                             } else res.send({message:'success'});
                         });
                     } else if (req.params.command == 'delete') {
@@ -209,7 +209,7 @@ module.exports = (app, passport, connection) => {
                             connection.release();
                             if (err) {
                                 // throw err;
-                                res.send({message:'error'});
+                                res.send({message:'Xóa không thành công'});
                             } else res.send({message:'success'});
                         });
                     }
@@ -222,17 +222,23 @@ module.exports = (app, passport, connection) => {
         if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
             connection.getConnection((err, connection) => {
                 if (req.params.command == 'create') {
-                    connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
+                    var sql = "INSERT INTO research_field(field_id, name, parent_id) VALUES(?, ?, ?);";
+                    connection.query(sql, [req.body.id, req.body.text, req.body.parent_id], (err) => {
                         connection.release();
                         if (err) throw err;
-                        res.send(results);
                     });
                 } else if (req.params.command == 'rename') {
-                    console.log(req.body);
-                    res.send({message:"renamed"});
+                    var sql = "UPDATE research_field SET name = ? WHERE field_id = ?;";
+                    connection.query(sql, [req.body.text,  req.body.id], (err) => {
+                        connection.release();
+                        if (err) throw err;
+                    });
                 } else if (req.params.command == 'delete') {
-                    console.log(req.body);
-                    res.send({message:"deleted"});
+                    var sql = "DELETE FROM research_field WHERE field_id = ?;";
+                    connection.query(sql, [req.body.id], (err) => {
+                        connection.release();
+                        if (err) throw err;
+                    })
                 }
             });
         }
