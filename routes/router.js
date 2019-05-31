@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const querystring = require('querystring');
 
 module.exports = (app, passport, connection) => {
-    // Index page
+    // Search page
     app.get('/', (req, res) => {
         if (req.flash('userMessage').length == 0 && req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
@@ -48,6 +48,7 @@ module.exports = (app, passport, connection) => {
                 });
             });
         }});
+
 
     // Login page
     app.get('/login',(req,res) => {
