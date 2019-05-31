@@ -40,17 +40,18 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
-                    document.getElementById("full_name").innerHTML = returnBlank(data["full_name"]);
+                    console.log(data);
+                    document.getElementById("full_name").innerHTML = returnBlank(data[0]["degree_level"]) + " " +returnBlank(data[0]["full_name"]);
                     document.getElementById("staff_id").innerHTML = staff_id;
-                    document.getElementById("staff_type").innerHTML = returnBlank(data["staff_type"]);
-                    document.getElementById("address").innerHTML = returnBlank(data["address"]);
-                    document.getElementById("degree_level").innerHTML = returnBlank(data["degree_level"]);
-                    document.getElementById("phone_number").innerHTML = returnBlank(data["phone_number"]);
-                    document.getElementById("vnu_email").innerHTML = returnBlank(data["vnu_email"]);
-                    document.getElementById("other_email").innerHTML = returnBlank(data["other_email"]);
-                    document.getElementById("website").innerHTML = returnBlank(data["website"]);
-                    document.getElementById("staff_address").innerHTML = returnBlank(data["address"]);
-                    document.getElementById("interested-field-editor").value = returnBlank(data['text_area']);
+                    document.getElementById("staff_type").innerHTML = returnBlank(data[0]["staff_type"]);
+                    document.getElementById("address").innerHTML = returnBlank(data[0]["address"]);
+                    document.getElementById("degree_level").innerHTML = returnBlank(data[0]["degree_level"]);
+                    document.getElementById("phone_number").innerHTML = returnBlank(data[0]["phone_number"]);
+                    document.getElementById("vnu_email").innerHTML = returnBlank(data[0]["vnu_email"]);
+                    document.getElementById("other_email").innerHTML = returnBlank(data[0]["other_email"]);
+                    document.getElementById("website").innerHTML = returnBlank(data[0]["website"]);
+                    document.getElementById("staff_address").innerHTML = returnBlank(data[0]["address"]);
+                    document.getElementById("interested-field-editor").value = returnBlank(data[0]['text_area']);
 
                 }
             });
@@ -308,7 +309,7 @@
         <section class = "list-container">
             <div class="basic-info">
                 <ul class="first-ul">
-                    <h1 id="full_name">Lê Đình Thanh</h1>
+                    <h1 id="full_name">SSSSSSSSSS</h1>
                     <ul>
 
                         <span>

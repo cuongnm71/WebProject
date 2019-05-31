@@ -86,7 +86,7 @@ a {
   white-space:nowrap;/* make width fit content*/
   position: absolute;
   display: none;
-  /*min-width: 115px;*/
+  min-width: 200px;
   z-index: 1;
 
   margin-top: 15px;
