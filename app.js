@@ -37,7 +37,8 @@ app.set('view engine', 'ejs');
 app.use(session({
  secret: process.env.SECRET,
  resave:true,
- saveUninitialized: true
+ saveUninitialized: true,
+ cookie: {maxAge: 1000 * 60 * 30}
 }));
 
 // Passport init

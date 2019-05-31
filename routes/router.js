@@ -15,7 +15,7 @@ module.exports = (app, passport, connection) => {
     app.get('/search/:command', function(req, res) {
         if (req.params.command == 'division') {
             connection.getConnection((err, connection) => {
-                var sql = "SELECT d.division_id id, '#' parent, d.name 'text' FROM division d";
+                var sql = "SELECT d.division_id id, '#' parent, d.name 'text' FROM division d;";
                 connection.query(sql, (err, results, fields) => {
                     connection.release();
                     if (err)
@@ -26,6 +26,28 @@ module.exports = (app, passport, connection) => {
         }
     });
 
+    app.post('/result/:command', function(req, res) {
+        if (req.params.command == 'division') {
+            connection.getConnection((err, connection) => {
+                var sql = "SELECT s.degree_level, s.full_name, d.name  FROM staff s JOIN division d ON s.division_id = d.division_id WHERE d.division_id = ?;";
+                connection.query(sql, [req.body.division_id], (err, results, fields) => {
+                    connection.release();
+                    if (err)
+                        throw err;
+                    res.send(results);
+                });
+            });
+        } else if (req.params.command == 'field') {
+            connection.getConnection((err, connection) => {
+                var sql = "SELECT s.degree_level, s.full_name, d.name  FROM staff s JOIN division d ON s.division_id = d.division_id JOIN research_staff rs ON s.staff_id = rs.staff_id JOIN research_field rf ON rs.field_id = rf.field_id WHERE rf.field_id = ?";
+                connection.query(sql, [req.body.field_id], (err, results, fields) => {
+                    connection.release();
+                    if (err)
+                        throw err;
+                    res.send(results);
+                });
+            });
+        }});
 
     // Login page
     app.get('/login',(req,res) => {
@@ -36,13 +58,7 @@ module.exports = (app, passport, connection) => {
             successRedirect: '/',
             failureRedirect: '/login',
             failureFlash: true
-        }), (req, res) => {
-            // if (req.body.remember) {
-            //     req.session.cookie.maxAge = 1000 * 10;
-            // } else {
-            //     req.session.cookie.expires = false;
-            // }
-        }
+        })
     );
 
 
@@ -123,15 +139,13 @@ module.exports = (app, passport, connection) => {
     });
 
     app.get('/research', (req, res) => {
-        if (req.isAuthenticated() == 1 && req.user.isAdmin == 1) {
-            connection.getConnection((err, connection) => {
-                connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
-                    connection.release();
-                    if (err) throw err;
-                    res.send(results);
-                });
+        connection.getConnection((err, connection) => {
+            connection.query("SELECT field_id 'id', parent_id as 'parent', name as 'text' FROM research_field;", (err, results, fields) => {
+                connection.release();
+                if (err) throw err;
+                res.send(results);
             });
-        }
+        });
     });
 
     // Admin command
