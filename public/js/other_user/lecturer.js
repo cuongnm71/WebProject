@@ -25,7 +25,7 @@ var staff_id = getUrlParameter("id");
  });
 function loadBasicInfoAndInterestedField(){
     $.ajax({
-        url: 'profile/'+staff_id,
+        url: 'lecturer_info/' + staff_id,
         type: 'GET',
         dataType: 'json',
         success: (data) =>{
@@ -39,7 +39,7 @@ function loadBasicInfoAndInterestedField(){
             document.getElementById("other_email").innerHTML = returnBlank(data[0]["other_email"]);
             document.getElementById("website").innerHTML = returnBlank(data[0]["website"]);
             document.getElementById("staff_address").innerHTML = returnBlank(data[0]["address"]);
-            document.getElementById("interested-field-editor").value = returnBlank(data[0]['text_area']);
+            document.getElementById("interested-field-editor").value = returnBlank(data[0]["interested_field"]);
 
         }
     });
@@ -71,7 +71,7 @@ function editBasicInfo(id){
     });
 }
 function saveBasicInfo(id){
-    let staff_id= document.getElementById("staff_id").innerHTML; 
+    let staff_id= document.getElementById("staff_id").innerHTML;
     let originVal= document.getElementById(id+"_text").getAttribute("value");
     let newVal = document.getElementById(id+"_text").value;
 
@@ -81,7 +81,7 @@ function saveBasicInfo(id){
     if(id=="phone_number"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -108,7 +108,7 @@ function saveBasicInfo(id){
     } else if (id=="vnu_email"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -135,7 +135,7 @@ function saveBasicInfo(id){
     } else if (id=="other_email"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -162,7 +162,7 @@ function saveBasicInfo(id){
     } else if (id=="website") {
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -190,7 +190,7 @@ function saveBasicInfo(id){
     } else if (id=="staff_address"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -256,15 +256,15 @@ function editInterestedField(id){
 
 function saveInterestedField(id,originVal){
     //console.log("interested field save");
-    let staff_id= document.getElementById("staff_id").innerHTML; 
+    let staff_id= document.getElementById("staff_id").innerHTML;
     let newVal = document.getElementById(id).value;
     $.ajax({
         type:'POST',
-        url:'profile/' + staff_id + '/editInterestedField',
+        url:'lecturer_info/' + staff_id + '/editInterestedField',
         dataType: 'json',
         data:{
             staff_id: staff_id,
-            text_area: newVal
+            interested_field: newVal
         },
         success:(response) => {
             document.getElementById("div-ntf").innerHTML = "<strong id='notification'></strong>";
