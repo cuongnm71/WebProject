@@ -34,7 +34,6 @@ module.exports = (app, passport, connection) => {
             // } else {
             //     req.session.cookie.expires = false;
             // }
-            console.log(req.username, "aa");
         }
     );
 
@@ -305,7 +304,7 @@ module.exports = (app, passport, connection) => {
         }
     });
     app.get('/profile/:id',function(req,res){
-        console.log("LOLF");
+        //console.log("LOLF");
         connection.getConnection((err, connection) => {
             if (err)
                 throw err;
@@ -313,7 +312,7 @@ module.exports = (app, passport, connection) => {
                 var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
                 connection.query(sql, [req.params.id], (err, results, fields) => {
                     connection.release();
-                    console.log(results);
+                    //console.log(results);
                     if (err)
                         throw(err);
                     else res.send(results);

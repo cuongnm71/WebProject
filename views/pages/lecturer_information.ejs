@@ -40,7 +40,6 @@
                 type: 'GET',
                 dataType: 'json',
                 success: (data) =>{
-                    console.log(data);
                     document.getElementById("full_name").innerHTML = returnBlank(data[0]["degree_level"]) + " " +returnBlank(data[0]["full_name"]);
                     document.getElementById("staff_id").innerHTML = staff_id;
                     document.getElementById("staff_type").innerHTML = returnBlank(data[0]["staff_type"]);
@@ -87,7 +86,7 @@
             let originVal= document.getElementById(id+"_text").getAttribute("value");
             let newVal = document.getElementById(id+"_text").value;
 
-            console.log("origin: " + originVal, "new: "+ newVal);
+            //console.log("origin: " + originVal, "new: "+ newVal);
             document.getElementById(id).innerHTML=newVal;
 
             if(id=="phone_number"){
@@ -267,7 +266,7 @@
         }
 
         function saveInterestedField(id,originVal){
-            console.log("interested field save");
+            //console.log("interested field save");
             let staff_id= document.getElementById("staff_id").innerHTML; 
             let newVal = document.getElementById(id).value;
             $.ajax({
@@ -300,7 +299,7 @@
         
         function cancelInterestedField(id,originVal){
             // console.log("interested field cancel");
-            console.log(originVal);
+            //console.log(originVal);
             document.getElementById(id).value = originVal;
             document.getElementById(id).setAttribute("disabled","true");
         }
