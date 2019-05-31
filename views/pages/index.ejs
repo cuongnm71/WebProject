@@ -185,7 +185,7 @@
                     console.log("success");
                     var tr_html = '';
                     $.each(response, function (i, item) {
-                        tr_html += '<tr><td>' + item.degree_level + '</td><td>' + item.full_name + '</td><td>' + item.name + '</td></tr>';
+                        tr_html += '<tr><td>' + item.degree_level + '</td><td>' + '<a href="lecturer_info/?id=' + item.staff_id + '">' + item.full_name +'</a>' +'</td><td>' + item.name + '</td></tr>';
                     });
                     $('#lecturerInfo').append(tr_html);
                 }

@@ -330,7 +330,11 @@ module.exports = (app, passport, connection) => {
                     res.redirect(url);
                 } else {
                     req.flash('userMessage', 'staff');
-                    res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+                    if(req.user.staff_id===req.query.id){
+                        res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+                    } else {
+                        res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
+                    }
                 }
             }
         } else {
