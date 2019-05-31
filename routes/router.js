@@ -13,12 +13,6 @@ module.exports = (app, passport, connection) => {
     });
 
 
-    // Contact page
-    app.get('/contact', (req, res) => {
-        
-    });
-
-    var username;
     // Login page
     app.get('/login',(req,res) => {
         res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
@@ -185,11 +179,18 @@ module.exports = (app, passport, connection) => {
                             } else {
                                 var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, degree_level, staff_type, division_id, account_id) VALUES (?, ?, ?, ?, ?, ?, @division_id, @account_id);";
                                 connection.query(sql, [req.body.address, req.body.address, req.body.address, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email, req.body.degree_level, req.body.staff_type], (err) => {
-                                    connection.release();
                                     if (err) {
-                                        // throw err;
+                                        var sql = "DELETE FROM user_account WHERE username = ?;";
+                                        connection.query(sql, [req.body.username], (err) => {
+                                            connection.release();
+                                            if (err) throw err;
+                                        });
                                         res.send({message:'Thêm không thành công'});
-                                    } else res.send({message:'success'});
+                                    } else {
+                                        connection.release();
+                                        res.send({message:'success'});
+                                    }
+
                                 });
                             }
                         });
@@ -251,20 +252,25 @@ module.exports = (app, passport, connection) => {
                     req.body.password == '' |
                     req.body.full_name == '' |
                     req.body.vnu_email == '' |
-                    req.body.division_name == '') res.send({message:'emptyField'});
+                    req.body.division_name == '') res.send({message:'Chưa điền đủ trường'});
                 else {
                     var sql = "INSERT INTO user_account(username, password) VALUES(?, ?);";
                     connection.query(sql, [req.body.username, bcrypt.hashSync(req.body.password, 10)], (err) => {
                         if (err) {
                             throw(err);
-                            res.send({message:'error'});
                         } else {
                             var sql = "INSERT INTO division(name) SELECT * FROM (SELECT ?) tmp WHERE NOT EXISTS (SELECT name FROM division WHERE name = ?) LIMIT 1; SELECT @division_id := division_id FROM division WHERE name = ?; SELECT @account_id := id FROM user_account WHERE username = ?; INSERT INTO staff(staff_id, full_name, vnu_email, division_id, account_id) VALUES (?, ?, ?, @division_id, @account_id);";
                             connection.query(sql, [req.body.division_name, req.body.division_name, req.body.division_name, req.body.username, req.body.staff_id, req.body.full_name, req.body.vnu_email], (err) => {
-                                connection.release();
-                                if (err)
-                                    throw(err);
-                                else res.send({message:'success'});
+                                if (err) {
+                                    var sql = "DELETE FROM user_account WHERE username = ?;";
+                                    connection.query(sql, [req.body.username], (err) => {
+                                        connection.release();
+                                        if (err) throw err;
+                                    });
+                                } else {
+                                    connection.release();
+                                    res.send({message:'success'});
+                                }
                             });
                         }
                     });
@@ -272,7 +278,7 @@ module.exports = (app, passport, connection) => {
             });
         }
     });
-    
+
     app.get('/lecturer_info(/:id)?', (req, res) => {
         //        console.log(querystring.stringify({ id: req.user.staff_id, baz: ['qux', 'quux'], corge: '' }));
         // console.log(querystring.stringify({ id: req.user.staff_id}));
@@ -284,7 +290,7 @@ module.exports = (app, passport, connection) => {
                 } else {
                     res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
                 }
-                
+
             } else {
                 if( req.query.id === undefined){
                     let url = ('/lecturer_info/?' + querystring.stringify({id:req.user.staff_id}));
@@ -293,7 +299,7 @@ module.exports = (app, passport, connection) => {
                 } else {
                     req.flash('userMessage', 'staff');
                     res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
-                }   
+                }
             }
         } else {
             if( req.query.id === undefined){
