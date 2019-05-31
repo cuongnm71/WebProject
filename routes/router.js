@@ -110,9 +110,6 @@ module.exports = (app, passport, connection) => {
         } else res.redirect('/');
     });
 
-    // app.get('/staff_information',(req,res)=>{
-    //     res.render('pages/staff_information');
-    // });
 
     // Get data and send back
     app.get('/division',(req,res) => {
@@ -341,21 +338,16 @@ module.exports = (app, passport, connection) => {
             }
         }
     });
+    
     app.get('/profile/:id',function(req,res){
-        //console.log("LOLF");
         connection.getConnection((err, connection) => {
-            if (err)
-                throw err;
-            else {
-                var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
-                connection.query(sql, [req.params.id], (err, results, fields) => {
-                    connection.release();
-                    //console.log(results);
-                    if (err)
-                        throw(err);
-                    else res.send(results);
-                });
-            }
+            var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
+            connection.query(sql, [req.params.id], (err, results, fields) => {
+                connection.release();
+                if (err)
+                    throw(err);
+                else res.send(results);
+            });
         });
     });
 
