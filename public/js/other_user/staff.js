@@ -25,7 +25,7 @@ var staff_id = getUrlParameter("id");
  });
 function loadBasicInfoAndInterestedField(){
     $.ajax({
-        url: 'profile/' + staff_id,
+        url: 'lecturer_info/' + staff_id,
         type: 'GET',
         dataType: 'json',
         success: (data) =>{
