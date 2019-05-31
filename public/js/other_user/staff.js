@@ -39,7 +39,7 @@ function loadBasicInfoAndInterestedField(){
             document.getElementById("other_email").innerHTML = returnBlank(data[0]["other_email"]);
             document.getElementById("website").innerHTML = returnBlank(data[0]["website"]);
             document.getElementById("staff_address").innerHTML = returnBlank(data[0]["staff_address"]);
-            document.getElementById("interested-field-editor").value = returnBlank(data[0]['text_area']);
+            document.getElementById("interested-field-editor").value = returnBlank(data[0]['interested_field']);
         }
     });
 }
