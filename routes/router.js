@@ -212,7 +212,8 @@ module.exports = (app, passport, connection) => {
                                         var sql = "DELETE FROM user_account WHERE username = ?;";
                                         connection.query(sql, [req.body.username], (err) => {
                                             connection.release();
-                                            if (err) throw err;
+                                            if (err)
+                                                throw err;
                                         });
                                         res.send({message:'Thêm không thành công'});
                                     } else {
@@ -233,8 +234,8 @@ module.exports = (app, passport, connection) => {
                             } else res.send({message:'success'});
                         });
                     } else if (req.params.command == 'delete') {
-                        var sql = "DELETE FROM user_account WHERE username = ?; DELETE FROM staff WHERE staff_id = ?;";
-                        connection.query(sql, [req.body.username, req.body.staff_id], (err) => {
+                        var sql = "DELETE FROM research_staff WHERE staff_id = ?; DELETE FROM user_account WHERE username = ?; DELETE FROM staff WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.staff_id, req.body.username, req.body.staff_id], (err) => {
                             connection.release();
                             if (err) {
                                 // throw err;
@@ -338,7 +339,7 @@ module.exports = (app, passport, connection) => {
             }
         }
     });
-    
+
     app.get('/profile/:id',function(req,res){
         connection.getConnection((err, connection) => {
             var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
