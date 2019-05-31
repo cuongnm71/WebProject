@@ -60,7 +60,6 @@ var isRelease = false;
             +'</td></tr>';
         }
         x += '</tbody>';
-        x += '<a href="#top-page">Đến thêm mới</a>'
         // if(!isRelease){
         //  console.log("new Body: ",x);
         // }
