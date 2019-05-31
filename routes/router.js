@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const querystring = require('querystring');
 
 module.exports = (app, passport, connection) => {
     // Index page
@@ -8,19 +9,16 @@ module.exports = (app, passport, connection) => {
                 req.flash('userMessage', 'admin');
             } else req.flash('userMessage', 'staff');
         }
-        //res.render('pages/index', {userMessage: req.flash('userMessage')});
-        /* tạm thời để đây để xem trang này còn sau nó sẽ được gán href cho jstree*/
-        res.render('pages/staff_information',{userMessage: req.flash('userMessage')});
-
+        res.render('pages/index', {userMessage: req.flash('userMessage')});
     });
 
 
     // Contact page
     app.get('/contact', (req, res) => {
-        res.render('pages/contact');
+        
     });
 
-
+    var username;
     // Login page
     app.get('/login',(req,res) => {
         res.render('pages/login', {loginMessage: req.flash('loginMessage'), userMessage: req.flash('userMessage')});
@@ -36,6 +34,7 @@ module.exports = (app, passport, connection) => {
             // } else {
             //     req.session.cookie.expires = false;
             // }
+            console.log(req.username, "aa");
         }
     );
 
@@ -268,25 +267,41 @@ module.exports = (app, passport, connection) => {
             });
         }
     });
-
-
-    // Staff page
-    app.get('/lecturer_info', (req, res) => {
+    
+    app.get('/lecturer_info(/:id)?', (req, res) => {
+        //        console.log(querystring.stringify({ id: req.user.staff_id, baz: ['qux', 'quux'], corge: '' }));
+        // console.log(querystring.stringify({ id: req.user.staff_id}));
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
+                if( req.query.id === undefined){
+                    res.redirect('/');
+                } else {
+                    res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
+                }
+                
+            } else {
+                if( req.query.id === undefined){
+                    let url = ('/lecturer_info/?' + querystring.stringify({id:req.user.staff_id}));
+                    //console.log(url);
+                    res.redirect(url);
+                } else {
+                    req.flash('userMessage', 'staff');
+                    res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+                }   
+            }
+        } else {
+            if( req.query.id === undefined){
                 res.redirect('/');
             } else {
-                req.flash('userMessage', 'staff');
-                res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
+                res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
             }
-        } else res.redirect('/');
+        }
     });
-
-    app.get('/profile',function(req,res){
+    app.get('/profile/:id',function(req,res){
+        /* id ~ staff_id*/
         res.send({
             "full_name": "Lê Đình Thanh",
-            "staff_id":"9",
             "staff_type": "",
             "address":"qưe",
             "degree_level":"qe",
@@ -301,12 +316,8 @@ module.exports = (app, passport, connection) => {
             */
         });
     });
-    app.post('/profile/basicInfo/edit',function(req,res){
+
+    app.post('/profile/:id/:command',function(req,res){
         console.log(req.body);
-    });
-    app.post('/profile/interestedField/edit',function(req,res){
-        console.log(req.body);
-    });
-    app.post('/profile/researchField/:command',function(req,res){
     });
 };
