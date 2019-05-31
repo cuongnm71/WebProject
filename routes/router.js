@@ -309,9 +309,9 @@ module.exports = (app, passport, connection) => {
         }
     });
 
-    app.get('/lecturer_info(/:id)?', (req, res) => {
-        //        console.log(querystring.stringify({ id: req.user.staff_id, baz: ['qux', 'quux'], corge: '' }));
-        // console.log(querystring.stringify({ id: req.user.staff_id}));
+
+    // Staff page
+    app.get('/profile(/:id)?', (req, res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
@@ -323,7 +323,7 @@ module.exports = (app, passport, connection) => {
 
             } else {
                 if( req.query.id === undefined){
-                    let url = ('/lecturer_info/?' + querystring.stringify({id:req.user.staff_id}));
+                    let url = ('/profile/?' + querystring.stringify({id:req.user.staff_id}));
                     //console.log(url);
                     res.redirect(url);
                 } else {
@@ -344,7 +344,7 @@ module.exports = (app, passport, connection) => {
         }
     });
 
-    app.get('/profile/:id',function(req,res){
+    app.get('/lecturer_info/:id',function(req,res){
         connection.getConnection((err, connection) => {
             var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
             connection.query(sql, [req.params.id], (err, results, fields) => {
