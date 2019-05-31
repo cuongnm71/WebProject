@@ -81,7 +81,7 @@ function saveBasicInfo(id){
     if(id=="phone_number"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + 'editInfo',
+            url:'profile/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -108,7 +108,7 @@ function saveBasicInfo(id){
     } else if (id=="vnu_email"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + 'editInfo',
+            url:'profile/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -135,7 +135,7 @@ function saveBasicInfo(id){
     } else if (id=="other_email"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + 'editInfo',
+            url:'profile/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -162,7 +162,7 @@ function saveBasicInfo(id){
     } else if (id=="website") {
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + 'editInfo',
+            url:'profile/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -190,7 +190,7 @@ function saveBasicInfo(id){
     } else if (id=="staff_address"){
         $.ajax({
             type:'POST',
-            url:'profile/' + staff_id + 'editInfo',
+            url:'profile/' + staff_id + '/editInfo',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
