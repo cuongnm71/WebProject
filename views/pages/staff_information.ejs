@@ -2,64 +2,18 @@
 <html lang="vi">
 <head>
     <% include ../partials/head %>
+    <script src="/js/other_user/staff.js"></script>
 </head>
 <body>
 
     <header>
         <% include ../partials/header %>
     </header>
-    <script type="text/javascript">
-        function returnBlank(item){
-            if(item == null){
-                return "";
-            }else{
-                return item;
-            }
-        }
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = window.location.search.substring(1),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-                }
-            }
-        };
-        var isRelease = false;
-        var staff_id = getUrlParameter("id");
-         $(document).ready(()=>{
-            loadBasicInfoAndInterestedField();
-         });
-        function loadBasicInfoAndInterestedField(){
-            $.ajax({
-                url: 'profile/' + staff_id,
-                type: 'GET',
-                dataType: 'json',
-                success: (data) =>{
-                    document.getElementById("full_name").innerHTML = returnBlank(data[0]["degree_level"]) + " " +returnBlank(data[0]["full_name"]);
-                    document.getElementById("staff_id").innerHTML = staff_id;
-                    document.getElementById("staff_type").innerHTML = returnBlank(data[0]["staff_type"]);
-                    document.getElementById("address").innerHTML = returnBlank(data[0]["address"]);
-                    document.getElementById("degree_level").innerHTML = returnBlank(data[0]["degree_level"]);
-                    document.getElementById("phone_number").innerHTML = returnBlank(data[0]["phone_number"]);
-                    document.getElementById("vnu_email").innerHTML = returnBlank(data[0]["vnu_email"]);
-                    document.getElementById("other_email").innerHTML = returnBlank(data[0]["other_email"]);
-                    document.getElementById("website").innerHTML = returnBlank(data[0]["website"]);
-                    document.getElementById("staff_address").innerHTML = returnBlank(data[0]["address"]);
-                    document.getElementById("interested-field-editor").value = returnBlank(data[0]['text_area']);
-                }
-            });
-        }
-    </script>
     <main class="main-content">
         <section class = "list-container">
             <div class="basic-info">
                 <ul class="first-ul">
-                    <h1 id="full_name">Lê Đình Thanh</h1>
+                    <h1 id="full_name"></h1>
                     <ul>
 
                         <span>
@@ -67,7 +21,6 @@
                             Mã cán bộ:&nbsp
                             <!--&nbsp make a space-->
                             <li id = "staff_id">
-                                9
                             </li>
                             &nbsp
                         </span>
@@ -76,7 +29,6 @@
                             Chức vụ:&nbsp
                             <!--&nbsp make a space-->
                             <li id="staff_type">
-                                Giảng viên
                             </li>
                             &nbsp
                         </span>
@@ -85,7 +37,6 @@
                             Bộ môn:&nbsp
                             <!--&nbsp make a space-->
                             <li id="address">
-                                Phòng thí nghiệm an toàn thông tin
                             </li>
                             &nbsp
                         </span>
@@ -95,7 +46,6 @@
                             Học hàm, học vị:&nbsp
                             <!--&nbsp make a space-->
                             <li id="degree_level">
-                                Tiến sĩ
                             </li>
                             &nbsp
                         </span>
@@ -104,7 +54,6 @@
                             Số điện thoại:&nbsp
                             <!--&nbsp make a space-->
                             <li id="phone_number">
-                                0987257504
                             </li>
                             &nbsp
                         </span>
@@ -113,7 +62,6 @@
                             VNU email:&nbsp
                             <!--&nbsp make a space-->
                             <li id="vnu_email">
-                                thanhld@vnu.edu.vn
                             </li>
                             &nbsp
                         </span>
@@ -122,7 +70,6 @@
                             Email khác:&nbsp
                             <!--&nbsp make a space-->
                             <li id="other_email">
-                                thanhld.vnuh@gmail.com
                             </li>
                             &nbsp
                         </span>
@@ -134,7 +81,6 @@
                                 <!-- <a href="http://uet.vnu.edu.vn/~thanhld/" id="website">
                                     http://uet.vnu.edu.vn/~thanhld/
                                 </a> -->
-                                http://uet.vnu.edu.vn/~thanhld/
                             </li>
                             &nbsp
                         </span>
@@ -143,7 +89,6 @@
                             Địa chỉ:&nbsp
                             <!--&nbsp make a space-->
                             <li id="staff_address">
-                                Phòng 413-E3
                             </li>
                             &nbsp
                         </span>
