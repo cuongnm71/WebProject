@@ -315,16 +315,13 @@ module.exports = (app, passport, connection) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
-                if( req.query.id === undefined){
+                if (req.query.id === undefined)
                     res.redirect('/');
-                } else {
+                else
                     res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
-                }
-
             } else {
-                if( req.query.id === undefined){
+                if( req.query.id === undefined) {
                     let url = ('/profile/?' + querystring.stringify({id:req.user.staff_id}));
-                    //console.log(url);
                     res.redirect(url);
                 } else {
                     req.flash('userMessage', 'staff');
@@ -347,18 +344,6 @@ module.exports = (app, passport, connection) => {
     app.get('/lecturer_info/:id', (req, res) => {
         connection.getConnection((err, connection) => {
             var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
-            connection.query(sql, [req.params.id], (err, results, fields) => {
-                connection.release();
-                if (err)
-                    throw(err);
-                else res.send(results);
-            });
-        });
-    });
-
-    app.get('/lecturer_interests', (req,res) => {
-        connection.getConnection((err, connection) => {
-            var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?";
             connection.query(sql, [req.params.id], (err, results, fields) => {
                 connection.release();
                 if (err)
@@ -420,4 +405,18 @@ module.exports = (app, passport, connection) => {
         }
 
     });
+
+    app.get('/lecturer_interests', (req,res) => {
+        connection.getConnection((err, connection) => {
+            var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?";
+            connection.query(sql, [req.params.id], (err, results, fields) => {
+                connection.release();
+                if (err)
+                    throw(err);
+                else res.send(results);
+            });
+        });
+    });
+
+
 };
