@@ -407,10 +407,10 @@ module.exports = (app, passport, connection) => {
     });
 
     // Staff interest command
-    app.get('/lecturer_interests', (req,res) => {
+    app.get('/lecturer_interests/:id', (req,res) => {
         connection.getConnection((err, connection) => {
             var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?;";
-            connection.query(sql, [req.user.staff_id], (err, results, fields) => {
+            connection.query(sql, [req.params.id], (err, results, fields) => {
                 connection.release();
                 if (err)
                     throw(err);
@@ -419,28 +419,29 @@ module.exports = (app, passport, connection) => {
         });
     });
 
-    app.post('/lecturer_interests', (req,res) => {
+    app.post('/lecturer_interests/:id', (req,res) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 0) {
-                var length = req.body.IDs.length;
-                var sql;
-                connection.getConnection((err, connection) => {
-                    sql = "DELETE FROM research_staff WHERE staff_id = ?;";
-                    connection.query(sql, [req.user.staff_id], (err) => {
-                        if (err)
-                            throw err;
-                    });
-                    for (var i = 0; i < length; i++) {
-                        sql = "INSERT INTO research_staff(field_id, staff_id) VALUES (?, ?);";
-                        connection.query(sql, [req.body.IDs[i] ,req.user.staff_id], (err, results, fields) => {
+                if (req.params.id == req.user.staff_id) {
+                    var length = req.body.IDs.length;
+                    var sql;
+                    connection.getConnection((err, connection) => {
+                        sql = "DELETE FROM research_staff WHERE staff_id = ?;";
+                        connection.query(sql, [req.params.id], (err) => {
                             if (err)
                                 throw err;
                         });
-                    }
-                });
+                        for (var i = 0; i < length; i++) {
+                            sql = "INSERT INTO research_staff(field_id, staff_id) VALUES (?, ?);";
+                            connection.query(sql, [req.body.IDs[i] ,req.params.id], (err, results, fields) => {
+                                if (err)
+                                    throw err;
+                            });
+                        }
+                    });
+                }
             }
         }
     });
-
 
 };

@@ -21,8 +21,27 @@ var getUrlParameter = function getUrlParameter(sParam) {
 var isRelease = false;
 var staff_id = getUrlParameter("id");
  $(document).ready(()=>{
+    $('#researchList').empty();
+    displayFields();
     loadBasicInfoAndInterestedField();
  });
+
+function displayFields() {
+    $.ajax({
+        url: '/lecturer_interests/' + staff_id,
+        type: 'GET',
+        dataType: 'json',
+        success: (response) => {
+            console.log("success");
+            var tr_html = '';
+            $.each(response, function (i, item) {
+                tr_html += '<li>+ ' + item.name + '</li>';
+            });
+            $('#researchList').append(tr_html);
+        }
+    });
+}
+
 function loadBasicInfoAndInterestedField(){
     $.ajax({
         url: 'lecturer_info/' + staff_id,

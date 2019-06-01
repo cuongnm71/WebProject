@@ -19,7 +19,7 @@ $(document).ready(function(){
         'animation' : 150,
         "check_callback" : false
     },
-    'plugins' : ['state','search'],
+    'plugins' : ['search'],
     "search": {
         "case_insensitive": true,
         "show_only_matches": true
@@ -63,7 +63,7 @@ $(document).ready(function(){
         'animation' : 150,
         "check_callback" : false
     },
-    'plugins' : ['state','search'],
+    'plugins' : ['search'],
     "search": {
         "case_insensitive": true,
         "show_only_matches": true

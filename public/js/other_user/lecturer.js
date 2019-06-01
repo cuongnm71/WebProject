@@ -337,7 +337,7 @@ function renderTree(jsondata) {
 
 function displayFields() {
     $.ajax({
-        url: '/lecturer_interests',
+        url: '/lecturer_interests/' + staff_id,
         type: 'GET',
         dataType: 'json',
         success: (response) => {
@@ -353,7 +353,7 @@ function displayFields() {
 
 function updateCheckedFields(selected) {
     $.ajax({
-        url: '/lecturer_interests',
+        url: '/lecturer_interests/' + staff_id,
         type: 'POST',
         dataType: 'json',
         data: {
