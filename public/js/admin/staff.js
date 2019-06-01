@@ -90,13 +90,13 @@
         // if(!isRelease){
         //   console.log(nextIndexRow+1);
         // }
-        let offCode=document.getElementById("new_offCode").value;
-        let fullName=document.getElementById("new_fullName").value;
-        let account=document.getElementById("new_account").value;
-        let vnuMail=document.getElementById("new_vnuMail").value;
-        let offType=document.getElementById("new_offType").value;
-        let degree=document.getElementById("new_degree").value;
-        let workingUnit=document.getElementById("new_workingUnit").value;
+        let offCode=document.getElementById("new_offCode").value.trim();
+        let fullName=document.getElementById("new_fullName").value.trim();
+        let account=document.getElementById("new_account").value.trim();
+        let vnuMail=document.getElementById("new_vnuMail").value.trim();
+        let offType=document.getElementById("new_offType").value.trim();
+        let degree=document.getElementById("new_degree").value.trim();
+        let workingUnit=document.getElementById("new_workingUnit").value.trim();
 
         $.ajax({
             type:'POST',
@@ -195,9 +195,9 @@
         let workingUnit_old=document.getElementById("workingUnit_text"+id).getAttribute("value");
         let offType_old=document.getElementById("offType_text"+id).getAttribute("value");
 
-        let degree=document.getElementById("degree_text"+id).value;
-        let workingUnit=document.getElementById("workingUnit_text"+id).value;
-        let offType=document.getElementById("offType_text"+id).value;
+        let degree=document.getElementById("degree_text"+id).value.trim();
+        let workingUnit=document.getElementById("workingUnit_text"+id).value.trim();
+        let offType=document.getElementById("offType_text"+id).value.trim();
         // if(!isRelease){
         //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone);
         //   /*console.log(document.getElementById("add"+id));*/

@@ -318,6 +318,9 @@ ul.last-ul > ul {
 .list-container span li a {
   font-size: 100%;
 }
+textarea{
+  font-size: 18px;
+}
 
 /* change name input button upload file that default by browser*/
 input[type=file]::-webkit-file-upload-button {

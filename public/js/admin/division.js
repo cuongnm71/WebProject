@@ -83,11 +83,11 @@ var isRelease = false;
     //   console.log(nextIndexRow+1);
     // }
 
-    let unit=document.getElementById("new_unit").value;
-    let unitType=document.getElementById("new_unitType").value;
-    let add=document.getElementById("new_add").value;
-    let webAdd=document.getElementById("new_webAdd").value;
-    let phone=document.getElementById("new_phone").value;
+    let unit=document.getElementById("new_unit").value.trim();
+    let unitType=document.getElementById("new_unitType").value.trim();
+    let add=document.getElementById("new_add").value.trim();
+    let webAdd=document.getElementById("new_webAdd").value.trim();
+    let phone=document.getElementById("new_phone").value.trim();
     
     $.ajax({
       type:'POST',
@@ -175,11 +175,11 @@ var isRelease = false;
     let phone_old=document.getElementById("phone_text"+id).getAttribute("value");
     let webAdd_old=document.getElementById("webAdd_text"+id).getAttribute("value");
     
-    let unit=document.getElementById("unit_text"+id).value;
-    let unitType=document.getElementById("unitType_text"+id).value;
-    let add=document.getElementById("add_text"+id).value;
-    let phone=document.getElementById("phone_text"+id).value;
-    let webAdd=document.getElementById("webAdd_text"+id).value;
+    let unit=document.getElementById("unit_text"+id).value.trim();
+    let unitType=document.getElementById("unitType_text"+id).value.trim();
+    let add=document.getElementById("add_text"+id).value.trim();
+    let phone=document.getElementById("phone_text"+id).value.trim();
+    let webAdd=document.getElementById("webAdd_text"+id).value.trim();
     // if(!isRelease){
     //   console.log("data from save_row(id): ",unit,unitType,add,webAdd,phone); 
     //   /*console.log(document.getElementById("add"+id));*/
