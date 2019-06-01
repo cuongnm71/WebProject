@@ -434,6 +434,7 @@ module.exports = (app, passport, connection) => {
                         for (var i = 0; i < length; i++) {
                             sql = "INSERT INTO research_staff(field_id, staff_id) VALUES (?, ?);";
                             connection.query(sql, [req.body.IDs[i] ,req.params.id], (err, results, fields) => {
+                                connection.release();
                                 if (err)
                                     throw err;
                             });
