@@ -188,7 +188,7 @@ footer{
   width: 96%;
   padding: 2px 16px 16px -2px;
   margin: 0 auto;
-  margin-bottom: 0;
+  margin-bottom: 50px;
   /*box-shadow: 2px 0 4px 1px rgba(0, 0, 0, 0.03)*/
 }
 
@@ -348,7 +348,7 @@ input[type=file]::-webkit-file-upload-button {
   cursor: pointer;
 }
 
-section.tree-views, 
+section.tree-views,
 section.tree-views div
 {
   margin: auto;
