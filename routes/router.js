@@ -325,7 +325,7 @@ module.exports = (app, passport, connection) => {
                     res.redirect(url);
                 } else {
                     req.flash('userMessage', 'staff');
-                    if(req.user.staff_id === req.query.id){
+                    if (req.user.staff_id === req.query.id){
                         res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
                     } else {
                         res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
@@ -406,16 +406,40 @@ module.exports = (app, passport, connection) => {
 
     });
 
+    // Staff interest command
     app.get('/lecturer_interests', (req,res) => {
         connection.getConnection((err, connection) => {
-            var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?";
-            connection.query(sql, [req.params.id], (err, results, fields) => {
+            var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?;";
+            connection.query(sql, [req.user.staff_id], (err, results, fields) => {
                 connection.release();
                 if (err)
                     throw(err);
                 else res.send(results);
             });
         });
+    });
+
+    app.post('/lecturer_interests', (req,res) => {
+        if (req.isAuthenticated() == 1) {
+            if (req.user.isAdmin == 0) {
+                var length = req.body.IDs.length;
+                var sql;
+                connection.getConnection((err, connection) => {
+                    sql = "DELETE FROM research_staff WHERE staff_id = ?;";
+                    connection.query(sql, [req.user.staff_id], (err) => {
+                        if (err)
+                            throw err;
+                    });
+                    for (var i = 0; i < length; i++) {
+                        sql = "INSERT INTO research_staff(field_id, staff_id) VALUES (?, ?);";
+                        connection.query(sql, [req.body.IDs[i] ,req.user.staff_id], (err, results, fields) => {
+                            if (err)
+                                throw err;
+                        });
+                    }
+                });
+            }
+        }
     });
 
 
