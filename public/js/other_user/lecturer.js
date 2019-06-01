@@ -292,3 +292,89 @@ function cancelInterestedField(id,originVal){
     document.getElementById(id).value = originVal;
     document.getElementById(id).setAttribute("disabled","true");
 }
+
+// for tree
+$.jstree.defaults.core.themes.variant = "medium";
+$(document).ready(function () {
+    displayFields();
+    $("#btn_updateDB").hide();
+    $("#heading").hide();
+    $('#btn_edit').on("click", function() {
+            $("#heading").show();
+            renderTree();
+            $("#btn_updateDB").show();
+            $('#btn_updateDB').on("click", function() {
+            var checked = $('#research_tree').jstree("get_checked",null,true);
+            console.log("Updated!");
+            updateCheckedFields(checked);
+    });
+    });
+});
+
+function renderTree(jsondata) {
+    $('#research_tree').jstree({
+        "core": {
+            'data': {
+                'url': 'research',
+                'type': 'GET',
+                'dataType' : 'json',
+                'data' : (node) => {
+                    return { 'id' : node.id };
+                }
+            },
+            'animation': 150
+        },
+        "multiple": true,
+        "plugins": ["search", "checkbox"],
+        "search": {
+            "case_sensitive": true,
+            "show_only_matches": true
+        }
+    }).bind("loaded.jstree", (event, data) => {
+        $(this).jstree("open_all");
+    });
+}
+
+function displayFields() {
+    $.ajax({
+        url: '/lecturer_interests',
+        type: 'GET',
+        dataType: 'json',
+        success: (response) => {
+            console.log("success");
+            var tr_html = '';
+            $.each(response, function (i, item) {
+                tr_html += '<li>+ ' + item.name + '</li>';
+            });
+            $('#researchList').append(tr_html);
+        }
+    });
+}
+
+function updateCheckedFields(selected) {
+    $.ajax({
+        url: '/lecturer_interests',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            IDs: selected
+        },
+        success: (response) => {
+            $('#researchList').empty();
+            var tr_html = '';
+            $.each(response, function (i, item) {
+                tr_html += '<li>+ ' + item.name + '</li>';
+            });
+            $('#researchList').append(tr_html);
+        }
+    });
+}
+
+$( "#search_field" ).keyup(function() {
+        var text = $(this).val();
+        search(text);
+});
+
+function search(text) {
+    $('#research_tree').jstree(true).search(text);
+}
