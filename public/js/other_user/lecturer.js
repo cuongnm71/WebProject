@@ -38,7 +38,7 @@ function loadBasicInfoAndInterestedField(){
             document.getElementById("vnu_email").innerHTML = returnBlank(data[0]["vnu_email"]);
             document.getElementById("other_email").innerHTML = returnBlank(data[0]["other_email"]);
             document.getElementById("website").innerHTML = returnBlank(data[0]["website"]);
-            document.getElementById("staff_address").innerHTML = returnBlank(data[0]["address"]);
+            document.getElementById("staff_address").innerHTML = returnBlank(data[0]["staff_address"]);
             document.getElementById("interested-field-editor").value = returnBlank(data[0]["interested_field"]);
 
         }
@@ -81,7 +81,7 @@ function saveBasicInfo(id){
     if(id=="phone_number"){
         $.ajax({
             type:'POST',
-            url:'lecturer_info/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editPhoneNumber',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -108,7 +108,7 @@ function saveBasicInfo(id){
     } else if (id=="vnu_email"){
         $.ajax({
             type:'POST',
-            url:'lecturer_info/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editVnuEmail',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -135,7 +135,7 @@ function saveBasicInfo(id){
     } else if (id=="other_email"){
         $.ajax({
             type:'POST',
-            url:'lecturer_info/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editOtherEmail',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -162,7 +162,7 @@ function saveBasicInfo(id){
     } else if (id=="website") {
         $.ajax({
             type:'POST',
-            url:'lecturer_info/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editWebsite',
             dataType: 'json',
             data:{
                 staff_id: staff_id,
@@ -190,7 +190,7 @@ function saveBasicInfo(id){
     } else if (id=="staff_address"){
         $.ajax({
             type:'POST',
-            url:'lecturer_info/' + staff_id + '/editInfo',
+            url:'lecturer_info/' + staff_id + '/editStaffAddress',
             dataType: 'json',
             data:{
                 staff_id: staff_id,

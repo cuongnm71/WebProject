@@ -315,20 +315,17 @@ module.exports = (app, passport, connection) => {
         if (req.isAuthenticated() == 1) {
             if (req.user.isAdmin == 1) {
                 req.flash('userMessage', 'admin');
-                if( req.query.id === undefined){
+                if (req.query.id === undefined)
                     res.redirect('/');
-                } else {
+                else
                     res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
-                }
-
             } else {
-                if( req.query.id === undefined){
+                if( req.query.id === undefined) {
                     let url = ('/profile/?' + querystring.stringify({id:req.user.staff_id}));
-                    //console.log(url);
                     res.redirect(url);
                 } else {
                     req.flash('userMessage', 'staff');
-                    if(req.user.staff_id === req.query.id){
+                    if (req.user.staff_id === req.query.id){
                         res.render('pages/lecturer_information', {userMessage: req.flash('userMessage')});
                     } else {
                         res.render('pages/staff_information', {userMessage: req.flash('userMessage')});
@@ -344,7 +341,7 @@ module.exports = (app, passport, connection) => {
         }
     });
 
-    app.get('/lecturer_info/:id',function(req,res){
+    app.get('/lecturer_info/:id', (req, res) => {
         connection.getConnection((err, connection) => {
             var sql = "SELECT s.full_name, s.staff_type, s.degree_level, s.phone_number, s.vnu_email, s.other_email, s.website, s.staff_address, s.interested_field, d.name as address FROM staff s JOIN division d ON s.division_id = d.division_id WHERE s.staff_id = ?;";
             connection.query(sql, [req.params.id], (err, results, fields) => {
@@ -356,7 +353,94 @@ module.exports = (app, passport, connection) => {
         });
     });
 
-    app.post('/profile/:id/:command',function(req,res){
-        console.log(req.body);
+    app.post('/lecturer_info/:id/:command', (req,res) => {
+        if (req.isAuthenticated() == 1) {
+            if (req.user.staff_id == req.params.id) {
+                connection.getConnection((err, connection) => {
+                    if (req.params.command == 'editPhoneNumber') {
+                        var sql = "UPDATE staff SET phone_number = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.phone_number, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    } else if (req.params.command == 'editVnuEmail') {
+                        var sql = "UPDATE staff SET vnu_email = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.vnu_email, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    } else if (req.params.command == 'editOtherEmail') {
+                        var sql = "UPDATE staff SET other_email = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.other_email, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    } else if (req.params.command == 'editWebsite') {
+                        var sql = "UPDATE staff SET website = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.website, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    } else if (req.params.command == 'editStaffAddress') {
+                        var sql = "UPDATE staff SET staff_address = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.staff_address, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    } else if (req.params.command == 'editInterestedField') {
+                        var sql = "UPDATE staff SET interested_field = ? WHERE staff_id = ?;";
+                        connection.query(sql, [req.body.interested_field, req.body.staff_id], (err) => {
+                            connection.release();
+                            if (err)
+                                throw err;
+                        })
+                    }
+                });
+            }
+        }
+
     });
+
+    // Staff interest command
+    app.get('/lecturer_interests', (req,res) => {
+        connection.getConnection((err, connection) => {
+            var sql = "SELECT rf.name FROM research_staff rs JOIN research_field rf ON rs.field_id = rf.field_id WHERE rs.staff_id = ?;";
+            connection.query(sql, [req.user.staff_id], (err, results, fields) => {
+                connection.release();
+                if (err)
+                    throw(err);
+                else res.send(results);
+            });
+        });
+    });
+
+    app.post('/lecturer_interests', (req,res) => {
+        if (req.isAuthenticated() == 1) {
+            if (req.user.isAdmin == 0) {
+                var length = req.body.IDs.length;
+                var sql;
+                connection.getConnection((err, connection) => {
+                    sql = "DELETE FROM research_staff WHERE staff_id = ?;";
+                    connection.query(sql, [req.user.staff_id], (err) => {
+                        if (err)
+                            throw err;
+                    });
+                    for (var i = 0; i < length; i++) {
+                        sql = "INSERT INTO research_staff(field_id, staff_id) VALUES (?, ?);";
+                        connection.query(sql, [req.body.IDs[i] ,req.user.staff_id], (err, results, fields) => {
+                            if (err)
+                                throw err;
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+
 };
